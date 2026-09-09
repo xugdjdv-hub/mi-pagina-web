@@ -138,12 +138,6 @@ function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
 function valid(n){return Number.isFinite(Number(n))}
 function pctValue(c,key,fallback=0){return valid(c[key])?Number(c[key]):fallback}
 
-/*
-  Riesgo relativo:
-  - No hay azar ni etiquetas manuales.
-  - Se basa en volatilidad absoluta 24h + tamaño relativo.
-  - Es una clasificación RELATIVA del modelo, no "seguridad".
-*/
 function riskScoreFor(c){
   const vol=Math.abs(pctValue(c,"price_change_percentage_24h_in_currency",pctValue(c,"price_change_percentage_24h",0)));
   const cap=Number(c.market_cap||0);
@@ -160,24 +154,15 @@ function riskFor(c){
   return["Alto","risk-high"];
 }
 
-/*
-  Puntuación:
-  determinista y basada solamente en datos reales recibidos.
-  NO es una predicción de precio.
-*/
 function scoreFor(c){
   const cap=Math.log10(Math.max(1,Number(c.market_cap||1)));
   const capScore=clamp((cap-7)/5*30,0,30);
-
   const ratio=Number(c.total_volume||0)/Math.max(1,Number(c.market_cap||1));
   const liquidityScore=clamp(ratio/0.20*20,0,20);
-
   const momentum7=valid(c.price_change_percentage_7d_in_currency)?Number(c.price_change_percentage_7d_in_currency):pctValue(c,"price_change_percentage_24h",0);
   const momentumScore=clamp(12.5+momentum7*1.25,0,25);
-
   const risk=riskScoreFor(c);
   const stabilityScore=clamp(25-(risk*0.20),0,25);
-
   return Math.round(clamp(capScore+liquidityScore+momentumScore+stabilityScore,0,100));
 }
 
@@ -286,11 +271,6 @@ async function loadMarket(){
       $("ethChange").className="stat-change "+(v>=0?"green":"red");
     }
 
-    /*
-      Índice agregado determinista:
-      media ponderada por capitalización del riskScore de los primeros 50 activos.
-      Se muestra como "riesgo relativo agregado", no como probabilidad.
-    */
     const basket=state.coins.slice(0,50);
     const totalCap=basket.reduce((sum,c)=>sum+Number(c.market_cap||0),0);
     const marketRisk=totalCap?Math.round(basket.reduce((sum,c)=>sum+riskScoreFor(c)*(Number(c.market_cap||0)/totalCap),0)):null;
@@ -381,4 +361,5 @@ setInterval(loadMarket,REFRESH_MS);
 
 path = Path("/mnt/data/criptoshx_crypto_intelligence_real.html")
 path.write_text(html, encoding="utf-8")
-print(path)
+print(f"Archivo creado: {path}")
+print(f"Tamaño: {path.stat().st_size:,} bytes")
