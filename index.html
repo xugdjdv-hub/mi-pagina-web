@@ -2,11 +2,164 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi primera página web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CriptoshX</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b0b;
+            color: white;
+        }
+
+        header {
+            padding: 25px;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #00ff88;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #999;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .buscador {
+            width: 100%;
+            padding: 17px;
+            background: #151515;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 35px;
+        }
+
+        .seccion {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta {
+            background: #151515;
+            border: 1px solid #242424;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 12px;
+        }
+
+        .nombre {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .datos {
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .aviso {
+            margin-top: 35px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #151515;
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>¡Hola! 👋</h1>
-    <p>Esta es mi primera página web.</p>
+
+<header>
+    <div class="logo">
+        Criptosh<span>X</span>
+    </div>
+</header>
+
+<main>
+
+    <h1>Analiza el mercado cripto.</h1>
+
+    <p class="subtitulo">
+        Datos y análisis sencillos para entender mejor el mercado.
+    </p>
+
+    <input
+        class="buscador"
+        type="text"
+        placeholder="🔎 Buscar un activo..."
+    >
+
+    <div class="seccion">
+        📊 Mercado
+    </div>
+
+    <div class="tarjeta">
+        <div class="nombre">Bitcoin</div>
+        <div class="datos">
+            Precio: — &nbsp; | &nbsp; 24 h: —
+        </div>
+    </div>
+
+    <div class="tarjeta">
+        <div class="nombre">Ethereum</div>
+        <div class="datos">
+            Precio: — &nbsp; | &nbsp; 24 h: —
+        </div>
+    </div>
+
+    <div class="tarjeta">
+        <div class="nombre">Más activos</div>
+        <div class="datos">
+            Los datos aparecerán aquí.
+        </div>
+    </div>
+
+    <div class="aviso">
+        ⚠️ CriptoshX es una herramienta informativa y educativa.
+        Los datos y clasificaciones no constituyen recomendaciones
+        financieras ni garantizan resultados.
+    </div>
+
+</main>
+
+<footer>
+    © 2026 CriptoshX
+</footer>
+
 </body>
 </html>
