@@ -1,152 +1,1610 @@
 from pathlib import Path
-
-# Create a standalone upgrade script from the code supplied in the conversation.
-builder = Path("/mnt/data/criptoshx_v12_ultra_upgrade.py")
-builder.write_text(r'''from pathlib import Path
 import re
 
-src = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
-out = Path("/mnt/data/criptoshx_crypto_intelligence_v12_ultra.html")
+# ============================================================
+# CRIPTOSHX V12 ULTRA
+# Pantalla de carga que termina SOLO cuando el dashboard
+# tiene datos válidos y la interfaz está preparada.
+# ============================================================
 
-if not src.exists():
-    raise FileNotFoundError(f"No encuentro {src}")
+SRC = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
+OUT = Path("/mnt/data/criptoshx_crypto_intelligence_v12_ultra.html")
 
-html = src.read_text(encoding="utf-8")
+if not SRC.exists():
+    raise FileNotFoundError(
+        f"No encuentro el archivo:\n{SRC}\n\n"
+        "Pon el HTML en /mnt/data/ con ese nombre."
+    )
+
+html = SRC.read_text(encoding="utf-8")
+
+
+# ============================================================
+# 1. CSS DE LA PANTALLA DE CARGA
+# ============================================================
 
 css = r"""
-/* ===== CRIPTOSHX V12 ULTRA ===== */
-#bootScreen{position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease}
-#bootScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
-body.cx-booting{overflow:hidden}
-.bootBox{width:min(720px,88vw);text-align:center}
-.bootLogo{font-size:clamp(34px,7vw,48px);font-weight:950;letter-spacing:-.055em;margin-bottom:8px}
-.bootLogo span{color:#72f2c2}
-.bootSub{color:#696970;font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:34px}
-.bootLine{height:3px;background:#151518;border-radius:99px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.025)}
-.bootLine i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#72f2c2,#8ab4ff);transition:width .3s cubic-bezier(.2,.8,.2,1)}
-.bootMeta{display:flex;justify-content:space-between;gap:20px;margin-top:12px;color:#77777f;font-size:11px}
-.bootStatus{min-height:17px;text-align:left}
-#bootPercent{color:#f5f5f7;font-weight:850;font-variant-numeric:tabular-nums}
-.bootError{display:none;margin-top:24px;border:1px solid #29292d;background:#0b0b0c;border-radius:14px;padding:15px;text-align:left}
-.bootError b{display:block;margin-bottom:6px;color:#ff7d8b}
-.bootError p{margin:0;color:#96969e;font-size:11px;line-height:1.5}
-#bootRetry{display:none;margin:15px auto 0;border:1px solid #303036;background:#151517;color:#fff;border-radius:10px;padding:10px 17px;cursor:pointer}
-#bootRetry:hover{background:#1b1b1f}
-#bootRetry:focus-visible{outline:2px solid #72f2c2;outline-offset:3px}
-@media(prefers-reduced-motion:reduce){#bootScreen,.bootLine i{transition:none!important}}
+/* ============================================================
+   CRIPTOSHX V12 ULTRA - BOOT SCREEN
+   ============================================================ */
+
+#bootScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(114,242,194,.075),
+            transparent 34%
+        ),
+        #050607;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity .55s ease,
+        visibility .55s ease;
+}
+
+#bootScreen.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body.cx-booting {
+    overflow: hidden !important;
+}
+
+/* Caja central */
+
+.bootBox {
+    width: min(720px, 88vw);
+    text-align: center;
+}
+
+/* Logo */
+
+.bootLogo {
+    font-size: clamp(36px, 7vw, 52px);
+    line-height: 1;
+    font-weight: 950;
+    letter-spacing: -.055em;
+    margin-bottom: 10px;
+
+    color: #f5f5f7;
+}
+
+.bootLogo span {
+    color: #72f2c2;
+}
+
+/* Subtítulo */
+
+.bootSub {
+    color: #696970;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+
+    margin-bottom: 34px;
+}
+
+/* Barra */
+
+.bootLine {
+    height: 4px;
+
+    background: #151518;
+    border-radius: 999px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,.025),
+        0 0 24px rgba(114,242,194,.05);
+}
+
+.bootLine i {
+    display: block;
+
+    height: 100%;
+    width: 0%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #72f2c2,
+            #8ab4ff
+        );
+
+    box-shadow:
+        0 0 14px rgba(114,242,194,.35);
+
+    transition:
+        width .35s cubic-bezier(.2,.8,.2,1);
+}
+
+/* Información */
+
+.bootMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-top: 12px;
+
+    color: #77777f;
+
+    font-size: 11px;
+}
+
+.bootStatus {
+    min-height: 17px;
+    text-align: left;
+}
+
+#bootPercent {
+    color: #f5f5f7;
+    font-weight: 850;
+
+    font-variant-numeric: tabular-nums;
+}
+
+/* Estados */
+
+.bootNodes {
+    display: flex;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 28px;
+}
+
+.bootNode {
+    padding: 6px 10px;
+
+    border: 1px solid #202024;
+    border-radius: 999px;
+
+    color: #55555d;
+
+    font-size: 8px;
+    letter-spacing: .12em;
+
+    transition:
+        color .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.bootNode.active {
+    color: #72f2c2;
+
+    border-color: rgba(114,242,194,.35);
+
+    background:
+        rgba(114,242,194,.05);
+}
+
+/* Error */
+
+.bootError {
+    display: none;
+
+    margin-top: 24px;
+
+    border: 1px solid #29292d;
+
+    background: #0b0b0c;
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    text-align: left;
+}
+
+.bootError b {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #ff7d8b;
+}
+
+.bootError p {
+    margin: 0;
+
+    color: #96969e;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+/* Botón */
+
+#bootRetry {
+    display: none;
+
+    margin: 15px auto 0;
+
+    border: 1px solid #303036;
+
+    background: #151517;
+
+    color: #fff;
+
+    border-radius: 10px;
+
+    padding: 10px 17px;
+
+    cursor: pointer;
+}
+
+#bootRetry:hover {
+    background: #1b1b1f;
+}
+
+#bootRetry:focus-visible {
+    outline: 2px solid #72f2c2;
+    outline-offset: 3px;
+}
+
+/* Animación reducida */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #bootScreen,
+    .bootLine i,
+    .bootNode {
+        transition: none !important;
+    }
+}
 """
 
+
+# ============================================================
+# 2. HTML DE LA PANTALLA DE CARGA
+# ============================================================
+
 boot = r"""
-<div id="bootScreen" role="status" aria-live="polite" aria-label="Inicializando CriptoshX">
- <div class="bootBox">
-  <div class="bootLogo">Criptosh<span>X</span></div>
-  <div class="bootSub">Crypto Intelligence · preparando entorno</div>
-  <div class="bootLine" aria-hidden="true"><i id="bootBar"></i></div>
-  <div class="bootMeta"><span id="bootText" class="bootStatus">Inicializando motor de datos…</span><span id="bootPercent">0%</span></div>
-  <div class="bootError" id="bootError">
-   <b id="bootErrorTitle">No se pudo sincronizar el mercado</b>
-   <p id="bootErrorText">La fuente de datos no respondió correctamente.</p>
-  </div>
-  <button id="bootRetry" type="button">Reintentar conexión</button>
- </div>
+<!-- ==========================================================
+     CRIPTOSHX V12 ULTRA BOOT
+     ========================================================== -->
+
+<div
+    id="bootScreen"
+    role="status"
+    aria-live="polite"
+    aria-label="Inicializando CriptoshX"
+>
+
+    <div class="bootBox">
+
+        <div class="bootLogo">
+            Criptosh<span>X</span>
+        </div>
+
+        <div class="bootSub">
+            Crypto Intelligence · preparando entorno
+        </div>
+
+        <div
+            class="bootLine"
+            aria-hidden="true"
+        >
+            <i id="bootBar"></i>
+        </div>
+
+        <div class="bootMeta">
+
+            <span
+                id="bootText"
+                class="bootStatus"
+            >
+                Inicializando motor de datos…
+            </span>
+
+            <span id="bootPercent">
+                0%
+            </span>
+
+        </div>
+
+        <div class="bootNodes">
+
+            <span
+                class="bootNode"
+                id="bootNetwork"
+            >
+                NETWORK
+            </span>
+
+            <span
+                class="bootNode"
+                id="bootData"
+            >
+                DATA
+            </span>
+
+            <span
+                class="bootNode"
+                id="bootEngine"
+            >
+                ENGINE
+            </span>
+
+        </div>
+
+        <div
+            class="bootError"
+            id="bootError"
+        >
+
+            <b id="bootErrorTitle">
+                No se pudo sincronizar el mercado
+            </b>
+
+            <p id="bootErrorText">
+                La fuente de datos no respondió correctamente.
+            </p>
+
+        </div>
+
+        <button
+            id="bootRetry"
+            type="button"
+        >
+            Reintentar conexión
+        </button>
+
+    </div>
+
 </div>
 """
 
+
+# ============================================================
+# 3. MOTOR DE CARGA
+# ============================================================
+
 boot_js = r"""
 <script>
-(()=>{"use strict";
-const root=document.getElementById("bootScreen"); if(!root)return;
-const bar=document.getElementById("bootBar"),text=document.getElementById("bootText"),
-pct=document.getElementById("bootPercent"),err=document.getElementById("bootError"),
-errT=document.getElementById("bootErrorTitle"),errP=document.getElementById("bootErrorText"),
-retry=document.getElementById("bootRetry");
-document.body.classList.add("cx-booting");
-let progress=0,finished=false,failed=false,pulse=0,hard=0,hide=0,index=0;
-const msgs=["Inicializando motor de datos…","Conectando con el mercado…","Validando respuesta…","Procesando activos…","Calculando métricas…","Preparando ranking…","Construyendo interfaz…"];
-function set(p,msg){if(finished||failed)return;progress=Math.max(progress,Math.min(97,Number(p)||0));bar.style.width=progress.toFixed(1)+"%";pct.textContent=Math.round(progress)+"%";if(msg)text.textContent=msg}
-function cleanup(){clearInterval(pulse);clearTimeout(hard);clearTimeout(hide)}
-function ready(){if(finished)return;finished=true;cleanup();bar.style.width="100%";pct.textContent="100%";text.textContent="Todos los datos preparados · entrando…";hide=setTimeout(()=>{root.classList.add("hide");document.body.classList.remove("cx-booting")},450)}
-function fail(title,msg){if(finished)return;failed=true;clearInterval(pulse);errT.textContent=title||"No se pudo iniciar CriptoshX";errP.textContent=msg||"Comprueba la conexión e inténtalo de nuevo.";err.style.display="block";retry.style.display="inline-block";text.textContent="Necesita atención"}
-retry.addEventListener("click",()=>location.reload(),{passive:true});
-window.CXBoot={set,ready,fail,getState:()=>({progress,finished,failed})};
-pulse=setInterval(()=>{if(finished||failed)return;if(progress<86){set(progress+(progress<55?2:.8),msgs[index++%msgs.length])}},650);
-hard=setTimeout(()=>{if(!finished)fail("La fuente de datos no respondió","La conexión tardó demasiado. Comprueba Internet y pulsa Reintentar.")},30000);
+
+(() => {
+
+    "use strict";
+
+    const root =
+        document.getElementById("bootScreen");
+
+    if (!root) return;
+
+
+    const bar =
+        document.getElementById("bootBar");
+
+    const text =
+        document.getElementById("bootText");
+
+    const pct =
+        document.getElementById("bootPercent");
+
+    const err =
+        document.getElementById("bootError");
+
+    const errT =
+        document.getElementById("bootErrorTitle");
+
+    const errP =
+        document.getElementById("bootErrorText");
+
+    const retry =
+        document.getElementById("bootRetry");
+
+
+    const network =
+        document.getElementById("bootNetwork");
+
+    const data =
+        document.getElementById("bootData");
+
+    const engine =
+        document.getElementById("bootEngine");
+
+
+    document.body.classList.add("cx-booting");
+
+
+    let progress = 0;
+
+    let finished = false;
+
+    let failed = false;
+
+    let pulseTimer = null;
+
+    let hardTimeout = null;
+
+    let hideTimer = null;
+
+
+    /*
+     * Mensajes que aparecen mientras CriptoshX
+     * prepara el dashboard.
+     */
+
+    const messages = [
+
+        "Inicializando motor de datos…",
+
+        "Conectando con el mercado…",
+
+        "Validando respuesta…",
+
+        "Procesando activos…",
+
+        "Calculando métricas…",
+
+        "Preparando ranking…",
+
+        "Construyendo interfaz…",
+
+        "Sincronizando dashboard…"
+
+    ];
+
+
+    let messageIndex = 0;
+
+
+    function clamp(value, min, max) {
+
+        return Math.max(
+            min,
+            Math.min(max, value)
+        );
+
+    }
+
+
+    /*
+     * Actualiza la barra.
+     *
+     * IMPORTANTE:
+     * Nunca permite que el progreso retroceda.
+     */
+
+    function setProgress(value, message) {
+
+        if (finished || failed) {
+            return;
+        }
+
+
+        const next =
+            clamp(
+                Number(value) || 0,
+                0,
+                99
+            );
+
+
+        progress =
+            Math.max(
+                progress,
+                next
+            );
+
+
+        bar.style.width =
+            progress.toFixed(1) + "%";
+
+
+        pct.textContent =
+            Math.round(progress) + "%";
+
+
+        if (message) {
+
+            text.textContent =
+                message;
+
+        }
+
+
+        /*
+         * Activamos los indicadores progresivamente.
+         */
+
+        if (progress >= 20) {
+
+            network.classList.add("active");
+
+        }
+
+
+        if (progress >= 55) {
+
+            data.classList.add("active");
+
+        }
+
+
+        if (progress >= 82) {
+
+            engine.classList.add("active");
+
+        }
+
+    }
+
+
+    /*
+     * Limpieza de timers.
+     */
+
+    function cleanup() {
+
+        if (pulseTimer) {
+
+            clearInterval(pulseTimer);
+
+            pulseTimer = null;
+
+        }
+
+
+        if (hardTimeout) {
+
+            clearTimeout(hardTimeout);
+
+            hardTimeout = null;
+
+        }
+
+
+        if (hideTimer) {
+
+            clearTimeout(hideTimer);
+
+            hideTimer = null;
+
+        }
+
+    }
+
+
+    /*
+     * ESTA ES LA PARTE IMPORTANTE.
+     *
+     * ready() NO se ejecuta hasta que el sistema
+     * exterior diga que todo está preparado.
+     */
+
+    function ready() {
+
+        if (finished || failed) {
+            return;
+        }
+
+
+        finished = true;
+
+
+        cleanup();
+
+
+        progress = 100;
+
+
+        bar.style.width =
+            "100%";
+
+
+        pct.textContent =
+            "100%";
+
+
+        text.textContent =
+            "Todo listo · entrando a CriptoshX";
+
+
+        network.classList.add("active");
+
+        data.classList.add("active");
+
+        engine.classList.add("active");
+
+
+        /*
+         * Damos dos frames al navegador.
+         *
+         * Esto permite terminar de pintar el dashboard
+         * antes de quitar la pantalla de carga.
+         */
+
+        requestAnimationFrame(() => {
+
+            requestAnimationFrame(() => {
+
+                hideTimer =
+                    setTimeout(() => {
+
+                        root.classList.add("hide");
+
+                        document.body.classList.remove(
+                            "cx-booting"
+                        );
+
+
+                        /*
+                         * Eliminamos el elemento después
+                         * de la transición.
+                         */
+
+                        setTimeout(() => {
+
+                            if (root && root.parentNode) {
+
+                                root.parentNode.removeChild(
+                                    root
+                                );
+
+                            }
+
+                        }, 600);
+
+                    }, 350);
+
+            });
+
+        });
+
+    }
+
+
+    /*
+     * Error.
+     */
+
+    function fail(title, message) {
+
+        if (finished) {
+            return;
+        }
+
+
+        failed = true;
+
+
+        cleanup();
+
+
+        errT.textContent =
+            title ||
+            "No se pudo iniciar CriptoshX";
+
+
+        errP.textContent =
+            message ||
+            "Comprueba la conexión e inténtalo de nuevo.";
+
+
+        err.style.display =
+            "block";
+
+
+        retry.style.display =
+            "inline-block";
+
+
+        text.textContent =
+            "Necesita atención";
+
+    }
+
+
+    /*
+     * Botón de reintento.
+     */
+
+    retry.addEventListener(
+        "click",
+        () => location.reload()
+    );
+
+
+    /*
+     * API pública.
+     *
+     * Desde tu código podrás hacer:
+     *
+     * CXBoot.set(90, "Preparando interfaz…");
+     *
+     * CXBoot.ready();
+     *
+     */
+
+    window.CXBoot = {
+
+        set: setProgress,
+
+        ready: ready,
+
+        fail: fail,
+
+        getState: () => ({
+
+            progress,
+
+            finished,
+
+            failed
+
+        })
+
+    };
+
+
+    /*
+     * Animación automática de progreso.
+     *
+     * NO llega al 100%.
+     *
+     * Se queda como máximo en 92-94%.
+     *
+     * El 100% SOLO lo pone ready().
+     */
+
+    pulseTimer =
+        setInterval(() => {
+
+            if (
+                finished ||
+                failed
+            ) {
+
+                return;
+
+            }
+
+
+            if (progress < 88) {
+
+                const increment =
+                    progress < 55
+                        ? 2
+                        : 0.8;
+
+
+                setProgress(
+
+                    progress + increment,
+
+                    messages[
+                        messageIndex %
+                        messages.length
+                    ]
+
+                );
+
+
+                messageIndex++;
+
+            }
+
+        }, 650);
+
+
+    /*
+     * Seguridad:
+     *
+     * Si algo se rompe y nunca llama a ready(),
+     * mostramos error después de 30 segundos.
+     */
+
+    hardTimeout =
+        setTimeout(() => {
+
+            if (!finished) {
+
+                fail(
+                    "La carga está tardando demasiado",
+                    "CriptoshX no ha conseguido preparar todos los datos. Comprueba Internet y pulsa Reintentar."
+                );
+
+            }
+
+        }, 30000);
+
+
 })();
 </script>
 """
+
+
+# ============================================================
+# 4. PROTECCIÓN DE FETCH
+# ============================================================
 
 fetch_guard = r"""
 <script>
-(()=>{"use strict";
-if(window.__CXFetchGuardInstalled)return;
-window.__CXFetchGuardInstalled=true;
-const nativeFetch=window.fetch.bind(window),DEFAULT_TIMEOUT=15000;
-window.CXNetwork={timeout:DEFAULT_TIMEOUT,online:navigator.onLine!==false,setTimeout(ms){this.timeout=Math.max(1000,Number(ms)||DEFAULT_TIMEOUT)}};
-addEventListener("online",()=>CXNetwork.online=true);
-addEventListener("offline",()=>CXNetwork.online=false);
-window.fetch=function(input,init){
- const options={...(init||{})},controller=new AbortController(),external=options.signal;
- let settled=false,timer=0;
- const abort=()=>{if(!controller.signal.aborted)controller.abort(external&&external.reason)};
- if(external){if(external.aborted)abort();else external.addEventListener("abort",abort,{once:true})}
- options.signal=controller.signal;
- timer=setTimeout(()=>{if(!settled&&!controller.signal.aborted)controller.abort(new DOMException("Request timed out","TimeoutError"))},CXNetwork.timeout);
- return nativeFetch(input,options).finally(()=>{settled=true;clearTimeout(timer);if(external)external.removeEventListener("abort",abort)});
-};
+
+(() => {
+
+    "use strict";
+
+
+    if (window.__CXFetchGuardInstalled) {
+        return;
+    }
+
+
+    window.__CXFetchGuardInstalled = true;
+
+
+    const nativeFetch =
+        window.fetch.bind(window);
+
+
+    const DEFAULT_TIMEOUT =
+        15000;
+
+
+    window.CXNetwork = {
+
+        timeout: DEFAULT_TIMEOUT,
+
+        online:
+            navigator.onLine !== false,
+
+
+        setTimeout(ms) {
+
+            this.timeout =
+                Math.max(
+                    1000,
+                    Number(ms) ||
+                    DEFAULT_TIMEOUT
+                );
+
+        }
+
+    };
+
+
+    window.addEventListener(
+        "online",
+        () => {
+
+            window.CXNetwork.online = true;
+
+        }
+    );
+
+
+    window.addEventListener(
+        "offline",
+        () => {
+
+            window.CXNetwork.online = false;
+
+        }
+    );
+
+
+    window.fetch =
+        function(input, init) {
+
+
+            const options =
+                {
+                    ...(init || {})
+                };
+
+
+            const controller =
+                new AbortController();
+
+
+            const external =
+                options.signal;
+
+
+            let settled =
+                false;
+
+
+            let timer =
+                null;
+
+
+            function abort() {
+
+                if (
+                    !controller.signal.aborted
+                ) {
+
+                    controller.abort(
+                        external &&
+                        external.reason
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * Conservamos la señal externa
+             * si la aplicación ya utiliza AbortController.
+             */
+
+            if (external) {
+
+                if (external.aborted) {
+
+                    abort();
+
+                } else {
+
+                    external.addEventListener(
+                        "abort",
+                        abort,
+                        {
+                            once: true
+                        }
+                    );
+
+                }
+
+            }
+
+
+            options.signal =
+                controller.signal;
+
+
+            timer =
+                setTimeout(() => {
+
+                    if (
+                        !settled &&
+                        !controller.signal.aborted
+                    ) {
+
+                        controller.abort(
+                            new DOMException(
+                                "Request timed out",
+                                "TimeoutError"
+                            )
+                        );
+
+                    }
+
+                }, window.CXNetwork.timeout);
+
+
+            return nativeFetch(
+                input,
+                options
+            ).finally(() => {
+
+                settled = true;
+
+
+                if (timer) {
+
+                    clearTimeout(timer);
+
+                }
+
+
+                if (external) {
+
+                    external.removeEventListener(
+                        "abort",
+                        abort
+                    );
+
+                }
+
+            });
+
+        };
+
+
 })();
 </script>
 """
+
+
+# ============================================================
+# 5. DETECTOR DE DATOS PREPARADOS
+# ============================================================
 
 ready_js = r"""
 <script>
-(()=>{"use strict";
-const started=performance.now(),MAX_WAIT=30000;
-let lastSignature="",stable=0;
-function inspect(){
- let state=null;try{state=window.state||null}catch(_){}
- const coins=state&&Array.isArray(state.coins)?state.coins:[];
- const usable=coins.filter(c=>c&&typeof c==="object"&&Number.isFinite(Number(c.current_price))&&Number(c.current_price)>=0);
- const signature=usable.length+":"+(usable.length?String(usable[0].id||usable[0].symbol||""):"");
- if(usable.length>=20&&signature===lastSignature)stable++;else stable=0;
- lastSignature=signature;
- if(usable.length>=20&&stable>=2){CXBoot.set(95,"Verificando datos reales…");setTimeout(()=>CXBoot.ready(),350);return}
- if(performance.now()-started>=MAX_WAIT){CXBoot.fail("Los datos de mercado no están listos","La interfaz recibió una respuesta incompleta o incompatible. Puedes reintentar la sincronización.");return}
- CXBoot.set(Math.min(92,72+Math.min(18,usable.length*.6)),usable.length?"Procesando activos…":"Esperando datos de mercado…");
- setTimeout(inspect,350);
-}
-if(document.readyState==="complete")inspect();else addEventListener("load",inspect,{once:true});
+
+(() => {
+
+    "use strict";
+
+
+    const START =
+        performance.now();
+
+
+    const MAX_WAIT =
+        30000;
+
+
+    /*
+     * Número mínimo de criptomonedas válidas.
+     *
+     * Puedes cambiar 20 por otro número.
+     */
+
+    const MIN_COINS =
+        20;
+
+
+    let lastSignature =
+        "";
+
+
+    let stableChecks =
+        0;
+
+
+    let startedChecking =
+        false;
+
+
+    let explicitlyReady =
+        false;
+
+
+    /*
+     * Permite que tu propio dashboard
+     * diga explícitamente:
+     *
+     * window.__CRIPTOSHX_READY__ = true;
+     *
+     */
+
+    Object.defineProperty(
+        window,
+        "__CRIPTOSHX_READY__",
+        {
+
+            configurable: true,
+
+            get() {
+
+                return explicitlyReady;
+
+            },
+
+            set(value) {
+
+                explicitlyReady =
+                    value === true;
+
+            }
+
+        }
+    );
+
+
+    /*
+     * También puedes llamar:
+     *
+     * window.dispatchEvent(
+     *   new Event("criptoshx:ready")
+     * );
+     */
+
+    window.addEventListener(
+        "criptoshx:ready",
+        () => {
+
+            explicitlyReady = true;
+
+        },
+        {
+            once: true
+        }
+    );
+
+
+    function getCoins() {
+
+        try {
+
+            /*
+             * Primero intentamos el estado habitual.
+             */
+
+            if (
+                window.state &&
+                Array.isArray(
+                    window.state.coins
+                )
+            ) {
+
+                return window.state.coins;
+
+            }
+
+
+            /*
+             * Compatibilidad por si el dashboard
+             * utiliza directamente window.coins.
+             */
+
+            if (
+                Array.isArray(
+                    window.coins
+                )
+            ) {
+
+                return window.coins;
+
+            }
+
+
+        } catch (_) {}
+
+
+        return [];
+
+    }
+
+
+    function inspect() {
+
+
+        const coins =
+            getCoins();
+
+
+        /*
+         * Solo consideramos válidos los activos
+         * que realmente tienen precio.
+         */
+
+        const usable =
+            coins.filter(
+                coin =>
+
+                    coin &&
+                    typeof coin === "object" &&
+
+                    Number.isFinite(
+                        Number(
+                            coin.current_price
+                        )
+                    ) &&
+
+                    Number(
+                        coin.current_price
+                    ) >= 0
+            );
+
+
+        /*
+         * Creamos una pequeña firma de datos.
+         *
+         * Sirve para comprobar que los datos
+         * permanecen estables y no están cambiando
+         * mientras quitamos la pantalla.
+         */
+
+        const signature =
+
+            usable.length +
+            ":" +
+
+            (
+                usable.length
+                    ? String(
+                        usable[0].id ||
+                        usable[0].symbol ||
+                        ""
+                    )
+                    : ""
+            );
+
+
+        if (
+            usable.length >= MIN_COINS &&
+            signature === lastSignature
+        ) {
+
+            stableChecks++;
+
+        } else {
+
+            stableChecks = 0;
+
+        }
+
+
+        lastSignature =
+            signature;
+
+
+        /*
+         * CASO 1:
+         *
+         * El propio dashboard ha dicho:
+         * "ya estoy listo".
+         */
+
+        if (explicitlyReady) {
+
+            CXBoot.set(
+                96,
+                "Verificando interfaz…"
+            );
+
+
+            /*
+             * Dos frames + pequeño margen.
+             */
+
+            requestAnimationFrame(() => {
+
+                requestAnimationFrame(() => {
+
+                    setTimeout(() => {
+
+                        CXBoot.ready();
+
+                    }, 200);
+
+                });
+
+            });
+
+
+            return;
+
+        }
+
+
+        /*
+         * CASO 2:
+         *
+         * Tenemos suficientes datos válidos
+         * y llevan varios ciclos sin cambiar.
+         *
+         * Esto evita quitar la pantalla justo
+         * cuando todavía se están procesando.
+         */
+
+        if (
+            usable.length >= MIN_COINS &&
+            stableChecks >= 4
+        ) {
+
+
+            CXBoot.set(
+                96,
+                "Preparando interfaz…"
+            );
+
+
+            /*
+             * Dejamos que renderice todo.
+             */
+
+            requestAnimationFrame(() => {
+
+                requestAnimationFrame(() => {
+
+                    setTimeout(() => {
+
+                        CXBoot.ready();
+
+                    }, 500);
+
+                });
+
+            });
+
+
+            return;
+
+        }
+
+
+        /*
+         * Progreso visual.
+         *
+         * Nunca pasa del 95% hasta que
+         * realmente terminamos.
+         */
+
+        if (usable.length > 0) {
+
+
+            const dataProgress =
+
+                Math.min(
+                    92,
+                    55 +
+                    (
+                        usable.length /
+                        MIN_COINS
+                    ) * 35
+                );
+
+
+            CXBoot.set(
+                dataProgress,
+                "Procesando activos…"
+            );
+
+
+        } else {
+
+
+            CXBoot.set(
+                25,
+                "Esperando datos de mercado…"
+            );
+
+        }
+
+
+        /*
+         * Timeout.
+         */
+
+        if (
+            performance.now() - START >=
+            MAX_WAIT
+        ) {
+
+            CXBoot.fail(
+                "Los datos de mercado no están listos",
+                "CriptoshX recibió una respuesta incompleta o incompatible. Puedes reintentar la sincronización."
+            );
+
+
+            return;
+
+        }
+
+
+        setTimeout(
+            inspect,
+            350
+        );
+
+    }
+
+
+    /*
+     * Empezamos después de que el documento
+     * haya terminado de cargarse.
+     */
+
+    function start() {
+
+        if (startedChecking) {
+            return;
+        }
+
+
+        startedChecking = true;
+
+
+        /*
+         * Dejamos un instante para que
+         * los scripts de la aplicación
+         * puedan inicializar su estado.
+         */
+
+        setTimeout(
+            inspect,
+            150
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "complete"
+    ) {
+
+        start();
+
+    } else {
+
+        window.addEventListener(
+            "load",
+            start,
+            {
+                once: true
+            }
+        );
+
+    }
+
+
 })();
 </script>
 """
 
-# Inject CSS.
-if "</style>" in html:
-    html = html.replace("</style>", css + "\n</style>", 1)
-else:
-    html = html.replace("</head>", "<style>"+css+"</style>\n</head>", 1)
 
-# Inject boot markup immediately after body opening.
-body = re.search(r"<body\b[^>]*>", html, flags=re.I)
-if not body:
-    raise RuntimeError("No encuentro <body>")
+# ============================================================
+# 6. INSERTAR CSS
+# ============================================================
+
+if "CRIPTO SHX V12 ULTRA" not in html.upper():
+
+    if re.search(
+        r"</head>",
+        html,
+        flags=re.I
+    ):
+
+        html = re.sub(
+            r"</head>",
+            "<style>" +
+            css +
+            "</style>\n</head>",
+            html,
+            count=1,
+            flags=re.I
+        )
+
+    else:
+
+        html = (
+            "<style>" +
+            css +
+            "</style>\n" +
+            html
+        )
+
+
+# ============================================================
+# 7. INSERTAR PANTALLA DE CARGA
+# ============================================================
+
 if 'id="bootScreen"' not in html:
-    i=body.end()
-    html=html[:i]+"\n"+boot+html[i:]
 
-html=html.replace("Cargando interfaz…","Preparando sistema…")
-html=html.replace("Cargando mercado…","Sincronizando mercado…")
+    body_match = re.search(
+        r"<body\b[^>]*>",
+        html,
+        flags=re.I
+    )
 
-# Scripts go immediately before closing body.
-html=re.sub(r"</body>",boot_js+"\n"+ready_js+"\n"+fetch_guard+"\n</body>",html,count=1,flags=re.I)
 
-out.write_text(html,encoding="utf-8")
-print(out)
-''', encoding="utf-8")
+    if not body_match:
 
-# Execute the generated builder against the expected v10 file if present.
-src = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
-if src.exists():
-    ns = {}
-    exec(builder.read_text(encoding="utf-8"), ns)
-else:
-    print(f"Builder creado: {builder}. Falta el HTML fuente: {src}")
+        raise RuntimeError(
+            "No encuentro la etiqueta <body>."
+        )
+
+
+    position =
+        body_match.end()
+
+
+    html = (
+        html[:position] +
+        "\n" +
+        boot +
+        "\n" +
+        html[position:]
+    )
+
+
+# ============================================================
+# 8. PEQUEÑOS CAMBIOS DE TEXTOS ANTIGUOS
+# ============================================================
+
+html = html.replace(
+    "Cargando interfaz…",
+    "Preparando sistema…"
+)
+
+
+html = html.replace(
+    "Cargando mercado…",
+    "Sincronizando mercado…"
+)
+
+
+html = html.replace(
+    "Cargando interfaz...",
+    "Preparando sistema..."
+)
+
+
+html = html.replace(
+    "Cargando mercado...",
+    "Sincronizando mercado..."
+)
+
+
+# ============================================================
+# 9. INSERTAR LOS SCRIPTS
+#
+# IMPORTANTE:
+# Los colocamos antes de </body>.
+# ============================================================
+
+marker = "CRIPTO SHX V12 ULTRA"
+
+if marker.upper() not in html.upper():
+
+    scripts = (
+
+        "\n" +
+        boot_js +
+        "\n" +
+        fetch_guard +
+        "\n" +
+        ready_js +
+        "\n"
+
+    )
+
+
+    html = re.sub(
+        r"</body>",
+        scripts + "</body>",
+        html,
+        count=1,
+        flags=re.I
+    )
+
+
+# ============================================================
+# 10. GUARDAR
+# ============================================================
+
+OUT.write_text(
+    html,
+    encoding="utf-8"
+)
+
+
+print()
+print("==============================================")
+print("        CRIPTOSHX V12 ULTRA LISTO")
+print("==============================================")
+print()
+print("Archivo creado:")
+print(OUT)
+print()
+print("La pantalla de carga ahora:")
+print("  0%  -> conectando")
+print("  50% -> procesando")
+print("  90% -> preparando interfaz")
+print("  96% -> esperando render")
+print(" 100% -> TODO LISTO")
+print()
+print("==============================================")
