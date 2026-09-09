@@ -1,125 +1,360 @@
 from pathlib import Path
 
-src = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
-out = Path("/mnt/data/criptoshx_crypto_intelligence_v11_ultra.html")
+out = Path("/mnt/data/criptoshx_v12_ultra_builder.py")
 
-if not src.exists():
-    raise FileNotFoundError("No encuentro la v10. Sube el HTML actual de CriptoshX.")
+script = r'''from pathlib import Path
+import re
 
-html = src.read_text(encoding="utf-8")
+SRC = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
+OUT = Path("/mnt/data/criptoshx_crypto_intelligence_v12_ultra.html")
 
-css = r"""
-/* ===== CRIPTOSHX V11 ULTRA BOOT ===== */
-#bootScreen{position:fixed;inset:0;z-index:999999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .65s ease,visibility .65s ease}
+if not SRC.exists():
+    raise FileNotFoundError(
+        f"No encuentro {SRC}. Coloca el HTML de CriptoshX en /mnt/data o cambia SRC."
+    )
+
+html = SRC.read_text(encoding="utf-8")
+
+# ---------------------------------------------------------------------------
+# V12 ULTRA — robust boot, network resilience, safe readiness, accessibility
+# ---------------------------------------------------------------------------
+
+CSS = r"""
+/* ================= CRIPTOSHX V12 ULTRA ================= */
+:root{
+  --cx-bg:#000;
+  --cx-panel:#0b0b0d;
+  --cx-border:#202024;
+  --cx-text:#f5f5f7;
+  --cx-muted:#77777f;
+  --cx-accent:#72f2c2;
+  --cx-blue:#8ab4ff;
+  --cx-danger:#ff7d8b;
+}
+#bootScreen{
+  position:fixed;inset:0;z-index:2147483647;background:var(--cx-bg);
+  display:flex;align-items:center;justify-content:center;
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .55s ease,visibility .55s ease;
+  font-family:inherit;
+}
 #bootScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
-.bootBox{width:min(680px,88vw);text-align:center}
-.bootLogo{font-size:42px;font-weight:950;letter-spacing:-.05em;margin-bottom:9px}
-.bootLogo span{color:#72f2c2}
-.bootSub{color:#66666e;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:42px}
-.bootLine{height:2px;background:#151517;border-radius:99px;overflow:hidden}
-.bootLine i{display:block;height:100%;width:0;background:linear-gradient(90deg,#72f2c2,#8ab4ff);transition:width .35s ease}
-.bootMeta{display:flex;justify-content:space-between;margin-top:12px;color:#66666e;font-size:11px}
-#bootPercent{color:#f5f5f7;font-weight:800}
-.bootError{display:none;margin-top:25px;border:1px solid #29292d;background:#0b0b0c;border-radius:14px;padding:15px;text-align:left}
-.bootError b{display:block;margin-bottom:6px;color:#ff7d8b}
-.bootError p{margin:0;color:#8e8e98;font-size:11px;line-height:1.5}
-#bootRetry{display:none;margin:15px auto 0;border:1px solid #29292d;background:#151517;color:#fff;border-radius:10px;padding:10px 16px}
-body.booting{overflow:hidden}
+body.cx-booting{overflow:hidden}
+.bootBox{width:min(720px,88vw);text-align:center}
+.bootLogo{font-size:clamp(34px,7vw,48px);font-weight:950;letter-spacing:-.055em;margin-bottom:8px}
+.bootLogo span{color:var(--cx-accent)}
+.bootSub{color:#696970;font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:34px}
+.bootLine{height:3px;background:#151518;border-radius:99px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.025)}
+.bootLine i{
+  display:block;height:100%;width:0;border-radius:inherit;
+  background:linear-gradient(90deg,var(--cx-accent),var(--cx-blue));
+  transition:width .3s cubic-bezier(.2,.8,.2,1);
+}
+.bootMeta{display:flex;justify-content:space-between;gap:20px;margin-top:12px;color:var(--cx-muted);font-size:11px}
+#bootPercent{color:var(--cx-text);font-weight:850;font-variant-numeric:tabular-nums}
+.bootStatus{min-height:17px;text-align:left}
+.bootError{
+  display:none;margin-top:24px;border:1px solid #29292d;background:#0b0b0c;
+  border-radius:14px;padding:15px;text-align:left;
+}
+.bootError b{display:block;margin-bottom:6px;color:var(--cx-danger)}
+.bootError p{margin:0;color:#96969e;font-size:11px;line-height:1.5}
+#bootRetry{
+  display:none;margin:15px auto 0;border:1px solid #303036;background:#151517;
+  color:#fff;border-radius:10px;padding:10px 17px;cursor:pointer;
+}
+#bootRetry:hover{background:#1b1b1f}
+#bootRetry:focus-visible{outline:2px solid var(--cx-accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  #bootScreen,.bootLine i{transition:none!important}
+}
 """
 
-boot = r"""
-<div id="bootScreen">
- <div class="bootBox">
-  <div class="bootLogo">Criptosh<span>X</span></div>
-  <div class="bootSub">Crypto Intelligence · preparando entorno</div>
-  <div class="bootLine"><i id="bootBar"></i></div>
-  <div class="bootMeta"><span id="bootText">Inicializando motor de datos…</span><span id="bootPercent">0%</span></div>
-  <div class="bootError" id="bootError">
-   <b id="bootErrorTitle">No se pudo sincronizar el mercado</b>
-   <p id="bootErrorText">La fuente de datos no respondió correctamente.</p>
+BOOT_HTML = r"""
+<div id="bootScreen" role="status" aria-live="polite" aria-label="Inicializando CriptoshX">
+  <div class="bootBox">
+    <div class="bootLogo">Criptosh<span>X</span></div>
+    <div class="bootSub">Crypto Intelligence · preparando entorno</div>
+    <div class="bootLine" aria-hidden="true"><i id="bootBar"></i></div>
+    <div class="bootMeta">
+      <span id="bootText" class="bootStatus">Inicializando motor de datos…</span>
+      <span id="bootPercent">0%</span>
+    </div>
+    <div class="bootError" id="bootError">
+      <b id="bootErrorTitle">No se pudo sincronizar el mercado</b>
+      <p id="bootErrorText">La fuente de datos no respondió correctamente.</p>
+    </div>
+    <button id="bootRetry" type="button">Reintentar conexión</button>
   </div>
-  <button id="bootRetry">Reintentar conexión</button>
- </div>
 </div>
 """
 
-boot_js = r"""
+BOOT_JS = r"""
 <script>
-(()=>{
- document.body.classList.add("booting");
- const s=document.getElementById("bootScreen"),bar=document.getElementById("bootBar"),
-       txt=document.getElementById("bootText"),pct=document.getElementById("bootPercent"),
-       err=document.getElementById("bootError"),errT=document.getElementById("bootErrorTitle"),
-       errP=document.getElementById("bootErrorText"),retry=document.getElementById("bootRetry");
- let done=false,progress=0;
- window.CXBoot={
-  set(p,t){if(done)return;progress=Math.max(progress,Math.min(98,p));bar.style.width=progress+"%";pct.textContent=Math.round(progress)+"%";if(t)txt.textContent=t},
-  ready(){if(done)return;done=true;bar.style.width="100%";pct.textContent="100%";txt.textContent="Todos los datos preparados · entrando…";setTimeout(()=>{s.classList.add("hide");document.body.classList.remove("booting")},650)},
-  fail(t,m){errT.textContent=t;errP.textContent=m;err.style.display="block";retry.style.display="block";txt.textContent="Sin conexión de datos"}
- };
- retry.onclick=()=>location.reload();
+(() => {
+  "use strict";
 
- /* Progreso visual, pero nunca superior al estado real. */
- const msgs=["Inicializando motor de datos…","Conectando con el mercado…","Validando respuesta…","Procesando activos…","Calculando métricas…","Preparando ranking…","Construyendo interfaz…"];
- let i=0;
- const pulse=setInterval(()=>{
-   if(done){clearInterval(pulse);return}
-   if(progress<88)progress+=1.2;
-   CXBoot.set(progress,msgs[i++%msgs.length]);
- },700);
+  const boot = document.getElementById("bootScreen");
+  if (!boot) return;
 
- /* Ninguna petición puede bloquear el arranque indefinidamente. */
- setTimeout(()=>{
-   if(!done)CXBoot.fail("La fuente de datos no respondió","La conexión tardó demasiado. Comprueba Internet y pulsa Reintentar.");
- },30000);
-})();
-</script>
-"""
+  const bar = document.getElementById("bootBar");
+  const text = document.getElementById("bootText");
+  const percent = document.getElementById("bootPercent");
+  const errorBox = document.getElementById("bootError");
+  const errorTitle = document.getElementById("bootErrorTitle");
+  const errorText = document.getElementById("bootErrorText");
+  const retry = document.getElementById("bootRetry");
 
-ready_js = r"""
-<script>
-window.addEventListener("load",()=>{
- const check=()=>{
-  try{
-   const coins=window.state&&Array.isArray(window.state.coins)?window.state.coins:[];
-   const valid=coins.length>=20&&coins.some(c=>Number.isFinite(Number(c.current_price)));
-   if(valid){
-    CXBoot.set(94,"Verificando datos reales…");
-    setTimeout(()=>CXBoot.ready(),500);
-   }else setTimeout(check,400);
-  }catch(e){setTimeout(check,400)}
- };
- check();
-});
-</script>
-"""
+  document.body.classList.add("cx-booting");
 
-# Protección adicional: timeout duro por petición.
-fetch_guard = r"""
-<script>
-(()=>{
- const original=window.fetch;
- window.fetch=(input,init={})=>{
-  const ctl=new AbortController(), external=init.signal;
-  let finished=false;
-  const timer=setTimeout(()=>{if(!finished)ctl.abort()},15000);
-  if(external){
-   if(external.aborted)ctl.abort();
-   else external.addEventListener("abort",()=>ctl.abort(),{once:true});
+  let progress = 0;
+  let finished = false;
+  let failed = false;
+  let pulseTimer = 0;
+  let hardTimer = 0;
+  let hideTimer = 0;
+
+  const messages = [
+    "Inicializando motor de datos…",
+    "Conectando con el mercado…",
+    "Validando respuesta…",
+    "Procesando activos…",
+    "Calculando métricas…",
+    "Preparando ranking…",
+    "Construyendo interfaz…"
+  ];
+
+  function render(p, msg) {
+    if (finished || failed) return;
+    progress = Math.max(progress, Math.min(97, Number(p) || 0));
+    bar.style.width = progress.toFixed(1) + "%";
+    percent.textContent = Math.round(progress) + "%";
+    if (msg) text.textContent = msg;
   }
-  return original(input,{...init,signal:ctl.signal}).finally(()=>{finished=true;clearTimeout(timer)});
- };
+
+  function cleanup() {
+    clearInterval(pulseTimer);
+    clearTimeout(hardTimer);
+    clearTimeout(hideTimer);
+  }
+
+  function ready() {
+    if (finished) return;
+    finished = true;
+    cleanup();
+    bar.style.width = "100%";
+    percent.textContent = "100%";
+    text.textContent = "Todos los datos preparados · entrando…";
+    hideTimer = setTimeout(() => {
+      boot.classList.add("hide");
+      document.body.classList.remove("cx-booting");
+    }, 450);
+  }
+
+  function fail(title, message) {
+    if (finished) return;
+    failed = true;
+    clearInterval(pulseTimer);
+    errorTitle.textContent = title || "No se pudo iniciar CriptoshX";
+    errorText.textContent = message || "Comprueba la conexión e inténtalo de nuevo.";
+    errorBox.style.display = "block";
+    retry.style.display = "inline-block";
+    text.textContent = "Necesita atención";
+  }
+
+  retry.addEventListener("click", () => {
+    // Reintento limpio; evita múltiples listeners/timers.
+    window.location.reload();
+  }, { passive: true });
+
+  window.CXBoot = Object.freeze({
+    set: render,
+    ready,
+    fail,
+    getState: () => ({ progress, finished, failed })
+  });
+
+  let messageIndex = 0;
+  pulseTimer = setInterval(() => {
+    if (finished || failed) return;
+    if (progress < 86) {
+      render(progress + (progress < 55 ? 2.0 : 0.8), messages[messageIndex % messages.length]);
+      messageIndex++;
+    }
+  }, 650);
+
+  // Límite absoluto: la aplicación nunca queda bloqueada indefinidamente.
+  hardTimer = setTimeout(() => {
+    if (!finished) {
+      fail(
+        "La fuente de datos no respondió",
+        "La conexión tardó demasiado. Comprueba Internet y pulsa Reintentar."
+      );
+    }
+  }, 30000);
 })();
 </script>
 """
 
-html = html.replace("</style>", css + "\n</style>", 1)
-html = html.replace("<body>", "<body>\n" + boot, 1)
-html = html.replace("</body>", boot_js + ready_js + fetch_guard + "\n</body>", 1)
+# Safe fetch layer: preserves caller signal semantics and does not replace an
+# existing signal with an unrelated one without forwarding abort events.
+FETCH_JS = r"""
+<script>
+(() => {
+  "use strict";
 
-# Mejora el texto de estado existente.
+  if (window.__CXFetchGuardInstalled) return;
+  window.__CXFetchGuardInstalled = true;
+
+  const nativeFetch = window.fetch.bind(window);
+  const DEFAULT_TIMEOUT = 15000;
+
+  window.CXNetwork = {
+    timeout: DEFAULT_TIMEOUT,
+    online: navigator.onLine !== false,
+    setTimeout(ms) {
+      this.timeout = Math.max(1000, Number(ms) || DEFAULT_TIMEOUT);
+    }
+  };
+
+  window.addEventListener("online", () => { window.CXNetwork.online = true; });
+  window.addEventListener("offline", () => { window.CXNetwork.online = false; });
+
+  window.fetch = function(input, init) {
+    const options = { ...(init || {}) };
+    const controller = new AbortController();
+    const externalSignal = options.signal;
+
+    let settled = false;
+    let timer = 0;
+
+    const abortFromExternal = () => {
+      if (!controller.signal.aborted) controller.abort(externalSignal.reason);
+    };
+
+    if (externalSignal) {
+      if (externalSignal.aborted) {
+        abortFromExternal();
+      } else {
+        externalSignal.addEventListener("abort", abortFromExternal, { once: true });
+      }
+    }
+
+    options.signal = controller.signal;
+
+    timer = setTimeout(() => {
+      if (!settled && !controller.signal.aborted) {
+        controller.abort(new DOMException("Request timed out", "TimeoutError"));
+      }
+    }, window.CXNetwork.timeout);
+
+    return nativeFetch(input, options).finally(() => {
+      settled = true;
+      clearTimeout(timer);
+      if (externalSignal) {
+        externalSignal.removeEventListener("abort", abortFromExternal);
+      }
+    });
+  };
+})();
+</script>
+"""
+
+READY_JS = r"""
+<script>
+(() => {
+  "use strict";
+
+  const started = performance.now();
+  const MAX_WAIT = 30000;
+  let lastSignature = "";
+  let stableChecks = 0;
+
+  function getState() {
+    try { return window.state || null; } catch (_) { return null; }
+  }
+
+  function inspect() {
+    const state = getState();
+    const coins = state && Array.isArray(state.coins) ? state.coins : [];
+
+    const usable = coins.filter(c => {
+      if (!c || typeof c !== "object") return false;
+      const price = Number(c.current_price);
+      return Number.isFinite(price) && price >= 0;
+    });
+
+    const signature = usable.length + ":" + (
+      usable.length ? String(usable[0].id || usable[0].symbol || "") : ""
+    );
+
+    if (usable.length >= 20 && signature === lastSignature) stableChecks++;
+    else stableChecks = 0;
+
+    lastSignature = signature;
+
+    if (usable.length >= 20 && stableChecks >= 2) {
+      CXBoot.set(95, "Verificando datos reales…");
+      setTimeout(() => CXBoot.ready(), 350);
+      return;
+    }
+
+    if (performance.now() - started >= MAX_WAIT) {
+      CXBoot.fail(
+        "Los datos de mercado no están listos",
+        "La interfaz recibió una respuesta incompleta o incompatible. Puedes reintentar la sincronización."
+      );
+      return;
+    }
+
+    const progress = Math.min(92, 72 + Math.min(18, usable.length * 0.6));
+    CXBoot.set(progress, usable.length ? "Procesando activos…" : "Esperando datos de mercado…");
+    setTimeout(inspect, 350);
+  }
+
+  if (document.readyState === "complete") inspect();
+  else window.addEventListener("load", inspect, { once: true });
+})();
+</script>
+"""
+
+def inject_once(source, needle, payload, position="before"):
+    if payload.strip() in source:
+        return source
+    if needle not in source:
+        raise RuntimeError(f"No encuentro el punto de inserción: {needle}")
+    return source.replace(needle, payload + "\n" + needle, 1) if position == "before" else source.replace(needle, needle + "\n" + payload, 1)
+
+# Prefer the first real </style>; if absent, add a style block to head.
+if "</style>" in html:
+    html = html.replace("</style>", CSS + "\n</style>", 1)
+elif "</head>" in html:
+    html = html.replace("</head>", "<style>\n" + CSS + "\n</style>\n</head>", 1)
+else:
+    html = "<style>\n" + CSS + "\n</style>\n" + html
+
+# Boot markup immediately after <body>.
+body_match = re.search(r"<body\b[^>]*>", html, flags=re.I)
+if not body_match:
+    raise RuntimeError("No encuentro la etiqueta <body>.")
+body_end = body_match.end()
+if 'id="bootScreen"' not in html:
+    html = html[:body_end] + "\n" + BOOT_HTML + html[body_end:]
+
+# Replace only the exact legacy status labels.
 html = html.replace("Cargando interfaz…", "Preparando sistema…")
 html = html.replace("Cargando mercado…", "Sincronizando mercado…")
 
-out.write_text(html, encoding="utf-8")
-print(f"Archivo creado: {out}")
+# Scripts before </body>, preserving all existing application scripts.
+scripts = BOOT_JS + "\n" + READY_JS + "\n" + FETCH_JS + "\n"
+if "</body>" not in html.lower():
+    html += "\n" + scripts
+else:
+    html = re.sub(r"</body>", scripts + "</body>", html, count=1, flags=re.I)
+
+OUT.write_text(html, encoding="utf-8")
+print(f"OK: {OUT}")
+'''
+
+out.write_text(script, encoding="utf-8")
+print(f"Creado: {out}")
