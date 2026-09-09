@@ -1,102 +1,125 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CriptoshX — Crypto Intelligence</title>
-<style>
-:root{--bg:#030405;--panel:#080a0d;--panel2:#0d1014;--line:#1a1f26;--text:#f4f7fa;--muted:#7f8a96;--accent:#d7ff3f;--cyan:#64d9ff;--red:#ff6674;--green:#7dffad;--shadow:0 18px 60px rgba(0,0,0,.45)}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input{font:inherit}button{cursor:pointer}
-#loader{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .65s ease,visibility .65s ease}.loaderBox{width:min(620px,88vw);text-align:center}.mark{width:74px;height:74px;border:1px solid #30363d;border-radius:22px;display:grid;place-items:center;margin:0 auto 26px;font-weight:900;font-size:25px;letter-spacing:-2px;background:#050607;box-shadow:0 0 80px rgba(215,255,63,.08)}.brand{font-size:25px;font-weight:850;letter-spacing:-.8px}.brand span{color:var(--accent)}.loaderStatus{margin:10px 0 22px;color:var(--muted);font-size:13px}.bar{height:3px;background:#15181c;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--accent);box-shadow:0 0 20px rgba(215,255,63,.55);transition:width .35s ease}.percent{margin-top:12px;font-variant-numeric:tabular-nums;color:#b9c2cb;font-size:12px}.loaderError{display:none;margin-top:20px;color:#ff8994;font-size:13px;line-height:1.5}.loaderBtn{display:none;margin-top:16px;padding:10px 15px;border-radius:10px;border:1px solid #343b43;background:#101419;color:#fff}
-#app{display:none;min-height:100vh}.shell{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;border-right:1px solid var(--line);padding:22px 15px;background:#050607}.sideBrand{display:flex;align-items:center;gap:11px;padding:4px 9px 28px}.sideMark{width:36px;height:36px;border:1px solid #30363d;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:900}.sideBrand b{font-size:15px}.sideBrand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;margin-top:2px}.nav{display:grid;gap:5px}.nav button{width:100%;text-align:left;border:0;background:transparent;color:#8f99a5;padding:11px 12px;border-radius:10px;font-size:13px}.nav button:hover,.nav button.active{background:#0e1115;color:#fff}.nav button.active{box-shadow:inset 2px 0 0 var(--accent)}.sideFoot{position:absolute;bottom:18px;left:18px;right:18px;color:#59636e;font-size:10px;line-height:1.5}
-.main{min-width:0;padding:25px 30px 50px}.topbar{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:25px}.eyebrow{color:var(--accent);font-size:10px;letter-spacing:1.8px;text-transform:uppercase}.title{font-size:30px;letter-spacing:-1.2px;margin:5px 0 0}.updated{color:var(--muted);font-size:11px;text-align:right}.view{display:none}.view.active{display:block}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(180deg,#0a0d10,#07090b);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:var(--shadow)}.label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}.value{font-size:24px;font-weight:800;letter-spacing:-.8px;margin-top:9px}.sub{font-size:11px;color:var(--muted);margin-top:5px}.green{color:var(--green)}.red{color:var(--red)}.cyan{color:var(--cyan)}
-.sectionHead{display:flex;justify-content:space-between;align-items:end;margin:27px 0 12px}.sectionHead h2{font-size:16px;margin:0}.sectionHead p{font-size:11px;color:var(--muted);margin:4px 0 0}.tools{display:flex;gap:8px;align-items:center}.search{width:220px;background:#090c10;border:1px solid var(--line);color:#fff;border-radius:9px;padding:9px 11px;outline:0}.select{background:#090c10;border:1px solid var(--line);color:#fff;border-radius:9px;padding:9px 11px}
-.tableWrap{border:1px solid var(--line);border-radius:15px;overflow:auto;background:#07090b}.table{width:100%;border-collapse:collapse;min-width:850px}.table th{padding:12px 14px;text-align:right;color:#65707b;font-size:9px;text-transform:uppercase;letter-spacing:1px;background:#090c10;position:sticky;top:0}.table th:first-child,.table td:first-child{text-align:left}.table td{padding:13px 14px;border-top:1px solid #11151a;text-align:right;font-size:12px;font-variant-numeric:tabular-nums}.coin{display:flex;align-items:center;gap:10px}.coin img{width:27px;height:27px;border-radius:50%;background:#111}.coinName{font-weight:700}.coinSym{font-size:10px;color:var(--muted);text-transform:uppercase}.pill{display:inline-flex;align-items:center;padding:4px 7px;border-radius:7px;background:#11151a;font-size:10px}.score{font-weight:800}.miniBar{height:5px;width:70px;background:#15191e;border-radius:10px;overflow:hidden;margin-left:auto}.miniBar i{display:block;height:100%;background:var(--accent)}
-.topGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.topCard{position:relative;overflow:hidden}.rank{font-size:11px;color:var(--accent);letter-spacing:1px}.topCoin{font-size:22px;font-weight:850;margin-top:8px}.bigScore{font-size:42px;font-weight:900;letter-spacing:-2px;margin:13px 0 5px}.metricRow{display:flex;justify-content:space-between;border-top:1px solid #161b21;padding:9px 0;font-size:11px;color:#9ca6b1}.metricRow b{color:#fff}.note{margin-top:13px;padding:11px;border-radius:10px;background:#0b0f13;color:#798490;font-size:10px;line-height:1.5}
-.radarGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.bars{display:grid;gap:12px}.barRow{display:grid;grid-template-columns:115px 1fr 45px;gap:10px;align-items:center;font-size:11px}.barTrack{height:8px;background:#15191e;border-radius:10px;overflow:hidden}.barTrack i{display:block;height:100%;background:var(--cyan)}
-.watchEmpty{padding:45px;text-align:center;color:var(--muted);border:1px dashed #252b32;border-radius:15px}.watchList{display:grid;gap:8px}.watchItem{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;background:#080b0e;border:1px solid var(--line);border-radius:11px}.watchItem button{background:transparent;border:0;color:#65707b}.star{color:var(--accent)!important}
-.footer{margin-top:28px;color:#4f5963;font-size:10px}.footer a{color:#69747f}.toast{position:fixed;right:18px;bottom:18px;background:#11161b;border:1px solid #29313a;border-radius:10px;padding:11px 14px;color:#c8d0d8;font-size:11px;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:none}
-@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}.sideFoot{display:none}.nav{grid-template-columns:repeat(5,1fr)}.nav button{font-size:10px;text-align:center;padding:9px 4px}.main{padding:20px 15px}.grid4{grid-template-columns:repeat(2,1fr)}.topGrid,.radarGrid{grid-template-columns:1fr}.search{width:150px}.title{font-size:24px}}
-@media(max-width:560px){.grid4{grid-template-columns:1fr}.topbar{align-items:flex-start}.updated{display:none}.tools{flex-wrap:wrap}.search{width:100%}}
-</style>
-</head>
-<body>
-<div id="loader"><div class="loaderBox"><div class="mark">CX</div><div class="brand">Criptosh<span>X</span></div><div class="loaderStatus" id="loaderStatus">Inicializando motor de datos…</div><div class="bar"><i id="loaderBar"></i></div><div class="percent" id="loaderPercent">0%</div><div class="loaderError" id="loaderError"></div><button class="loaderBtn" id="retryBtn">Reintentar carga</button></div></div>
-<div id="app"><div class="shell">
-<aside class="side"><div class="sideBrand"><div class="sideMark">CX</div><div><b>CriptoshX</b><small>CRYPTO INTELLIGENCE</small></div></div><nav class="nav"><button class="active" data-view="dashboard">Dashboard</button><button data-view="top3">Top 3</button><button data-view="market">Market</button><button data-view="watch">Watchlist</button><button data-view="radar">Radar</button></nav><div class="sideFoot">Ranking cuantitativo educativo.<br>Los datos de mercado se obtienen en tiempo real cuando la API está disponible.</div></aside>
-<main class="main"><div class="topbar"><div><div class="eyebrow">Live market intelligence</div><div class="title" id="pageTitle">Dashboard</div></div><div class="updated" id="updated">—</div></div>
-<section class="view active" id="view-dashboard"><div class="grid4"><div class="card"><div class="label">Market cap global</div><div class="value" id="gCap">—</div><div class="sub" id="gCapChange">—</div></div><div class="card"><div class="label">Volumen 24h</div><div class="value" id="gVol">—</div><div class="sub">Mercado agregado</div></div><div class="card"><div class="label">Dominancia BTC</div><div class="value" id="gBtc">—</div><div class="sub">Participación de capitalización</div></div><div class="card"><div class="label">Activos cargados</div><div class="value" id="gCoins">—</div><div class="sub">Universo analizado</div></div></div><div class="sectionHead"><div><h2>Top 3 cuantitativo</h2><p>Ranking relativo calculado con variables de mercado reales.</p></div><button class="select" onclick="showView('top3')">Ver detalle</button></div><div class="topGrid" id="dashTop"></div></section>
-<section class="view" id="view-top3"><div class="sectionHead"><div><h2>Top 3</h2><p>Mayor puntuación relativa dentro del universo cargado.</p></div></div><div class="topGrid" id="topGrid"></div></section>
-<section class="view" id="view-market"><div class="sectionHead"><div><h2>Market</h2><p>Mercado ordenable a partir de datos recibidos de la API.</p></div><div class="tools"><input class="search" id="search" placeholder="Buscar activo…"><select class="select" id="sort"><option value="score">Score</option><option value="rank">Market cap</option><option value="change24">24h</option><option value="volume">Volumen</option><option value="risk">Riesgo</option></select></div></div><div class="tableWrap"><table class="table"><thead><tr><th>Activo</th><th>Precio</th><th>24h</th><th>7d</th><th>30d</th><th>Market cap</th><th>Volumen</th><th>Score</th><th>Riesgo</th><th>Watch</th></tr></thead><tbody id="marketBody"></tbody></table></div></section>
-<section class="view" id="view-watch"><div class="sectionHead"><div><h2>Watchlist</h2><p>Activos guardados localmente en este navegador.</p></div></div><div id="watchContent"></div></section>
-<section class="view" id="view-radar"><div class="sectionHead"><div><h2>Radar</h2><p>Distribución de señales del universo cargado.</p></div></div><div class="radarGrid"><div class="card"><div class="label">Distribución de score</div><div class="bars" id="scoreBars" style="margin-top:18px"></div></div><div class="card"><div class="label">Lectura cuantitativa</div><div class="metricRow"><span>Activos con momentum positivo</span><b id="pos24">—</b></div><div class="metricRow"><span>Volumen / market cap mediano</span><b id="liqMed">—</b></div><div class="metricRow"><span>Score mediano</span><b id="scoreMed">—</b></div><div class="metricRow"><span>Riesgo mediano</span><b id="riskMed">—</b></div><div class="note">El score no es una recomendación de inversión. Es una clasificación mecánica basada exclusivamente en las variables disponibles y normalizadas dentro del universo cargado.</div></div></div></section>
-<div class="footer">Datos de mercado: CoinGecko API. La disponibilidad y frecuencia dependen del nivel de API utilizado.</div>
-</main></div></div><div class="toast" id="toast"></div>
+from pathlib import Path
+
+src = Path("/mnt/data/criptoshx_crypto_intelligence_v10_ready.html")
+out = Path("/mnt/data/criptoshx_crypto_intelligence_v11_ultra.html")
+
+if not src.exists():
+    raise FileNotFoundError("No encuentro la v10. Sube el HTML actual de CriptoshX.")
+
+html = src.read_text(encoding="utf-8")
+
+css = r"""
+/* ===== CRIPTOSHX V11 ULTRA BOOT ===== */
+#bootScreen{position:fixed;inset:0;z-index:999999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .65s ease,visibility .65s ease}
+#bootScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.bootBox{width:min(680px,88vw);text-align:center}
+.bootLogo{font-size:42px;font-weight:950;letter-spacing:-.05em;margin-bottom:9px}
+.bootLogo span{color:#72f2c2}
+.bootSub{color:#66666e;font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:42px}
+.bootLine{height:2px;background:#151517;border-radius:99px;overflow:hidden}
+.bootLine i{display:block;height:100%;width:0;background:linear-gradient(90deg,#72f2c2,#8ab4ff);transition:width .35s ease}
+.bootMeta{display:flex;justify-content:space-between;margin-top:12px;color:#66666e;font-size:11px}
+#bootPercent{color:#f5f5f7;font-weight:800}
+.bootError{display:none;margin-top:25px;border:1px solid #29292d;background:#0b0b0c;border-radius:14px;padding:15px;text-align:left}
+.bootError b{display:block;margin-bottom:6px;color:#ff7d8b}
+.bootError p{margin:0;color:#8e8e98;font-size:11px;line-height:1.5}
+#bootRetry{display:none;margin:15px auto 0;border:1px solid #29292d;background:#151517;color:#fff;border-radius:10px;padding:10px 16px}
+body.booting{overflow:hidden}
+"""
+
+boot = r"""
+<div id="bootScreen">
+ <div class="bootBox">
+  <div class="bootLogo">Criptosh<span>X</span></div>
+  <div class="bootSub">Crypto Intelligence · preparando entorno</div>
+  <div class="bootLine"><i id="bootBar"></i></div>
+  <div class="bootMeta"><span id="bootText">Inicializando motor de datos…</span><span id="bootPercent">0%</span></div>
+  <div class="bootError" id="bootError">
+   <b id="bootErrorTitle">No se pudo sincronizar el mercado</b>
+   <p id="bootErrorText">La fuente de datos no respondió correctamente.</p>
+  </div>
+  <button id="bootRetry">Reintentar conexión</button>
+ </div>
+</div>
+"""
+
+boot_js = r"""
 <script>
-'use strict';
-const API='https://api.coingecko.com/api/v3';
-const CFG={perPage:100, pages:3, historyCandidates:10, historyDays:30, refreshMs:180000, cacheKey:'criptoshx_v10_cache'};
-const state={coins:[],global:null,history:new Map(),watch:new Set(JSON.parse(localStorage.getItem('criptoshx_watch')||'[]')),calc:new Map(),sort:'score',search:'',updated:null};
-const $=id=>document.getElementById(id);
-function setLoad(p,msg){$('loaderBar').style.width=Math.max(0,Math.min(100,p))+'%';$('loaderPercent').textContent=Math.round(p)+'%';$('loaderStatus').textContent=msg}
-function fmtMoney(n){if(!Number.isFinite(n))return '—'; if(Math.abs(n)>=1e12)return '$'+(n/1e12).toFixed(2)+'T'; if(Math.abs(n)>=1e9)return '$'+(n/1e9).toFixed(2)+'B'; if(Math.abs(n)>=1e6)return '$'+(n/1e6).toFixed(2)+'M'; if(Math.abs(n)>=1e3)return '$'+(n/1e3).toFixed(2)+'K'; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:n<1?6:2})}
-function fmtPrice(n){if(!Number.isFinite(n))return '—';if(n>=1000)return '$'+n.toLocaleString('en-US',{maximumFractionDigits:2});if(n>=1)return '$'+n.toFixed(2);return '$'+n.toPrecision(5)}
-function pct(n){return Number.isFinite(n)?(n>=0?'+':'')+n.toFixed(2)+'%':'—'}
-function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function median(a){const x=a.filter(Number.isFinite).sort((a,b)=>a-b);if(!x.length)return NaN;return x[Math.floor(x.length/2)]}
-function percentile(values,x){const a=values.filter(Number.isFinite).sort((u,v)=>u-v);if(!a.length||!Number.isFinite(x))return 50;let lo=0,hi=a.length;while(lo<hi){const m=(lo+hi)>>1;if(a[m]<x)lo=m+1;else hi=m}return 100*lo/a.length}
-function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
-async function fetchJSON(url,retries=3){let wait=700;for(let i=0;i<retries;i++){try{const r=await fetch(url,{headers:{accept:'application/json'}});if(r.ok)return await r.json();if(r.status===429||r.status>=500){await new Promise(x=>setTimeout(x,wait));wait*=2;continue}throw new Error('HTTP '+r.status)}catch(e){if(i===retries-1)throw e;await new Promise(x=>setTimeout(x,wait));wait*=2}}}
-async function loadMarket(){
- setLoad(5,'Preparando entorno…');
- const pages=Array.from({length:CFG.pages},(_,i)=>i+1);
- setLoad(10,'Descargando mercado completo…');
- const urls=pages.map(page=>API+'/coins/markets?vs_currency=usd&order=market_cap_desc&per_page='+CFG.perPage+'&page='+page+'&sparkline=false&price_change_percentage=24h%2C7d%2C30d');
- const [pageData,global]=await Promise.all([Promise.all(urls.map(u=>fetchJSON(u))),fetchJSON(API+'/global')]);
- const coins=pageData.flat().filter(c=>Number.isFinite(c.current_price)&&Number.isFinite(c.market_cap));
- if(!coins.length)throw new Error('La API no devolvió activos.');
- state.coins=coins;state.global=global.data||null;state.updated=new Date();
- setLoad(48,'Mercado descargado. Calculando métricas…');computeAll();
- localStorage.setItem(CFG.cacheKey,JSON.stringify({coins:state.coins,global:state.global,updated:state.updated.toISOString()}));
- setLoad(62,'Cargando históricos necesarios…');
- const candidates=[...state.coins].sort((a,b)=>(a.market_cap_rank||999999)-(b.market_cap_rank||999999)).slice(0,CFG.historyCandidates);
- await Promise.all(candidates.map(c=>loadHistory(c.id)));
- computeAll();
- setLoad(78,'Construyendo todas las pantallas…');renderAll();
- setLoad(88,'Preparando imágenes y elementos visuales…');await prepareVisualAssets();
- setLoad(96,'Verificando datos y estado final…');await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
- renderAll();
- setLoad(100,'Todo preparado. Entrando en CriptoshX…');
- await new Promise(r=>setTimeout(r,650));
- $('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';
-}
-async function prepareVisualAssets(){
- const urls=[...new Set(state.coins.slice(0,Math.min(state.coins.length,150)).map(c=>c.image).filter(Boolean))];
- await Promise.all(urls.map(src=>new Promise(resolve=>{const img=new Image();img.onload=img.onerror=()=>resolve();img.src=src})));
-}
-async function loadHistory(id){try{const d=await fetchJSON(API+'/coins/'+encodeURIComponent(id)+'/market_chart?vs_currency=usd&days='+CFG.historyDays+'&interval=hourly');if(d&&Array.isArray(d.prices))state.history.set(id,d.prices.map(x=>x[1]).filter(Number.isFinite))}catch(e){}}
-function calc(c){if(state.calc.has(c.id))return state.calc.get(c.id);const all=state.coins;const caps=all.map(x=>x.market_cap);const vols=all.map(x=>x.total_volume);const changes=all.map(x=>x.price_change_percentage_24h_in_currency??x.price_change_percentage_24h);const liq=Number.isFinite(c.total_volume)&&Number.isFinite(c.market_cap)&&c.market_cap>0?c.total_volume/c.market_cap:NaN;
- const capP=100-percentile(caps,c.market_cap),volP=percentile(vols,c.total_volume),momP=percentile(changes,c.price_change_percentage_24h_in_currency??c.price_change_percentage_24h),liqP=percentile(all.map(x=>x.market_cap>0?x.total_volume/x.market_cap:NaN),liq);
- const h=state.history.get(c.id);let histStability=50;if(h&&h.length>20){const re=[];for(let i=1;i<h.length;i++)if(h[i-1]>0)re.push(Math.log(h[i]/h[i-1]));const mean=re.reduce((a,b)=>a+b,0)/re.length;const sd=Math.sqrt(re.reduce((a,b)=>a+(b-mean)**2,0)/Math.max(1,re.length-1));const peak=Math.max(...h);const dd=peak>0?((peak-Math.min(...h))/peak)*100:0;histStability=Math.max(0,Math.min(100,100-(sd*100*7)-dd*.45))}
- const score=.35*capP+.25*volP+.25*momP+.15*liqP;const risk=Math.max(0,Math.min(100,100-(.55*histStability+.25*capP+.20*liqP)));
- const out={score,risk,liq,histStability};state.calc.set(c.id,out);return out}
-function computeAll(){state.calc.clear();state.coins.forEach(calc)}
-function top3(){return [...state.coins].sort((a,b)=>calc(b).score-calc(a).score).slice(0,3)}
-function card(c,i){const m=calc(c);return `<div class="card topCard"><div class="rank">#${i+1} · CUANTITATIVO</div><div class="topCoin">${esc(c.name)} <span class="coinSym">${esc(c.symbol)}</span></div><div class="bigScore">${m.score.toFixed(1)}</div><div class="sub">Score relativo / 100</div><div class="metricRow"><span>Momentum 24h</span><b class="${(c.price_change_percentage_24h_in_currency??0)>=0?'green':'red'}">${pct(c.price_change_percentage_24h_in_currency??c.price_change_percentage_24h)}</b></div><div class="metricRow"><span>Liquidez / cap</span><b>${(m.liq*100).toFixed(2)}%</b></div><div class="metricRow"><span>Riesgo relativo</span><b>${m.risk.toFixed(1)}</b></div><div class="note">Clasificación mecánica. No constituye una recomendación personalizada.</div></div>`}
-function renderTop(){const t=top3();$('topGrid').innerHTML=t.map(card).join('');$('dashTop').innerHTML=t.map(card).join('')}
-function renderDashboard(){const g=state.global;if(g){$('gCap').textContent=fmtMoney(g.total_market_cap?.usd);$('gVol').textContent=fmtMoney(g.total_volume?.usd);$('gBtc').textContent=(g.market_cap_percentage?.btc??NaN).toFixed(2)+'%';}$('gCoins').textContent=state.coins.length.toLocaleString('es-ES');$('updated').textContent='Actualizado '+state.updated.toLocaleTimeString('es-ES')}
-function renderMarket(){let rows=state.coins.filter(c=>!state.search||c.name.toLowerCase().includes(state.search)||c.symbol.toLowerCase().includes(state.search));rows.sort((a,b)=>{const A=calc(a),B=calc(b);if(state.sort==='score')return B.score-A.score;if(state.sort==='risk')return A.risk-B.risk;if(state.sort==='change24')return (b.price_change_percentage_24h_in_currency??b.price_change_percentage_24h??-Infinity)-(a.price_change_percentage_24h_in_currency??a.price_change_percentage_24h??-Infinity);if(state.sort==='volume')return (b.total_volume||0)-(a.total_volume||0);return (a.market_cap_rank||999999)-(b.market_cap_rank||999999)});
- $('marketBody').innerHTML=rows.map(c=>{const m=calc(c),ch=c.price_change_percentage_24h_in_currency??c.price_change_percentage_24h, w=state.watch.has(c.id);return `<tr><td><div class="coin"><img src="${esc(c.image||'')}" loading="lazy"><div><div class="coinName">${esc(c.name)}</div><div class="coinSym">${esc(c.symbol)} · #${c.market_cap_rank||'—'}</div></div></div></td><td>${fmtPrice(c.current_price)}</td><td class="${(ch??0)>=0?'green':'red'}">${pct(ch)}</td><td class="${(c.price_change_percentage_7d_in_currency??0)>=0?'green':'red'}">${pct(c.price_change_percentage_7d_in_currency)}</td><td class="${(c.price_change_percentage_30d_in_currency??0)>=0?'green':'red'}">${pct(c.price_change_percentage_30d_in_currency)}</td><td>${fmtMoney(c.market_cap)}</td><td>${fmtMoney(c.total_volume)}</td><td><span class="score">${m.score.toFixed(1)}</span><div class="miniBar"><i style="width:${m.score}%"></i></div></td><td><span class="pill">${m.risk.toFixed(1)}</span></td><td><button class="select" style="padding:5px 8px" onclick="toggleWatch('${esc(c.id)}')">${w?'★':'☆'}</button></td></tr>`}).join('')}
-function renderWatch(){const arr=state.coins.filter(c=>state.watch.has(c.id));$('watchContent').innerHTML=arr.length?`<div class="watchList">${arr.map(c=>`<div class="watchItem"><div class="coin"><img src="${esc(c.image||'')}" width="27" height="27"><div><b>${esc(c.name)}</b><div class="coinSym">${esc(c.symbol)} · ${fmtPrice(c.current_price)}</div></div></div><div><span class="${(c.price_change_percentage_24h_in_currency??0)>=0?'green':'red'}">${pct(c.price_change_percentage_24h_in_currency)}</span> <button onclick="toggleWatch('${esc(c.id)}')">Eliminar</button></div></div>`).join('')}</div>`:`<div class="watchEmpty">No tienes activos guardados todavía. Puedes añadirlos desde Market.</div>`}
-function renderRadar(){const vals=state.coins.map(calc).map(x=>x.score);const groups=[{n:'0–20',a:0,b:20},{n:'20–40',a:20,b:40},{n:'40–60',a:40,b:60},{n:'60–80',a:60,b:80},{n:'80–100',a:80,b:101}];$('scoreBars').innerHTML=groups.map(g=>{const n=vals.filter(v=>v>=g.a&&v<g.b).length,p=state.coins.length?n/state.coins.length*100:0;return `<div class="barRow"><span>${g.n}</span><div class="barTrack"><i style="width:${p}%"></i></div><b>${n}</b></div>`}).join('');$('pos24').textContent=state.coins.filter(c=>(c.price_change_percentage_24h_in_currency??c.price_change_percentage_24h??-Infinity)>0).length.toLocaleString('es-ES');$('liqMed').textContent=(median(state.coins.map(c=>c.market_cap>0?c.total_volume/c.market_cap:NaN))*100).toFixed(2)+'%';$('scoreMed').textContent=median(vals).toFixed(1);$('riskMed').textContent=median(state.coins.map(c=>calc(c).risk)).toFixed(1)}
-function renderAll(){renderDashboard();renderTop();renderMarket();renderWatch();renderRadar()}
-function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$('view-'+v).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===v));$('pageTitle').textContent={dashboard:'Dashboard',top3:'Top 3',market:'Market',watch:'Watchlist',radar:'Radar'}[v];if(v==='market')renderMarket();if(v==='watch')renderWatch()}
-window.showView=showView;window.toggleWatch=function(id){if(state.watch.has(id))state.watch.delete(id);else state.watch.add(id);localStorage.setItem('criptoshx_watch',JSON.stringify([...state.watch]));renderWatch();renderMarket();toast(state.watch.has(id)?'Añadido a Watchlist':'Eliminado de Watchlist')};
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
-$('search').addEventListener('input',e=>{state.search=e.target.value.trim().toLowerCase();renderMarket()});$('sort').addEventListener('change',e=>{state.sort=e.target.value;renderMarket()});
-function loadCached(){try{const c=JSON.parse(localStorage.getItem(CFG.cacheKey)||'null');if(!c?.coins?.length)return false;state.coins=c.coins;state.global=c.global;state.updated=new Date(c.updated);computeAll();return true}catch(e){return false}}
-async function boot(){try{setLoad(2,'Preparando CriptoshX…');await loadMarket();setInterval(async()=>{try{await loadMarket()}catch(e){toast('No se pudo actualizar el mercado ahora mismo. Se conserva la última lectura válida.')}},CFG.refreshMs)}catch(e){const cached=loadCached();if(cached){setLoad(100,'Preparando la última lectura válida…');renderAll();setTimeout(()=>{setLoad(100,'Datos preparados. Entrando en CriptoshX…');$('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';toast('API no disponible: se muestra caché local.')},650)}else{$('loaderStatus').textContent='No se pudo completar la carga';$('loaderError').style.display='block';$('loaderError').textContent='La fuente de datos no respondió correctamente. Comprueba tu conexión y vuelve a intentarlo.';$('retryBtn').style.display='inline-block';$('retryBtn').onclick=()=>location.reload()}}}
-boot();
+(()=>{
+ document.body.classList.add("booting");
+ const s=document.getElementById("bootScreen"),bar=document.getElementById("bootBar"),
+       txt=document.getElementById("bootText"),pct=document.getElementById("bootPercent"),
+       err=document.getElementById("bootError"),errT=document.getElementById("bootErrorTitle"),
+       errP=document.getElementById("bootErrorText"),retry=document.getElementById("bootRetry");
+ let done=false,progress=0;
+ window.CXBoot={
+  set(p,t){if(done)return;progress=Math.max(progress,Math.min(98,p));bar.style.width=progress+"%";pct.textContent=Math.round(progress)+"%";if(t)txt.textContent=t},
+  ready(){if(done)return;done=true;bar.style.width="100%";pct.textContent="100%";txt.textContent="Todos los datos preparados · entrando…";setTimeout(()=>{s.classList.add("hide");document.body.classList.remove("booting")},650)},
+  fail(t,m){errT.textContent=t;errP.textContent=m;err.style.display="block";retry.style.display="block";txt.textContent="Sin conexión de datos"}
+ };
+ retry.onclick=()=>location.reload();
+
+ /* Progreso visual, pero nunca superior al estado real. */
+ const msgs=["Inicializando motor de datos…","Conectando con el mercado…","Validando respuesta…","Procesando activos…","Calculando métricas…","Preparando ranking…","Construyendo interfaz…"];
+ let i=0;
+ const pulse=setInterval(()=>{
+   if(done){clearInterval(pulse);return}
+   if(progress<88)progress+=1.2;
+   CXBoot.set(progress,msgs[i++%msgs.length]);
+ },700);
+
+ /* Ninguna petición puede bloquear el arranque indefinidamente. */
+ setTimeout(()=>{
+   if(!done)CXBoot.fail("La fuente de datos no respondió","La conexión tardó demasiado. Comprueba Internet y pulsa Reintentar.");
+ },30000);
+})();
 </script>
-</body>
-</html>
+"""
+
+ready_js = r"""
+<script>
+window.addEventListener("load",()=>{
+ const check=()=>{
+  try{
+   const coins=window.state&&Array.isArray(window.state.coins)?window.state.coins:[];
+   const valid=coins.length>=20&&coins.some(c=>Number.isFinite(Number(c.current_price)));
+   if(valid){
+    CXBoot.set(94,"Verificando datos reales…");
+    setTimeout(()=>CXBoot.ready(),500);
+   }else setTimeout(check,400);
+  }catch(e){setTimeout(check,400)}
+ };
+ check();
+});
+</script>
+"""
+
+# Protección adicional: timeout duro por petición.
+fetch_guard = r"""
+<script>
+(()=>{
+ const original=window.fetch;
+ window.fetch=(input,init={})=>{
+  const ctl=new AbortController(), external=init.signal;
+  let finished=false;
+  const timer=setTimeout(()=>{if(!finished)ctl.abort()},15000);
+  if(external){
+   if(external.aborted)ctl.abort();
+   else external.addEventListener("abort",()=>ctl.abort(),{once:true});
+  }
+  return original(input,{...init,signal:ctl.signal}).finally(()=>{finished=true;clearTimeout(timer)});
+ };
+})();
+</script>
+"""
+
+html = html.replace("</style>", css + "\n</style>", 1)
+html = html.replace("<body>", "<body>\n" + boot, 1)
+html = html.replace("</body>", boot_js + ready_js + fetch_guard + "\n</body>", 1)
+
+# Mejora el texto de estado existente.
+html = html.replace("Cargando interfaz…", "Preparando sistema…")
+html = html.replace("Cargando mercado…", "Sincronizando mercado…")
+
+out.write_text(html, encoding="utf-8")
+print(f"Archivo creado: {out}")
