@@ -30,12 +30,12 @@
 <section class="view" id="view-market"><div class="sectionHead"><div><h2>Market</h2><p>Mercado ordenable a partir de datos recibidos de la API.</p></div><div class="tools"><input class="search" id="search" placeholder="Buscar activo…"><select class="select" id="sort"><option value="score">Score</option><option value="rank">Market cap</option><option value="change24">24h</option><option value="volume">Volumen</option><option value="risk">Riesgo</option></select></div></div><div class="tableWrap"><table class="table"><thead><tr><th>Activo</th><th>Precio</th><th>24h</th><th>7d</th><th>30d</th><th>Market cap</th><th>Volumen</th><th>Score</th><th>Riesgo</th><th>Watch</th></tr></thead><tbody id="marketBody"></tbody></table></div></section>
 <section class="view" id="view-watch"><div class="sectionHead"><div><h2>Watchlist</h2><p>Activos guardados localmente en este navegador.</p></div></div><div id="watchContent"></div></section>
 <section class="view" id="view-radar"><div class="sectionHead"><div><h2>Radar</h2><p>Distribución de señales del universo cargado.</p></div></div><div class="radarGrid"><div class="card"><div class="label">Distribución de score</div><div class="bars" id="scoreBars" style="margin-top:18px"></div></div><div class="card"><div class="label">Lectura cuantitativa</div><div class="metricRow"><span>Activos con momentum positivo</span><b id="pos24">—</b></div><div class="metricRow"><span>Volumen / market cap mediano</span><b id="liqMed">—</b></div><div class="metricRow"><span>Score mediano</span><b id="scoreMed">—</b></div><div class="metricRow"><span>Riesgo mediano</span><b id="riskMed">—</b></div><div class="note">El score no es una recomendación de inversión. Es una clasificación mecánica basada exclusivamente en las variables disponibles y normalizadas dentro del universo cargado.</div></div></div></section>
-<div class="footer">Datos de mercado: CoinGecko API. La disponibilidad y frecuencia dependen del nivel de API utilizado. </div>
+<div class="footer">Datos de mercado: CoinGecko API. La disponibilidad y frecuencia dependen del nivel de API utilizado.</div>
 </main></div></div><div class="toast" id="toast"></div>
 <script>
 'use strict';
 const API='https://api.coingecko.com/api/v3';
-const CFG={perPage:100, pages:1, historyCandidates:6, historyDays:30, refreshMs:180000, cacheKey:'criptoshx_v9_cache'};
+const CFG={perPage:100, pages:3, historyCandidates:10, historyDays:30, refreshMs:180000, cacheKey:'criptoshx_v10_cache'};
 const state={coins:[],global:null,history:new Map(),watch:new Set(JSON.parse(localStorage.getItem('criptoshx_watch')||'[]')),calc:new Map(),sort:'score',search:'',updated:null};
 const $=id=>document.getElementById(id);
 function setLoad(p,msg){$('loaderBar').style.width=Math.max(0,Math.min(100,p))+'%';$('loaderPercent').textContent=Math.round(p)+'%';$('loaderStatus').textContent=msg}
@@ -48,20 +48,31 @@ function percentile(values,x){const a=values.filter(Number.isFinite).sort((u,v)=
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
 async function fetchJSON(url,retries=3){let wait=700;for(let i=0;i<retries;i++){try{const r=await fetch(url,{headers:{accept:'application/json'}});if(r.ok)return await r.json();if(r.status===429||r.status>=500){await new Promise(x=>setTimeout(x,wait));wait*=2;continue}throw new Error('HTTP '+r.status)}catch(e){if(i===retries-1)throw e;await new Promise(x=>setTimeout(x,wait));wait*=2}}}
 async function loadMarket(){
- setLoad(8,'Conectando con el mercado…');
- const url=API+'/coins/markets?vs_currency=usd&order=market_cap_desc&per_page='+CFG.perPage+'&page=1&sparkline=false&price_change_percentage=24h%2C7d%2C30d';
- const [coins,global]=await Promise.all([fetchJSON(url),fetchJSON(API+'/global')]);
- if(!Array.isArray(coins)||!coins.length)throw new Error('La API no devolvió activos.');
- state.coins=coins.filter(c=>Number.isFinite(c.current_price)&&Number.isFinite(c.market_cap));state.global=global.data||null;state.updated=new Date();
- setLoad(45,'Mercado recibido. Calculando métricas…');computeAll();
+ setLoad(5,'Preparando entorno…');
+ const pages=Array.from({length:CFG.pages},(_,i)=>i+1);
+ setLoad(10,'Descargando mercado completo…');
+ const urls=pages.map(page=>API+'/coins/markets?vs_currency=usd&order=market_cap_desc&per_page='+CFG.perPage+'&page='+page+'&sparkline=false&price_change_percentage=24h%2C7d%2C30d');
+ const [pageData,global]=await Promise.all([Promise.all(urls.map(u=>fetchJSON(u))),fetchJSON(API+'/global')]);
+ const coins=pageData.flat().filter(c=>Number.isFinite(c.current_price)&&Number.isFinite(c.market_cap));
+ if(!coins.length)throw new Error('La API no devolvió activos.');
+ state.coins=coins;state.global=global.data||null;state.updated=new Date();
+ setLoad(48,'Mercado descargado. Calculando métricas…');computeAll();
  localStorage.setItem(CFG.cacheKey,JSON.stringify({coins:state.coins,global:state.global,updated:state.updated.toISOString()}));
- setLoad(65,'Validando histórico de los principales activos…');
- const candidates=[...state.coins].sort((a,b)=>a.market_cap_rank-b.market_cap_rank).slice(0,CFG.historyCandidates);
+ setLoad(62,'Cargando históricos necesarios…');
+ const candidates=[...state.coins].sort((a,b)=>(a.market_cap_rank||999999)-(b.market_cap_rank||999999)).slice(0,CFG.historyCandidates);
  await Promise.all(candidates.map(c=>loadHistory(c.id)));
  computeAll();
- setLoad(88,'Preparando Dashboard, Top 3 y Radar…');renderAll();
- setLoad(100,'Todo cargado. Entrando en CriptoshX…');
- await new Promise(r=>setTimeout(r,350));$('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';
+ setLoad(78,'Construyendo todas las pantallas…');renderAll();
+ setLoad(88,'Preparando imágenes y elementos visuales…');await prepareVisualAssets();
+ setLoad(96,'Verificando datos y estado final…');await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+ renderAll();
+ setLoad(100,'Todo preparado. Entrando en CriptoshX…');
+ await new Promise(r=>setTimeout(r,650));
+ $('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';
+}
+async function prepareVisualAssets(){
+ const urls=[...new Set(state.coins.slice(0,Math.min(state.coins.length,150)).map(c=>c.image).filter(Boolean))];
+ await Promise.all(urls.map(src=>new Promise(resolve=>{const img=new Image();img.onload=img.onerror=()=>resolve();img.src=src})));
 }
 async function loadHistory(id){try{const d=await fetchJSON(API+'/coins/'+encodeURIComponent(id)+'/market_chart?vs_currency=usd&days='+CFG.historyDays+'&interval=hourly');if(d&&Array.isArray(d.prices))state.history.set(id,d.prices.map(x=>x[1]).filter(Number.isFinite))}catch(e){}}
 function calc(c){if(state.calc.has(c.id))return state.calc.get(c.id);const all=state.coins;const caps=all.map(x=>x.market_cap);const vols=all.map(x=>x.total_volume);const changes=all.map(x=>x.price_change_percentage_24h_in_currency??x.price_change_percentage_24h);const liq=Number.isFinite(c.total_volume)&&Number.isFinite(c.market_cap)&&c.market_cap>0?c.total_volume/c.market_cap:NaN;
@@ -84,7 +95,7 @@ window.showView=showView;window.toggleWatch=function(id){if(state.watch.has(id))
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 $('search').addEventListener('input',e=>{state.search=e.target.value.trim().toLowerCase();renderMarket()});$('sort').addEventListener('change',e=>{state.sort=e.target.value;renderMarket()});
 function loadCached(){try{const c=JSON.parse(localStorage.getItem(CFG.cacheKey)||'null');if(!c?.coins?.length)return false;state.coins=c.coins;state.global=c.global;state.updated=new Date(c.updated);computeAll();return true}catch(e){return false}}
-async function boot(){try{setLoad(2,'Preparando CriptoshX…');await loadMarket();setInterval(async()=>{try{await loadMarket()}catch(e){toast('No se pudo actualizar el mercado ahora mismo. Se conserva la última lectura válida.')}},CFG.refreshMs)}catch(e){const cached=loadCached();if(cached){setLoad(100,'Usando la última lectura válida mientras se reintenta la actualización…');renderAll();$('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';toast('API no disponible: se muestra caché local.')}else{$('loaderStatus').textContent='No se pudo completar la carga';$('loaderError').style.display='block';$('loaderError').textContent='La fuente de datos no respondió correctamente. Comprueba tu conexión y vuelve a intentarlo.';$('retryBtn').style.display='inline-block';$('retryBtn').onclick=()=>location.reload()}}}
+async function boot(){try{setLoad(2,'Preparando CriptoshX…');await loadMarket();setInterval(async()=>{try{await loadMarket()}catch(e){toast('No se pudo actualizar el mercado ahora mismo. Se conserva la última lectura válida.')}},CFG.refreshMs)}catch(e){const cached=loadCached();if(cached){setLoad(100,'Preparando la última lectura válida…');renderAll();setTimeout(()=>{setLoad(100,'Datos preparados. Entrando en CriptoshX…');$('loader').style.opacity='0';$('loader').style.visibility='hidden';$('app').style.display='block';toast('API no disponible: se muestra caché local.')},650)}else{$('loaderStatus').textContent='No se pudo completar la carga';$('loaderError').style.display='block';$('loaderError').textContent='La fuente de datos no respondió correctamente. Comprueba tu conexión y vuelve a intentarlo.';$('retryBtn').style.display='inline-block';$('retryBtn').onclick=()=>location.reload()}}}
 boot();
 </script>
 </body>
