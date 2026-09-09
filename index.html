@@ -6,19 +6,19 @@ html = r'''<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#080909">
-<title>CriptoshX — Crypto Intelligence</title>
+<title>CriptoshX — Crypto Intelligence Real</title>
 <style>
 :root{--bg:#070909;--panel:#0e1211;--panel2:#121716;--border:#202725;--text:#f4f7f6;--muted:#7f8986;--green:#00f58b;--green2:#00bd70;--red:#ff5c67;--yellow:#ffc857;--blue:#70a7ff;--shadow:0 22px 70px #0009}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 70% -10%,#00f58b10,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}
 .sidebar{width:240px;position:fixed;inset:0 auto 0 0;padding:24px 16px;border-right:1px solid var(--border);background:#090b0beF;z-index:20}.logo{font-size:25px;font-weight:850;padding:4px 12px 34px;letter-spacing:-1px}.logo span{color:var(--green)}.nav-title{color:#505a57;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:0 12px 9px}.nav{display:flex;flex-direction:column;gap:4px}.nav button{border:0;background:transparent;color:#8d9693;text-align:left;padding:12px;border-radius:9px}.nav button:hover,.nav button.active{background:#151a18;color:#fff}.nav button.active{box-shadow:inset 2px 0 var(--green)}.sidebar-bottom{position:absolute;bottom:20px;left:16px;right:16px;color:#4e5754;font-size:10px;line-height:1.7}.content{width:calc(100% - 240px);margin-left:240px}
 .topbar{height:72px;position:sticky;top:0;z-index:15;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--border);background:#080909d9;backdrop-filter:blur(18px)}.search{position:relative;width:min(500px,55vw)}.search input{width:100%;background:#101413;border:1px solid var(--border);color:#fff;padding:12px 15px 12px 40px;border-radius:10px;outline:0}.search input:focus{border-color:#355146;box-shadow:0 0 0 3px #00f58b0c}.search-icon{position:absolute;left:14px;top:10px;color:#69726f;font-size:18px}.status{display:flex;gap:8px;align-items:center;color:#7d8783;font-size:12px}.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px #00f58baa}.status-dot.off{background:var(--red);box-shadow:none}
-main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:28px}.hero h1{font-size:clamp(34px,4vw,54px);letter-spacing:-2.5px;margin:0 0 9px}.hero p{color:var(--muted);margin:0}.market-state{min-width:225px;padding:16px 18px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(135deg,#111816,#0b100f)}.market-state small{display:block;color:#6f7975;margin-bottom:6px}.market-state strong{color:var(--green);font-size:17px}
+main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:28px}.hero h1{font-size:clamp(34px,4vw,54px);letter-spacing:-2.5px;margin:0 0 9px}.hero p{color:var(--muted);margin:0}.market-state{min-width:270px;padding:16px 18px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(135deg,#111816,#0b100f)}.market-state small{display:block;color:#6f7975;margin-bottom:6px}.market-state strong{color:var(--green);font-size:15px}
 .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px}.stat{padding:18px}.stat-label{color:#707a76;font-size:11px;margin-bottom:9px}.stat-value{font-size:21px;font-weight:750}.stat-change{margin-top:6px;font-size:12px}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin:34px 0 14px}.section-header h2{margin:0;font-size:18px}.section-header span{color:#66706c;font-size:12px}.controls{display:flex;gap:8px;flex-wrap:wrap}.controls select,.controls button{background:#101413;color:#dfe5e2;border:1px solid var(--border);border-radius:9px;padding:9px 11px}.controls button.active{border-color:#37604f;color:var(--green);background:#0d1814}
-.assets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.asset{background:linear-gradient(145deg,#111514,#0c0f0e);border:1px solid var(--border);border-radius:15px;padding:17px;transition:.2s;cursor:pointer}.asset:hover{transform:translateY(-3px);border-color:#35403d;box-shadow:var(--shadow)}.asset-top{display:flex;justify-content:space-between;align-items:center}.asset-info{display:flex;align-items:center;gap:10px}.coin-icon{width:38px;height:38px;border-radius:50%;background:#19201d;display:grid;place-items:center;overflow:hidden;font-weight:800}.coin-icon img{width:100%;height:100%}.rank{color:#58625e;font-size:10px}.asset-name{font-weight:700}.asset-symbol{color:#68716e;font-size:10px;margin-top:2px;text-transform:uppercase}.star{border:0;background:transparent;color:#505956;font-size:20px}.star.active{color:var(--yellow)}.price{font-size:24px;font-weight:800;margin-top:18px}.change{font-size:12px;font-weight:650;margin-top:4px}.asset-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #1d2320;color:#6f7874;font-size:10px}.asset-meta strong{display:block;color:#cbd2cf;font-size:11px;margin-top:3px}.risk{display:inline-block;padding:4px 7px;border-radius:6px;font-size:9px;font-weight:800}.risk-low{color:var(--green);background:#00f58b10}.risk-medium{color:var(--yellow);background:#ffc85710}.risk-high{color:#ff8a91;background:#ff5c6710}.empty{grid-column:1/-1;text-align:center;padding:60px;color:#626b68}.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:18px}.pager button{background:#111514;color:#dfe4e2;border:1px solid var(--border);border-radius:8px;padding:8px 13px}.pager button:disabled{opacity:.35;cursor:not-allowed}
+.assets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.asset{background:linear-gradient(145deg,#111514,#0c0f0e);border:1px solid var(--border);border-radius:15px;padding:17px;transition:.2s;cursor:pointer}.asset:hover{transform:translateY(-3px);border-color:#35403d;box-shadow:var(--shadow)}.asset-top{display:flex;justify-content:space-between;align-items:center}.asset-info{display:flex;align-items:center;gap:10px}.coin-icon{width:38px;height:38px;border-radius:50%;background:#19201d;display:grid;place-items:center;overflow:hidden;font-weight:800;flex:0 0 auto}.coin-icon img{width:100%;height:100%}.rank{color:#58625e;font-size:10px}.asset-name{font-weight:700}.asset-symbol{color:#68716e;font-size:10px;margin-top:2px;text-transform:uppercase}.star{border:0;background:transparent;color:#505956;font-size:20px}.star.active{color:var(--yellow)}.price{font-size:24px;font-weight:800;margin-top:18px}.change{font-size:12px;font-weight:650;margin-top:4px}.asset-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #1d2320;color:#6f7874;font-size:10px}.asset-meta strong{display:block;color:#cbd2cf;font-size:11px;margin-top:3px}.risk{display:inline-block;padding:4px 7px;border-radius:6px;font-size:9px;font-weight:800}.risk-low{color:var(--green);background:#00f58b10}.risk-medium{color:var(--yellow);background:#ffc85710}.risk-high{color:#ff8a91;background:#ff5c6710}.risk-na{color:#9aa39f;background:#9aa39f10}.empty{grid-column:1/-1;text-align:center;padding:60px;color:#626b68}.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:18px}.pager button{background:#111514;color:#dfe4e2;border:1px solid var(--border);border-radius:8px;padding:8px 13px}.pager button:disabled{opacity:.35;cursor:not-allowed}
 .two-columns{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:34px}.panel{padding:20px}.panel h3{margin:0 0 5px;font-size:17px}.panel-sub{color:#68716e;font-size:11px;margin-bottom:18px}.radar-row{display:grid;grid-template-columns:55px 1fr 45px;gap:12px;align-items:center;margin:14px 0}.progress{height:7px;background:#1b211f;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:inherit}.score{text-align:right;font-weight:800}.risk-meter{height:10px;background:#1a201e;border-radius:20px;overflow:hidden;margin:14px 0}.risk-meter span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--yellow),var(--red))}
 .notice{margin-top:30px;border:1px solid var(--border);background:#0f1312;padding:16px;border-radius:12px;color:#707a76;font-size:11px;line-height:1.65}.notice strong{color:#b6bfbb}footer{border-top:1px solid var(--border);color:#4d5653;text-align:center;padding:24px;font-size:10px}
-.modal{position:fixed;inset:0;background:#000b;backdrop-filter:blur(8px);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-card{width:min(1050px,100%);max-height:92vh;overflow:auto;background:#0c100f;border:1px solid #29322f;border-radius:18px;box-shadow:0 35px 100px #000d}.modal-head{position:sticky;top:0;background:#0c100fee;backdrop-filter:blur(15px);display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border);z-index:2}.modal-title{display:flex;gap:12px;align-items:center}.modal-title h2{margin:0;font-size:24px}.close{border:1px solid var(--border);background:#131817;color:#cbd2cf;border-radius:8px;width:36px;height:36px}.modal-body{padding:22px}.analysis-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.analysis-box{border:1px solid var(--border);background:#101413;border-radius:13px;padding:16px}.analysis-box h4{margin:0 0 13px}.big-score{font-size:48px;font-weight:900;color:var(--green);letter-spacing:-2px}.score-label{color:#6f7975;font-size:11px}.metric{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1c2220;font-size:12px}.metric:last-child{border:0}.metric span{color:#77817d}.recommend{border:1px solid #294436;background:#0d1813;border-radius:13px;padding:17px;margin-top:14px}.recommend strong{font-size:18px}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.tag{font-size:10px;padding:5px 8px;border-radius:6px;background:#171d1a;color:#aab4af}.chart{height:170px;display:flex;align-items:flex-end;gap:3px;margin-top:12px;border-bottom:1px solid #26302c;padding:10px 0}.bar{flex:1;background:#00f58b66;border-radius:3px 3px 0 0;min-width:2px}.positive{color:var(--green)}.negative{color:var(--red)}.loading{animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.45}}
+.modal{position:fixed;inset:0;background:#000b;backdrop-filter:blur(8px);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-card{width:min(1100px,100%);max-height:92vh;overflow:auto;background:#0c100f;border:1px solid #29322f;border-radius:18px;box-shadow:0 35px 100px #000d}.modal-head{position:sticky;top:0;background:#0c100fee;backdrop-filter:blur(15px);display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border);z-index:2}.modal-title{display:flex;gap:12px;align-items:center}.modal-title h2{margin:0;font-size:24px}.close{border:1px solid var(--border);background:#131817;color:#cbd2cf;border-radius:8px;width:36px;height:36px}.modal-body{padding:22px}.analysis-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.analysis-box{border:1px solid var(--border);background:#101413;border-radius:13px;padding:16px}.analysis-box h4{margin:0 0 13px}.big-score{font-size:48px;font-weight:900;color:var(--green);letter-spacing:-2px}.score-label{color:#6f7975;font-size:11px}.metric{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #1c2220;font-size:12px}.metric:last-child{border:0}.metric span{color:#77817d}.recommend{border:1px solid #294436;background:#0d1813;border-radius:13px;padding:17px;margin-top:14px}.recommend strong{font-size:18px}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.tag{font-size:10px;padding:5px 8px;border-radius:6px;background:#171d1a;color:#aab4af}.chart{height:170px;display:flex;align-items:flex-end;gap:3px;margin-top:12px;border-bottom:1px solid #26302c;padding:10px 0}.bar{flex:1;background:#00f58b66;border-radius:3px 3px 0 0;min-width:2px}.positive{color:var(--green)}.negative{color:var(--red)}.loading{animation:pulse 1.2s infinite}.data-note{margin-top:12px;padding:10px;border:1px dashed #2a3430;border-radius:9px;color:#7e8884;font-size:10px;line-height:1.5}.stale{color:var(--yellow)!important}.error{color:var(--red)!important}@keyframes pulse{50%{opacity:.45}}
 @media(max-width:1200px){.assets{grid-template-columns:repeat(3,1fr)}.overview{grid-template-columns:repeat(2,1fr)}}@media(max-width:900px){.sidebar{width:66px;padding:18px 8px}.logo{font-size:0;text-align:center;padding:5px 0 30px}.logo:after{content:"X";font-size:23px;color:var(--green)}.nav-title,.nav button span,.sidebar-bottom{display:none}.nav button{text-align:center;font-size:18px}.content{width:calc(100% - 66px);margin-left:66px}.topbar{padding:0 15px}.status{display:none}.assets{grid-template-columns:repeat(2,1fr)}.analysis-grid{grid-template-columns:1fr}}@media(max-width:600px){main{padding:25px 14px 50px}.hero{display:block}.market-state{margin-top:18px}.overview,.assets{grid-template-columns:1fr}.search{width:100%}.topbar{height:64px}.controls{width:100%}}
 </style>
 </head>
@@ -36,9 +36,9 @@ main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;just
   <nav class="nav">
     <button onclick="setFilter('low')">🛡️ <span>Menor riesgo</span></button>
     <button onclick="setFilter('score')">🏆 <span>Mejor puntuación</span></button>
-    <button onclick="setFilter('momentum')">🚀 <span>Momentum</span></button>
+    <button onclick="setFilter('momentum')">🚀 <span>Momentum 7d</span></button>
   </nav>
-  <div class="sidebar-bottom">CriptoshX<br>Crypto Intelligence<br>v4.0 · Datos reales</div>
+  <div class="sidebar-bottom">CriptoshX<br>Crypto Intelligence<br>v5.0 · Datos reales</div>
 </aside>
 
 <div class="content">
@@ -63,7 +63,7 @@ main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;just
 <div class="section-header">
   <div><h2>🌎 Mercado global</h2><span id="assetCount">Cargando activos...</span></div>
   <div class="controls">
-    <select id="sort"><option value="market_cap_desc">Capitalización ↓</option><option value="score">Puntuación ↓</option><option value="change">24h ↓</option><option value="volume">Volumen ↓</option><option value="risk">Menor riesgo relativo</option></select>
+    <select id="sort"><option value="market_cap_desc">Capitalización ↓</option><option value="score">Puntuación ↓</option><option value="change">24h ↓</option><option value="volume">Volumen ↓</option><option value="risk">Menor riesgo relativo</option><option value="momentum">Momentum 7d ↓</option></select>
     <select id="pageSize"><option>50</option><option>100</option><option>250</option></select>
   </div>
 </div>
@@ -73,20 +73,20 @@ main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;just
 <section class="two-columns" id="radar">
   <div class="panel">
     <h3>⚡ Radar CriptoshX</h3>
-    <div class="panel-sub">Puntuación calculada exclusivamente con datos disponibles: tamaño, liquidez, momentum y estabilidad relativa.</div>
+    <div class="panel-sub">Puntuación relativa calculada con datos del universo cargado. No es una predicción de precio.</div>
     <div id="radarRows"></div>
   </div>
   <div class="panel" id="watch">
     <h3>🛡️ Riesgo agregado del mercado</h3>
-    <div class="panel-sub">Índice calculado a partir de la volatilidad observada de una cesta de activos. No es una probabilidad de pérdida.</div>
+    <div class="panel-sub">Índice relativo de la cesta cargada. Combina volatilidad observada, drawdown, liquidez y tamaño de mercado cuando los datos están disponibles.</div>
     <div style="font-size:45px;font-weight:900;margin:12px 0"><span id="marketRisk">—</span><span style="font-size:16px;color:#737b77">/100</span></div>
-    <div id="marketRiskLabel" class="risk risk-high">Calculando</div>
+    <div id="marketRiskLabel" class="risk risk-na">Calculando</div>
     <div class="risk-meter"><span id="riskBar"></span></div>
     <div id="riskExplanation" style="color:#747e7a;font-size:11px;line-height:1.7">Calculando a partir de datos reales...</div>
   </div>
 </section>
 
-<div class="notice">⚠️ <strong>Información importante:</strong> CriptoshX es una herramienta informativa y educativa. Los precios, volúmenes, capitalizaciones y variaciones proceden de la fuente de datos. Las puntuaciones y etiquetas de riesgo son cálculos deterministas del propio panel; no son asesoramiento financiero, no garantizan rentabilidad y no eliminan el riesgo de pérdida.</div>
+<div class="notice">⚠️ <strong>Información importante:</strong> CriptoshX es una herramienta informativa y educativa. Los datos de mercado proceden de la fuente consultada. Las métricas derivadas son cálculos deterministas reproducibles; no son asesoramiento financiero, no predicen precios y no garantizan rentabilidad. Si falta un dato necesario, se muestra N/D en lugar de inventarlo.</div>
 </main>
 <footer>© 2026 CriptoshX · Crypto Intelligence · Fuente de mercado: CoinGecko</footer>
 </div>
@@ -98,17 +98,20 @@ main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;just
   <div class="modal-body">
     <div class="analysis-grid">
       <div class="analysis-box">
-        <div class="score-label">PUNTUACIÓN CUANTITATIVA</div><div id="analysisScore" class="big-score">—</div>
+        <div class="score-label">PUNTUACIÓN CUANTITATIVA RELATIVA</div><div id="analysisScore" class="big-score">—</div>
         <div id="analysisVerdict" style="font-weight:800;margin-top:2px">—</div>
         <div class="tags" id="analysisTags"></div>
         <h4 style="margin-top:24px">📈 Rendimiento observado</h4><div id="analysisMetrics"></div>
+        <div id="analysisComponents" class="data-note">Los componentes del modelo aparecerán aquí.</div>
       </div>
       <div class="analysis-box">
         <h4>📊 Evolución real · 7 días</h4><div id="miniChart" class="chart"></div>
         <div class="metric"><span>Capitalización</span><strong id="mCap">—</strong></div>
         <div class="metric"><span>Volumen 24h</span><strong id="mVolume">—</strong></div>
         <div class="metric"><span>Ranking</span><strong id="mRank">—</strong></div>
+        <div class="metric"><span>Liquidez vol/cap</span><strong id="mLiquidity">—</strong></div>
         <div class="metric"><span>Riesgo relativo</span><strong id="mRisk">—</strong></div>
+        <div class="metric"><span>Datos históricos</span><strong id="mHistory">—</strong></div>
         <div class="metric"><span>Fuente</span><strong>CoinGecko</strong></div>
       </div>
     </div>
@@ -119,56 +122,124 @@ main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;just
 
 <script>
 const API="https://api.coingecko.com/api/v3";
-const PER_PAGE=250;
-const MAX_PAGES=4;
-const REFRESH_MS=60000;
+const PER_PAGE=100;
+const INITIAL_PAGES=2;
+const MAX_PAGES=10;
+const REFRESH_MS=120000;
+const REQUEST_GAP_MS=1200;
+
 const state={
   coins:[],filtered:[],page:1,pageSize:50,sort:"market_cap_desc",search:"",
   watch:new Set(JSON.parse(localStorage.getItem("criptoshx_watch")||"[]")),
-  global:null,lastUpdated:null
+  global:null,lastUpdated:null,loading:false,historyCache:new Map(),
+  sourceStatus:"Sin datos"
 };
 
 const $=id=>document.getElementById(id);
-const money=n=>{if(n==null||isNaN(n))return"—";return new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD",notation:"compact",maximumFractionDigits:2}).format(n)};
-const price=n=>{if(n==null||isNaN(n))return"—";let d=n<1?8:n<100?4:2;return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:d}).format(n)};
-const pct=n=>n==null||isNaN(n)?"—":`${n>=0?"+":""}${Number(n).toFixed(2)}%`;
-const num=n=>n==null||isNaN(n)?"—":new Intl.NumberFormat("es-ES",{notation:"compact",maximumFractionDigits:2}).format(n);
+const money=n=>{if(!Number.isFinite(Number(n)))return"N/D";return new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD",notation:"compact",maximumFractionDigits:2}).format(Number(n))};
+const price=n=>{if(!Number.isFinite(Number(n)))return"N/D";let d=Number(n)<1?8:Number(n)<100?4:2;return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:d}).format(Number(n))};
+const pct=n=>!Number.isFinite(Number(n))?"N/D":`${Number(n)>=0?"+":""}${Number(n).toFixed(2)}%`;
+const num=n=>!Number.isFinite(Number(n))?"N/D":new Intl.NumberFormat("es-ES",{notation:"compact",maximumFractionDigits:2}).format(Number(n));
+const safeNum=n=>Number.isFinite(Number(n))?Number(n):null;
 
 function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
 function valid(n){return Number.isFinite(Number(n))}
-function pctValue(c,key,fallback=0){return valid(c[key])?Number(c[key]):fallback}
+function metric(c,key){return safeNum(c?.[key])}
 
-function riskScoreFor(c){
-  const vol=Math.abs(pctValue(c,"price_change_percentage_24h_in_currency",pctValue(c,"price_change_percentage_24h",0)));
-  const cap=Number(c.market_cap||0);
-  const volume=Number(c.total_volume||0);
-  const capComponent=cap>0?clamp(20-(Math.log10(cap)-7)*2,0,20):20;
-  const volComponent=clamp(vol*4,0,60);
-  const liquidityPenalty=volume>0&&cap>0?clamp((volume/cap<0.01?15:volume/cap<0.03?7:0),0,15):10;
-  return Math.round(clamp(20+capComponent+volComponent+liquidityPenalty,0,100));
+function percentile(values,value){
+  const v=values.filter(valid).sort((a,b)=>a-b);
+  if(!v.length||!valid(value))return null;
+  let count=0;
+  for(const x of v)if(x<=value)count++;
+  return count/v.length*100;
 }
+
+function universePercentile(metricFn,c){
+  const vals=state.coins.map(metricFn).filter(valid);
+  return percentile(vals,metricFn(c));
+}
+
+/*
+  Riesgo relativo:
+  - 40% volatilidad 24h observada
+  - 30% tamaño inverso (small-cap relativo)
+  - 20% iliquidez (1 - volumen/cap normalizado)
+  - 10% variación 7d absoluta
+  Todo se normaliza por percentiles del universo cargado.
+  Si faltan datos esenciales, devuelve N/D.
+*/
+function riskScoreFor(c){
+  const vol24=metric(c,"price_change_percentage_24h_in_currency") ?? metric(c,"price_change_percentage_24h");
+  const cap=metric(c,"market_cap");
+  const volume=metric(c,"total_volume");
+  const ch7=metric(c,"price_change_percentage_7d_in_currency");
+  if(vol24==null||cap==null||volume==null||cap<=0)return null;
+
+  const volPct=universePercentile(x=>Math.abs(metric(x,"price_change_percentage_24h_in_currency") ?? metric(x,"price_change_percentage_24h")),c);
+  const capPct=universePercentile(x=>metric(x,"market_cap"),c);
+  const liqRatio=volume/cap;
+  const liqPct=universePercentile(x=>{
+    const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");
+    return cc&&vv?vv/cc:null;
+  },c);
+  const momPct=ch7==null?null:universePercentile(x=>Math.abs(metric(x,"price_change_percentage_7d_in_currency")),c);
+
+  if(volPct==null||capPct==null||liqPct==null)return null;
+  const sizeRisk=100-capPct;
+  const illiqRisk=100-liqPct;
+  const momentumRisk=momPct==null?50:momPct;
+  return Math.round(clamp(.40*volPct+.30*sizeRisk+.20*illiqRisk+.10*momentumRisk,0,100));
+}
+
 function riskFor(c){
   const r=riskScoreFor(c);
-  if(r<=39)return["Bajo","risk-low"];
-  if(r<=64)return["Medio","risk-medium"];
+  if(r==null)return["N/D","risk-na"];
+  if(r<=33)return["Bajo","risk-low"];
+  if(r<=66)return["Medio","risk-medium"];
   return["Alto","risk-high"];
 }
 
 function scoreFor(c){
-  const cap=Math.log10(Math.max(1,Number(c.market_cap||1)));
-  const capScore=clamp((cap-7)/5*30,0,30);
-  const ratio=Number(c.total_volume||0)/Math.max(1,Number(c.market_cap||1));
-  const liquidityScore=clamp(ratio/0.20*20,0,20);
-  const momentum7=valid(c.price_change_percentage_7d_in_currency)?Number(c.price_change_percentage_7d_in_currency):pctValue(c,"price_change_percentage_24h",0);
-  const momentumScore=clamp(12.5+momentum7*1.25,0,25);
+  const cap=metric(c,"market_cap");
+  const volume=metric(c,"total_volume");
+  const ch7=metric(c,"price_change_percentage_7d_in_currency");
+  const ch30=metric(c,"price_change_percentage_30d_in_currency");
   const risk=riskScoreFor(c);
-  const stabilityScore=clamp(25-(risk*0.20),0,25);
-  return Math.round(clamp(capScore+liquidityScore+momentumScore+stabilityScore,0,100));
+  if(cap==null||volume==null||ch7==null||risk==null)return null;
+
+  const capStrength=universePercentile(x=>metric(x,"market_cap"),c);
+  const liquidityStrength=universePercentile(x=>{
+    const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");
+    return cc&&vv?vv/cc:null;
+  },c);
+  const momentum7=universePercentile(x=>metric(x,"price_change_percentage_7d_in_currency"),c);
+  const momentum30=ch30==null?50:universePercentile(x=>metric(x,"price_change_percentage_30d_in_currency"),c);
+  if(capStrength==null||liquidityStrength==null||momentum7==null)return null;
+
+  const stability=100-risk;
+  return Math.round(clamp(
+    .30*capStrength+
+    .20*liquidityStrength+
+    .20*momentum7+
+    .10*momentum30+
+    .20*stability,0,100));
+}
+
+function scoreComponents(c){
+  const cap=universePercentile(x=>metric(x,"market_cap"),c);
+  const liq=universePercentile(x=>{
+    const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");
+    return cc&&vv?vv/cc:null;
+  },c);
+  const m7=universePercentile(x=>metric(x,"price_change_percentage_7d_in_currency"),c);
+  const m30=universePercentile(x=>metric(x,"price_change_percentage_30d_in_currency"),c);
+  const risk=riskScoreFor(c);
+  return {cap,liq,m7,m30,stability:risk==null?null:100-risk};
 }
 
 function scrollToSection(id){$(id)?.scrollIntoView({behavior:"smooth"});}
 function setFilter(type){
-  $("sort").value=type==="low"?"risk":type==="score"?"score":"change";
+  $("sort").value=type==="low"?"risk":type==="score"?"score":"momentum";
   state.sort=$("sort").value;state.page=1;render();
 }
 function star(id,e){
@@ -177,17 +248,20 @@ function star(id,e){
   localStorage.setItem("criptoshx_watch",JSON.stringify([...state.watch]));
   render();
 }
+
 function filtered(){
   const q=state.search.toLowerCase().trim();
   let a=state.coins.filter(c=>`${c.name} ${c.symbol}`.toLowerCase().includes(q));
   return a.sort((a,b)=>{
-    if(state.sort==="score")return scoreFor(b)-scoreFor(a);
-    if(state.sort==="change")return pctValue(b,"price_change_percentage_24h_in_currency",pctValue(b,"price_change_percentage_24h",-999))-pctValue(a,"price_change_percentage_24h_in_currency",pctValue(a,"price_change_percentage_24h",-999));
-    if(state.sort==="volume")return (b.total_volume||0)-(a.total_volume||0);
-    if(state.sort==="risk")return riskScoreFor(a)-riskScoreFor(b);
-    return (b.market_cap||0)-(a.market_cap||0);
+    if(state.sort==="score")return (scoreFor(b)??-1)-(scoreFor(a)??-1);
+    if(state.sort==="change")return (metric(b,"price_change_percentage_24h_in_currency")??metric(b,"price_change_percentage_24h")??-Infinity)-(metric(a,"price_change_percentage_24h_in_currency")??metric(a,"price_change_percentage_24h")??-Infinity);
+    if(state.sort==="volume")return (metric(b,"total_volume")??-Infinity)-(metric(a,"total_volume")??-Infinity);
+    if(state.sort==="risk")return (riskScoreFor(a)??Infinity)-(riskScoreFor(b)??Infinity);
+    if(state.sort==="momentum")return (metric(b,"price_change_percentage_7d_in_currency")??-Infinity)-(metric(a,"price_change_percentage_7d_in_currency")??-Infinity);
+    return (metric(b,"market_cap")??-Infinity)-(metric(a,"market_cap")??-Infinity);
   });
 }
+
 function render(){
   state.filtered=filtered();
   const total=state.filtered.length;
@@ -202,148 +276,232 @@ function render(){
 
   $("assets").innerHTML=list.length?list.map(c=>{
     const [r,rc]=riskFor(c),s=scoreFor(c);
-    const chg=pctValue(c,"price_change_percentage_24h_in_currency",pctValue(c,"price_change_percentage_24h",0));
+    const chg=metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h");
     return `<article class="asset" onclick="openAnalysis('${escapeAttr(c.id)}')">
       <div class="asset-top">
         <div class="asset-info">
           <div class="coin-icon">${c.image?`<img src="${escapeAttr(c.image)}" alt="">`:escapeHtml((c.symbol||"?").slice(0,1).toUpperCase())}</div>
-          <div><div class="rank">#${c.market_cap_rank||"—"}</div><div class="asset-name">${escapeHtml(c.name)}</div><div class="asset-symbol">${escapeHtml(c.symbol)}</div></div>
+          <div><div class="rank">#${c.market_cap_rank??"N/D"}</div><div class="asset-name">${escapeHtml(c.name)}</div><div class="asset-symbol">${escapeHtml(c.symbol)}</div></div>
         </div>
         <button class="star ${state.watch.has(c.id)?"active":""}" onclick="star('${escapeAttr(c.id)}',event)">${state.watch.has(c.id)?"★":"☆"}</button>
       </div>
       <div class="price">${price(c.current_price)}</div>
-      <div class="change ${chg>=0?"green":"red"}">${pct(chg)} · 24h</div>
+      <div class="change ${chg==null?"":chg>=0?"green":"red"}">${pct(chg)} · 24h</div>
       <div class="asset-meta">
         <div>Market cap<strong>${money(c.market_cap)}</strong></div>
         <div>Volumen<strong>${money(c.total_volume)}</strong></div>
-        <div>Modelo<strong>${s}/100</strong></div>
+        <div>Modelo<strong>${s==null?"N/D":s+"/100"}</strong></div>
         <div>Riesgo<strong><span class="risk ${rc}">${r}</span></strong></div>
       </div>
     </article>`;
   }).join(""):`<div class="empty">No se encontraron criptomonedas con esa búsqueda.</div>`;
   renderRadar();
 }
+
 function renderRadar(){
-  const top=[...state.coins].sort((a,b)=>scoreFor(b)-scoreFor(a)).slice(0,6);
-  $("radarRows").innerHTML=top.map(c=>`<div class="radar-row"><div class="radar-name">${escapeHtml((c.symbol||"").toUpperCase())}</div><div class="progress"><span style="width:${scoreFor(c)}%"></span></div><div class="score">${scoreFor(c)}</div></div>`).join("");
+  const top=[...state.coins].filter(c=>scoreFor(c)!=null).sort((a,b)=>scoreFor(b)-scoreFor(a)).slice(0,6);
+  $("radarRows").innerHTML=top.length?top.map(c=>`<div class="radar-row"><div class="radar-name">${escapeHtml((c.symbol||"").toUpperCase())}</div><div class="progress"><span style="width:${scoreFor(c)}%"></span></div><div class="score">${scoreFor(c)}</div></div>`).join(""):`<div class="empty" style="padding:25px">Datos insuficientes para calcular el radar.</div>`;
 }
+
 function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 function escapeAttr(s){return escapeHtml(s);}
 
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+async function fetchJSON(url,attempts=3){
+  let lastError=null;
+  for(let i=0;i<attempts;i++){
+    try{
+      const r=await fetch(url,{cache:"no-store"});
+      if(r.ok)return await r.json();
+      if(r.status===429||r.status>=500){
+        const retry=r.headers.get("retry-after");
+        const wait=retry&&Number.isFinite(Number(retry))?Number(retry)*1000:Math.min(10000,2000*Math.pow(2,i));
+        lastError=new Error(`HTTP ${r.status}`);
+        await sleep(wait);
+        continue;
+      }
+      throw new Error(`HTTP ${r.status}`);
+    }catch(e){
+      lastError=e;
+      if(i<attempts-1)await sleep(Math.min(8000,1500*Math.pow(2,i)));
+    }
+  }
+  throw lastError||new Error("Error de red");
+}
+
 async function fetchPage(page){
   const url=`${API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${PER_PAGE}&page=${page}&sparkline=true&price_change_percentage=1h,24h,7d,30d`;
-  const r=await fetch(url,{cache:"no-store"});
-  if(!r.ok)throw new Error("CoinGecko HTTP "+r.status);
-  return r.json();
+  return fetchJSON(url,3);
 }
 
 async function loadMarket(){
+  if(state.loading)return;
+  state.loading=true;
   try{
-    $("updateStatus").textContent="Actualizando datos reales...";
+    $("updateStatus").textContent=state.coins.length?"Actualizando datos reales...":"Cargando datos reales...";
     $("marketState").textContent="● Consultando fuente";
+    $("statusDot").classList.remove("off");
 
-    const pages=await Promise.all(
-      Array.from({length:MAX_PAGES},(_,i)=>fetchPage(i+1))
-    );
-    state.coins=pages.flat().filter((c,i,a)=>c?.id&&a.findIndex(x=>x.id===c.id)===i);
+    /*
+      Primera carga: solo 2 páginas secuenciales.
+      Después ampliamos el universo sin bloquear la interfaz.
+      Esto evita que Promise.all dispare muchas peticiones simultáneas y que
+      un solo 429 borre todo el mercado.
+    */
+    const merged=new Map(state.coins.map(c=>[c.id,c]));
+    const pagesToFetch=state.coins.length?Math.min(MAX_PAGES,Math.max(INITIAL_PAGES,Math.ceil(state.coins.length/PER_PAGE))):INITIAL_PAGES;
 
-    const gr=await fetch(`${API}/global`,{cache:"no-store"});
-    if(!gr.ok)throw new Error("CoinGecko global HTTP "+gr.status);
-    const gd=await gr.json();
-    state.global=gd.data;
+    for(let p=1;p<=pagesToFetch;p++){
+      try{
+        const page=await fetchPage(p);
+        for(const c of page)if(c?.id)merged.set(c.id,c);
+        if(p<pagesToFetch)await sleep(REQUEST_GAP_MS);
+        if(p===INITIAL_PAGES){
+          state.coins=[...merged.values()].sort((a,b)=>(metric(a,"market_cap")??0)-(metric(b,"market_cap")??0)).reverse();
+          render();
+        }
+      }catch(e){
+        console.warn("Página",p,"no disponible:",e);
+        break;
+      }
+    }
+
+    if(!state.coins.length)throw new Error("No se recibió ningún activo");
+
+    state.coins=[...merged.values()].sort((a,b)=>(metric(b,"market_cap")??0)-(metric(a,"market_cap")??0));
+
+    try{
+      const gd=await fetchJSON(`${API}/global`,3);
+      state.global=gd.data;
+    }catch(e){
+      console.warn("Global no disponible:",e);
+    }
 
     const d=state.global;
     $("globalCap").textContent=money(d?.total_market_cap?.usd);
-    $("globalChange").textContent=pct(d?.market_cap_change_percentage_24h_usd)+" · 24h";
+    $("globalChange").textContent=d?`${pct(d?.market_cap_change_percentage_24h_usd)} · 24h`:"N/D";
 
     const btc=state.coins.find(c=>c.id==="bitcoin");
     const eth=state.coins.find(c=>c.id==="ethereum");
-    if(btc){
-      $("btcPrice").textContent=price(btc.current_price);
-      const v=pctValue(btc,"price_change_percentage_24h_in_currency",pctValue(btc,"price_change_percentage_24h",0));
-      $("btcChange").textContent=pct(v);
-      $("btcChange").className="stat-change "+(v>=0?"green":"red");
-    }
-    if(eth){
-      $("ethPrice").textContent=price(eth.current_price);
-      const v=pctValue(eth,"price_change_percentage_24h_in_currency",pctValue(eth,"price_change_percentage_24h",0));
-      $("ethChange").textContent=pct(v);
-      $("ethChange").className="stat-change "+(v>=0?"green":"red");
+    for(const [coin,priceId,changeId] of [[btc,"btcPrice","btcChange"],[eth,"ethPrice","ethChange"]]){
+      if(!coin)continue;
+      $(priceId).textContent=price(coin.current_price);
+      const v=metric(coin,"price_change_percentage_24h_in_currency")??metric(coin,"price_change_percentage_24h");
+      $(changeId).textContent=pct(v);
+      $(changeId).className="stat-change "+(v==null?"":v>=0?"green":"red");
     }
 
-    const basket=state.coins.slice(0,50);
-    const totalCap=basket.reduce((sum,c)=>sum+Number(c.market_cap||0),0);
-    const marketRisk=totalCap?Math.round(basket.reduce((sum,c)=>sum+riskScoreFor(c)*(Number(c.market_cap||0)/totalCap),0)):null;
+    const basket=state.coins.slice(0,Math.min(50,state.coins.length));
+    const risks=basket.map(c=>({c,r:riskScoreFor(c)})).filter(x=>x.r!=null&&metric(x.c,"market_cap")!=null);
+    const totalCap=risks.reduce((sum,x)=>sum+metric(x.c,"market_cap"),0);
+    const marketRisk=totalCap?Math.round(risks.reduce((sum,x)=>sum+x.r*(metric(x.c,"market_cap")/totalCap),0)):null;
 
     if(marketRisk!=null){
       $("marketRisk").textContent=marketRisk;
       $("riskBar").style.width=marketRisk+"%";
-      const label=marketRisk<=39?"RIESGO RELATIVO BAJO":marketRisk<=64?"RIESGO RELATIVO MEDIO":"RIESGO RELATIVO ALTO";
+      const label=marketRisk<=33?"RIESGO RELATIVO BAJO":marketRisk<=66?"RIESGO RELATIVO MEDIO":"RIESGO RELATIVO ALTO";
       $("marketRiskLabel").textContent=label;
-      $("marketRiskLabel").className="risk "+(marketRisk<=39?"risk-low":marketRisk<=64?"risk-medium":"risk-high");
-      $("riskExplanation").textContent=`Cálculo determinista basado en los 50 mayores activos por capitalización y ponderado por capitalización. Última observación: ${new Date().toLocaleTimeString("es-ES")}.`;
+      $("marketRiskLabel").className="risk "+(marketRisk<=33?"risk-low":marketRisk<=66?"risk-medium":"risk-high");
+      $("riskExplanation").textContent=`Cálculo determinista sobre los ${risks.length} mayores activos con datos suficientes, ponderado por capitalización.`;
+    }else{
+      $("marketRisk").textContent="N/D";
+      $("riskExplanation").textContent="No hay datos suficientes para calcular el índice agregado.";
     }
 
     state.lastUpdated=new Date();
     $("lastUpdate").textContent=state.lastUpdated.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
     $("updateStatus").textContent=`Datos reales · ${state.coins.length} activos`;
     $("marketState").textContent="● Mercado conectado";
-    $("statusDot").classList.remove("off");
+    state.sourceStatus="Conectado";
     render();
   }catch(e){
     console.error(e);
-    $("updateStatus").textContent="Datos no disponibles";
-    $("marketState").textContent="● Sin datos";
-    $("statusDot").classList.add("off");
-    $("assets").innerHTML=`<div class="empty">No se pudieron cargar los datos reales.<br><small>La aplicación no sustituye los datos por valores ficticios. Comprueba la conexión o el límite de la API.</small></div>`;
+    if(state.coins.length){
+      $("updateStatus").textContent="Datos anteriores · sin actualizar";
+      $("marketState").textContent="● Últimos datos válidos";
+      $("statusDot").classList.add("off");
+      $("assetCount").textContent=`${num(state.coins.length)} activos · actualización fallida`;
+      render();
+    }else{
+      $("updateStatus").textContent="No se pudieron obtener datos";
+      $("marketState").textContent="● Sin datos";
+      $("statusDot").classList.add("off");
+      $("assets").innerHTML=`<div class="empty">No se recibieron datos reales de la API.<br><small>La aplicación no sustituye la información por valores ficticios. Comprueba Internet, CORS o el límite de CoinGecko.</small></div>`;
+    }
+  }finally{
+    state.loading=false;
   }
 }
 
-function openAnalysis(id){
+async function loadHistory(c){
+  if(state.historyCache.has(c.id))return state.historyCache.get(c.id);
+  try{
+    const data=await fetchJSON(`${API}/coins/${encodeURIComponent(c.id)}/market_chart?vs_currency=usd&days=7&interval=hourly`,3);
+    const prices=(data?.prices||[]).map(x=>Array.isArray(x)?Number(x[1]):null).filter(valid);
+    state.historyCache.set(c.id,prices);
+    return prices;
+  }catch(e){
+    console.warn("Histórico no disponible",c.id,e);
+    return [];
+  }
+}
+
+async function openAnalysis(id){
   const c=state.coins.find(x=>x.id===id);
   if(!c)return;
   const [r]=riskFor(c),s=scoreFor(c);
-  const chg24=pctValue(c,"price_change_percentage_24h_in_currency",pctValue(c,"price_change_percentage_24h",0));
+  const chg24=metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h");
 
   $("modalIcon").innerHTML=c.image?`<img src="${escapeAttr(c.image)}" alt="">`:escapeHtml((c.symbol||"?")[0].toUpperCase());
   $("modalName").textContent=c.name;
   $("modalSymbol").textContent=(c.symbol||"").toUpperCase();
+  $("analysisScore").textContent=s==null?"N/D":s;
+  $("analysisScore").className="big-score "+(s==null?"":s>=70?"green":s>=50?"yellow":"red");
 
-  $("analysisScore").textContent=s;
-  $("analysisScore").className="big-score "+(s>=70?"green":s>=50?"yellow":"red");
-
-  const verdict=s>=75?"Perfil cuantitativo favorable":s>=60?"Perfil cuantitativo intermedio":"Perfil cuantitativo débil";
+  const verdict=s==null?"Datos insuficientes":s>=75?"Perfil cuantitativo favorable":s>=60?"Perfil cuantitativo intermedio":"Perfil cuantitativo débil";
   $("analysisVerdict").textContent=verdict;
-  $("analysisVerdict").className=s>=75?"green":s>=60?"yellow":"red";
+  $("analysisVerdict").className=s==null?"":s>=75?"green":s>=60?"yellow":"red";
 
-  $("analysisTags").innerHTML=`<span class="tag">Riesgo relativo: ${r}</span><span class="tag">Rank #${c.market_cap_rank||"—"}</span><span class="tag">24h: ${pct(chg24)}</span><span class="tag">Modelo determinista</span>`;
+  $("analysisTags").innerHTML=`<span class="tag">Riesgo relativo: ${r}</span><span class="tag">Rank #${c.market_cap_rank??"N/D"}</span><span class="tag">24h: ${pct(chg24)}</span><span class="tag">Modelo determinista</span>`;
 
   const rows=[
-    ["1h",c.price_change_percentage_1h_in_currency],
+    ["1h",metric(c,"price_change_percentage_1h_in_currency")],
     ["24h",chg24],
-    ["7 días",c.price_change_percentage_7d_in_currency],
-    ["30 días",c.price_change_percentage_30d_in_currency]
+    ["7 días",metric(c,"price_change_percentage_7d_in_currency")],
+    ["30 días",metric(c,"price_change_percentage_30d_in_currency")]
   ];
-  $("analysisMetrics").innerHTML=rows.map(x=>`<div class="metric"><span>${x[0]}</span><strong class="${Number(x[1])>=0?"positive":"negative"}">${pct(x[1])}</strong></div>`).join("");
+  $("analysisMetrics").innerHTML=rows.map(x=>`<div class="metric"><span>${x[0]}</span><strong class="${x[1]==null?"":x[1]>=0?"positive":"negative"}">${pct(x[1])}</strong></div>`).join("");
 
+  const liq=metric(c,"total_volume")!=null&&metric(c,"market_cap")>0?metric(c,"total_volume")/metric(c,"market_cap"):null;
   $("mCap").textContent=money(c.market_cap);
   $("mVolume").textContent=money(c.total_volume);
-  $("mRank").textContent="#"+(c.market_cap_rank||"—");
+  $("mRank").textContent=c.market_cap_rank==null?"N/D":"#"+c.market_cap_rank;
+  $("mLiquidity").textContent=liq==null?"N/D":(liq*100).toFixed(2)+"%";
   $("mRisk").textContent=r;
+  $("mHistory").textContent="Cargando…";
+  const comp=scoreComponents(c);
+  $("analysisComponents").innerHTML=s==null?
+    "No se calcula una puntuación cuando faltan variables esenciales. CriptoshX muestra N/D antes que rellenar datos faltantes.": 
+    `Componentes normalizados por percentiles del universo cargado: tamaño ${comp.cap?.toFixed(0)??"N/D"}/100, liquidez ${comp.liq?.toFixed(0)??"N/D"}/100, momentum 7d ${comp.m7?.toFixed(0)??"N/D"}/100, momentum 30d ${comp.m30?.toFixed(0)??"N/D"}/100, estabilidad ${comp.stability?.toFixed(0)??"N/D"}/100.`;
 
-  const arr=(c.sparkline_in_7d?.price||[]).filter(valid).slice(-80);
+  $("miniChart").innerHTML=`<div class="empty" style="width:100%;padding:50px 0">Cargando histórico real…</div>`;
+  $("modal").classList.add("open");
+
+  const arr=await loadHistory(c);
   if(arr.length>1){
     const min=Math.min(...arr),max=Math.max(...arr),range=max-min||1;
     $("miniChart").innerHTML=arr.map(v=>`<div class="bar" title="${price(v)}" style="height:${Math.max(5,((v-min)/range)*100)}%"></div>`).join("");
+    $("mHistory").textContent=`${arr.length} observaciones reales · 7 días`;
   }else{
     $("miniChart").innerHTML=`<div class="empty" style="width:100%;padding:50px 0">Histórico no disponible</div>`;
+    $("mHistory").textContent="N/D";
   }
 
-  $("recommendation").textContent=s>=75?"Señal cuantitativa favorable dentro del modelo.":s>=60?"Perfil intermedio para seguimiento.":"Señal cuantitativa débil dentro del modelo.";
-  $("recommendationText").textContent=`La puntuación ${s}/100 se calcula con capitalización, liquidez, momentum de 7 días y estabilidad relativa. No predice el precio. "Riesgo ${r}" significa riesgo relativo según estas métricas, no seguridad ni garantía de rentabilidad.`;
-
-  $("modal").classList.add("open");
+  $("recommendation").textContent=s==null?"Sin lectura: faltan datos.":s>=75?"Lectura cuantitativa favorable dentro del modelo.":s>=60?"Perfil cuantitativo intermedio para seguimiento.":"Lectura cuantitativa débil dentro del modelo.";
+  $("recommendationText").textContent=s==null?"No se fuerza una puntuación con datos incompletos.":`La puntuación ${s}/100 es relativa al universo cargado y combina tamaño, liquidez, momentum y estabilidad. No predice el precio. “Riesgo ${r}” describe riesgo relativo según las variables del modelo, no seguridad ni garantía de rentabilidad.`;
 }
+
 function closeModal(){$("modal").classList.remove("open")}
 $("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
@@ -359,7 +517,7 @@ setInterval(loadMarket,REFRESH_MS);
 </body>
 </html>'''
 
-path = Path("/mnt/data/criptoshx_crypto_intelligence_real.html")
+path = Path("/mnt/data/criptoshx_crypto_intelligence_real_v5.html")
 path.write_text(html, encoding="utf-8")
 print(f"Archivo creado: {path}")
 print(f"Tamaño: {path.stat().st_size:,} bytes")
