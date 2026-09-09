@@ -1,207 +1,241 @@
 from pathlib import Path
+import html, textwrap
 
-html = r'''<!DOCTYPE html>
+out = Path("/mnt/data/criptoshx_crypto_intelligence_v6_premium.html")
+
+page = r"""<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#070909">
-<title>CriptoshX — Crypto Intelligence v7</title>
+<title>CriptoshX — Crypto Intelligence Premium</title>
+<meta name="description" content="Dashboard cuantitativo de mercado cripto con datos de mercado y cálculos reproducibles.">
 <style>
-:root{--bg:#070909;--panel:#0e1211;--panel2:#121716;--border:#202725;--text:#f4f7f6;--muted:#7f8986;--green:#00f58b;--green2:#00bd70;--red:#ff5c67;--yellow:#ffc857;--blue:#70a7ff;--shadow:0 22px 70px #0009}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 70% -10%,#00f58b10,transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.sidebar{width:240px;position:fixed;inset:0 auto 0 0;padding:24px 16px;border-right:1px solid var(--border);background:#090b0beF;z-index:20}.logo{font-size:25px;font-weight:850;padding:4px 12px 34px;letter-spacing:-1px}.logo span{color:var(--green)}.nav-title{color:#505a57;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:0 12px 9px}.nav{display:flex;flex-direction:column;gap:4px}.nav button{border:0;background:transparent;color:#8d9693;text-align:left;padding:12px;border-radius:9px}.nav button:hover,.nav button.active{background:#151a18;color:#fff}.nav button.active{box-shadow:inset 2px 0 var(--green)}.sidebar-bottom{position:absolute;bottom:20px;left:16px;right:16px;color:#4e5754;font-size:10px;line-height:1.7}.content{width:calc(100% - 240px);margin-left:240px}.topbar{height:72px;position:sticky;top:0;z-index:15;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:1px solid var(--border);background:#080909d9;backdrop-filter:blur(18px)}.search{position:relative;width:min(500px,55vw)}.search input{width:100%;background:#101413;border:1px solid var(--border);color:#fff;padding:12px 15px 12px 40px;border-radius:10px;outline:0}.search-icon{position:absolute;left:14px;top:10px;color:#69726f;font-size:18px}.status{display:flex;gap:8px;align-items:center;color:#7d8783;font-size:12px}.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px #00f58baa}.status-dot.off{background:var(--red);box-shadow:none}main{max-width:1600px;margin:auto;padding:36px 34px 65px}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:28px}.hero h1{font-size:clamp(34px,4vw,54px);letter-spacing:-2.5px;margin:0 0 9px}.hero p{color:var(--muted);margin:0}.market-state{min-width:290px;padding:16px 18px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(135deg,#111816,#0b100f)}.market-state small{display:block;color:#6f7975;margin-bottom:6px}.market-state strong{color:var(--green);font-size:15px}.overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat,.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px}.stat{padding:18px}.stat-label{color:#707a76;font-size:11px;margin-bottom:9px}.stat-value{font-size:21px;font-weight:750}.stat-change{margin-top:6px;font-size:12px}.green{color:var(--green)}.red{color:var(--red)}.yellow{color:var(--yellow)}.section-header{display:flex;align-items:center;justify-content:space-between;margin:34px 0 14px}.section-header h2{margin:0;font-size:18px}.section-header span{color:#66706c;font-size:12px}.controls{display:flex;gap:8px;flex-wrap:wrap}.controls select,.controls button{background:#101413;color:#dfe5e2;border:1px solid var(--border);border-radius:9px;padding:9px 11px}.controls button.active{border-color:#37604f;color:var(--green);background:#0d1814}.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.top-card{background:linear-gradient(145deg,#111916,#0b0f0e);border:1px solid #29342f;border-radius:16px;padding:19px;position:relative;overflow:hidden}.top-card:first-child{border-color:#37604f}.top-card h3{margin:5px 0;font-size:19px}.top-rank{font-size:10px;color:#6e7874;text-transform:uppercase;letter-spacing:1px}.top-score{font-size:42px;font-weight:900;color:var(--green);letter-spacing:-2px}.top-meta{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}.tag{font-size:10px;padding:5px 8px;border-radius:6px;background:#171d1a;color:#aab4af}.reasons{margin:13px 0 0;padding:0;list-style:none;color:#9ca6a1;font-size:11px;line-height:1.75}.reasons li::before{content:"✓ ";color:var(--green)}.assets{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.asset{background:linear-gradient(145deg,#111514,#0c0f0e);border:1px solid var(--border);border-radius:15px;padding:17px;transition:.2s;cursor:pointer}.asset:hover{transform:translateY(-3px);border-color:#35403d;box-shadow:var(--shadow)}.asset-top{display:flex;justify-content:space-between;align-items:center}.asset-info{display:flex;align-items:center;gap:10px}.coin-icon{width:38px;height:38px;border-radius:50%;background:#19201d;display:grid;place-items:center;overflow:hidden;font-weight:800;flex:0 0 auto}.coin-icon img{width:100%;height:100%}.rank{color:#58625e;font-size:10px}.asset-name{font-weight:700}.asset-symbol{color:#68716e;font-size:10px;margin-top:2px;text-transform:uppercase}.star{border:0;background:transparent;color:#505956;font-size:20px}.star.active{color:var(--yellow)}.price{font-size:24px;font-weight:800;margin-top:18px}.change{font-size:12px;font-weight:650;margin-top:4px}.asset-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #1d2320;color:#6f7874;font-size:10px}.asset-meta strong{display:block;color:#cbd2cf;font-size:11px;margin-top:3px}.risk{display:inline-block;padding:4px 7px;border-radius:6px;font-size:9px;font-weight:800}.risk-low{color:var(--green);background:#00f58b10}.risk-medium{color:var(--yellow);background:#ffc85710}.risk-high{color:#ff8a91;background:#ff5c6710}.risk-na{color:#9aa39f;background:#9aa39f10}.empty{grid-column:1/-1;text-align:center;padding:60px;color:#626b68}.pager{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:18px}.pager button{background:#111514;color:#dfe4e2;border:1px solid var(--border);border-radius:8px;padding:8px 13px}.pager button:disabled{opacity:.35;cursor:not-allowed}.two-columns{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:34px}.panel{padding:20px}.panel h3{margin:0 0 5px;font-size:17px}.panel-sub{color:#68716e;font-size:11px;margin-bottom:18px}.radar-row{display:grid;grid-template-columns:55px 1fr 45px;gap:12px;align-items:center;margin:14px 0}.progress{height:7px;background:#1b211f;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:inherit}.score{text-align:right;font-weight:800}.risk-meter{height:10px;background:#1a201e;border-radius:20px;overflow:hidden;margin:14px 0}.risk-meter span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--yellow),var(--red))}.changes{display:grid;grid-template-columns:1fr 1fr;gap:8px}.change-box{padding:12px;border:1px solid var(--border);border-radius:10px;background:#101413;font-size:11px}.change-box strong{display:block;font-size:16px;margin-bottom:4px}.notice{margin-top:30px;border:1px solid var(--border);background:#0f1312;padding:16px;border-radius:12px;color:#707a76;font-size:11px;line-height:1.65}.notice strong{color:#b6bfbb}footer{border-top:1px solid var(--border);color:#4d5653;text-align:center;padding:24px;font-size:10px}.modal{position:fixed;inset:0;background:#000b;backdrop-filter:blur(8px);z-index:50;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-card{width:min(1100px,100%);max-height:92vh;overflow:auto;background:#0c100f;border:1px solid #29322f;border-radius:18px;box-shadow:0 35px 100px #000d}.modal-head{position:sticky;top:0;background:#0c100fee;backdrop-filter:blur(15px);display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--border);z-index:2}.modal-title{display:flex;gap:12px;align-items:center}.modal-title h2{margin:0;font-size:24px}.close{border:1px solid var(--border);background:#131817;color:#cbd2cf;border-radius:8px;width:36px;height:36px}.modal-body{padding:22px}.analysis-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.analysis-box{border:1px solid var(--border);background:#101413;border-radius:13px;padding:16px}.analysis-box h4{margin:0 0 13px}.big-score{font-size:48px;font-weight:900;color:var(--green);letter-spacing:-2px}.score-label{color:#6f7975;font-size:11px}.metric{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #1c2220;font-size:12px}.metric:last-child{border:0}.metric span{color:#77817d}.chart{height:180px;display:flex;align-items:flex-end;gap:2px;margin-top:12px;border-bottom:1px solid #26302c;padding:10px 0}.bar{flex:1;background:#00f58b66;border-radius:3px 3px 0 0;min-width:2px}.data-note{margin-top:12px;padding:10px;border:1px dashed #2a3430;border-radius:9px;color:#7e8884;font-size:10px;line-height:1.5}.loading{animation:pulse 1.2s infinite}.error{color:var(--red)!important}@keyframes pulse{50%{opacity:.45}}@media(max-width:1200px){.assets{grid-template-columns:repeat(3,1fr)}.overview{grid-template-columns:repeat(2,1fr)}}@media(max-width:900px){.sidebar{width:66px;padding:18px 8px}.logo{font-size:0;text-align:center;padding:5px 0 30px}.logo:after{content:"X";font-size:23px;color:var(--green)}.nav-title,.nav button span,.sidebar-bottom{display:none}.nav button{text-align:center;font-size:18px}.content{width:calc(100% - 66px);margin-left:66px}.topbar{padding:0 15px}.status{display:none}.assets{grid-template-columns:repeat(2,1fr)}.analysis-grid,.top3{grid-template-columns:1fr}}@media(max-width:600px){main{padding:25px 14px 50px}.hero{display:block}.market-state{margin-top:18px}.overview,.assets,.top3{grid-template-columns:1fr}.search{width:100%}.topbar{height:64px}.controls{width:100%}}
+:root{--bg:#07111f;--panel:#0d1a2b;--panel2:#101f33;--line:#1d3048;--text:#edf5ff;--muted:#8ea4bc;--accent:#62e6b7;--accent2:#7aa7ff;--good:#62e6b7;--warn:#ffd166;--bad:#ff7b8a;--shadow:0 18px 60px rgba(0,0,0,.28)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% -10%,#173152 0,transparent 35%),radial-gradient(circle at 90% 0,#15352f 0,transparent 30%),var(--bg);color:var(--text);font:14px Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}.side{border-right:1px solid var(--line);background:rgba(6,16,29,.82);backdrop-filter:blur(16px);padding:24px 16px;position:sticky;top:0;height:100vh}.brand{display:flex;gap:12px;align-items:center;margin:0 8px 30px}.logo{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#06101c;font-weight:900;box-shadow:0 10px 30px rgba(98,230,183,.18)}.brand b{font-size:17px}.brand small{display:block;color:var(--muted);margin-top:2px}.nav{display:grid;gap:7px}.nav button{border:1px solid transparent;background:transparent;color:#b9c8da;text-align:left;padding:12px 13px;border-radius:11px}.nav button:hover,.nav button.active{background:#102238;border-color:#1e3653;color:#fff}.side-foot{position:absolute;bottom:20px;left:16px;right:16px;color:#71869e;font-size:11px;line-height:1.5}.main{padding:24px;max-width:1600px;width:100%;margin:auto}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}.search{flex:1;max-width:520px;position:relative}.search input{width:100%;background:#0c1a2c;border:1px solid var(--line);color:#fff;border-radius:13px;padding:12px 14px;outline:none}.search input:focus{border-color:#41668e}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--warn);box-shadow:0 0 12px currentColor}.dot.ok{background:var(--good)}.hero{padding:30px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,rgba(18,38,62,.96),rgba(11,26,43,.95));box-shadow:var(--shadow);display:grid;grid-template-columns:1.5fr 1fr;gap:20px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:11px}.hero h1{font-size:38px;line-height:1.02;margin:9px 0 12px}.hero p{color:#a9bad0;max-width:700px;line-height:1.6;margin:0}.hero-meta{display:flex;align-items:end;justify-content:end}.big-badge{border:1px solid #28516b;background:#0c2031;padding:18px;border-radius:18px;min-width:230px}.big-badge strong{display:block;font-size:28px}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,1fr);margin:16px 0}.card,.section{border:1px solid var(--line);background:rgba(13,26,43,.88);border-radius:18px}.card{padding:17px}.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}.value{font-size:24px;font-weight:850;margin-top:7px}.sub{color:var(--muted);font-size:12px;margin-top:5px}.section{padding:18px;margin-top:14px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.section h2{font-size:17px;margin:0}.controls{display:flex;gap:8px;flex-wrap:wrap}.controls select,.controls input{background:#0a1829;color:#dce8f5;border:1px solid var(--line);border-radius:10px;padding:8px 10px}.top3{grid-template-columns:repeat(3,1fr)}.rank{position:relative;overflow:hidden}.rank:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--accent)}.rank .num{font-size:12px;color:var(--muted)}.rank h3{margin:7px 0;font-size:20px}.score{font-size:34px;font-weight:900}.pill{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;background:#102238;color:#c7d6e7;font-size:11px}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}.reasons{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:7px;color:#afc0d3;font-size:12px}.reasons li:before{content:"✓";color:var(--accent);margin-right:7px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px}.table{width:100%;border-collapse:collapse;min-width:920px}.table th,.table td{padding:12px 11px;border-bottom:1px solid #172a41;text-align:right;white-space:nowrap}.table th{color:#7890a9;font-size:10px;text-transform:uppercase;letter-spacing:.07em}.table th:first-child,.table td:first-child{text-align:left}.coin{display:flex;align-items:center;gap:9px}.coin-icon{width:29px;height:29px;border-radius:50%;background:#172c45;display:grid;place-items:center;font-size:11px;font-weight:800}.bar{height:6px;border-radius:99px;background:#162b42;overflow:hidden;width:80px;display:inline-block;vertical-align:middle}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}.empty{padding:35px;text-align:center;color:var(--muted)}.method{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.method div{background:#0a1829;border:1px solid #172b42;border-radius:13px;padding:13px}.method b{display:block;margin-bottom:5px}.method span{font-size:11px;color:var(--muted);line-height:1.45}.footer{color:#70859d;font-size:11px;line-height:1.5;padding:18px 4px 35px}.toast{position:fixed;right:20px;bottom:20px;background:#10243a;border:1px solid #2a4967;border-radius:12px;padding:12px 15px;box-shadow:var(--shadow);display:none}.modal{position:fixed;inset:0;background:rgba(1,7,14,.75);backdrop-filter:blur(7px);display:none;place-items:center;padding:20px;z-index:20}.modal.open{display:grid}.modal-box{width:min(820px,100%);max-height:90vh;overflow:auto;background:#0c1a2c;border:1px solid #27415f;border-radius:20px;padding:20px}.close{float:right;background:#142840;color:#fff;border:0;border-radius:9px;padding:7px 10px}.loading{opacity:.65;pointer-events:none}@media(max-width:1050px){.app{grid-template-columns:1fr}.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}.side-foot{display:none}.nav{grid-template-columns:repeat(4,1fr)}.hero{grid-template-columns:1fr}.hero-meta{justify-content:start}.stats{grid-template-columns:repeat(2,1fr)}.method{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.main{padding:14px}.top{align-items:stretch;flex-direction:column}.hero h1{font-size:30px}.stats,.top3{grid-template-columns:1fr}.nav{grid-template-columns:repeat(2,1fr)}.method{grid-template-columns:1fr}.big-badge{min-width:0;width:100%}}
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-<div class="logo">Criptosh<span>X</span></div>
-<div class="nav-title">Mercado</div>
-<nav class="nav">
-<button class="active">🪙 <span>Criptomonedas</span></button>
-<button onclick="scrollToSection('watch')">⭐ <span>Watchlist</span></button>
-<button onclick="scrollToSection('radar')">⚡ <span>Radar</span></button>
-<button onclick="scrollToSection('top3')">🏆 <span>Top 3</span></button>
-</nav>
-<div class="nav-title" style="margin-top:28px">Análisis</div>
-<nav class="nav">
-<button onclick="setFilter('low')">🛡️ <span>Menor riesgo</span></button>
-<button onclick="setFilter('score')">🏆 <span>Mayor score</span></button>
-<button onclick="setFilter('momentum')">🚀 <span>Momentum 7d</span></button>
-</nav>
-<div class="sidebar-bottom">CriptoshX<br>Crypto Intelligence<br>v7.0 · Modelo determinista</div>
+<aside class="side">
+  <div class="brand"><div class="logo">CX</div><div><b>CriptoshX</b><small>Crypto Intelligence</small></div></div>
+  <div class="nav">
+    <button class="active" data-go="dashboard">▦ Dashboard</button>
+    <button data-go="top3">★ Top 3 cuantitativo</button>
+    <button data-go="market">◈ Mercado</button>
+    <button data-go="watch">♡ Watchlist</button>
+  </div>
+  <div class="side-foot">Análisis cuantitativo educativo.<br>No predice precios ni garantiza resultados.</div>
 </aside>
-<div class="content">
-<header class="topbar"><div class="search"><span class="search-icon">⌕</span><input id="search" placeholder="Buscar Bitcoin, BTC, Ethereum..."></div><div class="status"><span id="statusDot" class="status-dot"></span><span id="updateStatus">Conectando mercado...</span></div></header>
-<main>
-<section class="hero"><div><h1>Crypto Intelligence.</h1><p>Datos reales + cálculos reproducibles + ranking cuantitativo. Sin valores inventados.</p></div><div class="market-state"><small>Estado del modelo</small><strong id="marketState">● Inicializando</strong></div></section>
-<section class="overview">
-<div class="stat"><div class="stat-label">Bitcoin</div><div class="stat-value" id="btcPrice">—</div><div id="btcChange" class="stat-change">—</div></div>
-<div class="stat"><div class="stat-label">Ethereum</div><div class="stat-value" id="ethPrice">—</div><div id="ethChange" class="stat-change">—</div></div>
-<div class="stat"><div class="stat-label">Market Cap global</div><div class="stat-value" id="globalCap">—</div><div id="globalChange" class="stat-change">—</div></div>
-<div class="stat"><div class="stat-label">Última actualización</div><div class="stat-value" id="lastUpdate">—</div><div id="snapshotStatus" class="stat-change green">● Snapshot diario</div></div>
-</section>
+<main class="main">
+  <div class="top">
+    <div class="search"><input id="search" placeholder="Buscar activo, símbolo o ID…"></div>
+    <div class="status"><span id="dot" class="dot"></span><span id="status">Conectando…</span></div>
+  </div>
 
-<div class="section-header" id="top3"><div><h2>🏆 Top 3 cuantitativo</h2><span id="top3Sub">Calculando con datos reales e histórico suficiente...</span></div></div>
-<section class="top3" id="top3Cards"><div class="empty loading">Construyendo ranking...</div></section>
+  <section class="hero" id="dashboard">
+    <div>
+      <div class="eyebrow">Market intelligence</div>
+      <h1>Lectura cuantitativa del mercado.</h1>
+      <p>Ranking reproducible construido con datos de mercado, liquidez, momentum y métricas históricas. Sin predicciones y sin valores inventados.</p>
+    </div>
+    <div class="hero-meta"><div class="big-badge"><div class="label">Snapshot diario</div><strong id="snapshot">—</strong><div class="sub" id="snapshotSub">Esperando datos</div></div></div>
+  </section>
 
-<div class="section-header"><div><h2>🌎 Universo de mercado</h2><span id="assetCount">Cargando...</span></div><div class="controls"><select id="sort"><option value="market_cap_desc">Capitalización ↓</option><option value="score">Score ↓</option><option value="change">24h ↓</option><option value="volume">Volumen ↓</option><option value="risk">Menor riesgo</option><option value="momentum">Momentum 7d ↓</option></select><select id="pageSize"><option>50</option><option>100</option><option>250</option></select></div></div>
-<section class="assets" id="assets"><div class="empty loading">Cargando el mercado...</div></section>
-<div class="pager"><button id="prev">← Anterior</button><span id="pageInfo">Página 1</span><button id="next">Siguiente →</button></div>
+  <section class="grid stats">
+    <div class="card"><div class="label">Bitcoin</div><div class="value" id="btc">—</div><div class="sub" id="btcCh">—</div></div>
+    <div class="card"><div class="label">Ethereum</div><div class="value" id="eth">—</div><div class="sub" id="ethCh">—</div></div>
+    <div class="card"><div class="label">Capitalización global</div><div class="value" id="globalCap">—</div><div class="sub" id="dominance">—</div></div>
+    <div class="card"><div class="label">Última actualización</div><div class="value" id="updated">—</div><div class="sub">Mercado intradía</div></div>
+  </section>
 
-<section class="two-columns" id="radar">
-<div class="panel"><h3>⚡ Radar cuantitativo</h3><div class="panel-sub">Score relativo. El histórico se calcula únicamente para candidatos suficientes para reducir peticiones y mantener reproducibilidad.</div><div id="radarRows"></div></div>
-<div class="panel" id="watch"><h3>🛡️ Riesgo agregado</h3><div class="panel-sub">Media ponderada por capitalización de los activos con datos suficientes.</div><div style="font-size:45px;font-weight:900;margin:12px 0"><span id="marketRisk">—</span><span style="font-size:16px;color:#737b77">/100</span></div><div id="marketRiskLabel" class="risk risk-na">Calculando</div><div class="risk-meter"><span id="riskBar" style="width:0%"></span></div><div id="riskExplanation" style="color:#747e7a;font-size:11px;line-height:1.7">Calculando...</div></div>
-</section>
+  <section class="section" id="top3">
+    <div class="section-head"><div><h2>Top 3 cuantitativo</h2><div class="sub">Mayor puntuación relativa entre activos con datos suficientes</div></div><span class="pill">No es una recomendación de compra</span></div>
+    <div class="grid top3" id="top3Grid"><div class="empty">Cargando modelo…</div></div>
+  </section>
 
-<section class="panel" style="margin-top:14px" id="changes"><h3>🔄 Cambios desde el último snapshot</h3><div class="panel-sub">Se guarda localmente una fotografía diaria del ranking. No se inventan valores si no existe snapshot previo.</div><div class="changes" id="changeGrid"><div class="change-box">Aún no hay comparación.</div></div></section>
+  <section class="section" id="market">
+    <div class="section-head">
+      <div><h2>Mercado</h2><div class="sub" id="count">—</div></div>
+      <div class="controls"><select id="sort"><option value="score">Puntuación</option><option value="cap">Capitalización</option><option value="ch7">Momentum 7d</option><option value="ch24">Cambio 24h</option><option value="volume">Volumen</option></select><select id="size"><option>50</option><option>100</option><option>250</option></select></div>
+    </div>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Activo</th><th>Puntuación</th><th>Perfil</th><th>Precio</th><th>24h</th><th>7d</th><th>30d</th><th>Cap.</th><th>Vol./Cap.</th><th>Datos</th></tr></thead><tbody id="tbody"></tbody></table></div>
+  </section>
 
-<div class="notice">⚠️ <strong>Integridad del modelo:</strong> CriptoshX utiliza datos consultados de la fuente de mercado y cálculos deterministas. Si falta una variable necesaria, muestra N/D. El Top 3 es un ranking cuantitativo educativo del modelo, no una recomendación personalizada de inversión ni una predicción de precios. El histórico diario se almacena en este navegador; para sincronizarlo entre dispositivos haría falta un backend.</div>
+  <section class="section" id="watch">
+    <div class="section-head"><div><h2>Watchlist</h2><div class="sub">Guardada localmente en este navegador</div></div></div>
+    <div id="watchlist" class="empty">Marca activos desde la tabla para verlos aquí.</div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><h2>Metodología</h2><div class="sub">Cálculos transparentes</div></div></div>
+    <div class="method">
+      <div><b>30% escala</b><span>Percentil de capitalización dentro del universo cargado.</span></div>
+      <div><b>25% liquidez</b><span>Percentil de volumen 24h / capitalización.</span></div>
+      <div><b>20% momentum</b><span>Percentil de variación 30d cuando existe.</span></div>
+      <div><b>25% estabilidad</b><span>Penaliza volatilidad y drawdown históricos cuando hay historial suficiente.</span></div>
+    </div>
+  </section>
+
+  <div class="footer">
+    CriptoshX muestra información de mercado y cálculos propios con finalidad educativa e informativa. Las puntuaciones no constituyen asesoramiento financiero, no garantizan rentabilidad y no implican que un activo deba comprarse o venderse.
+    <br><br>
+    La disponibilidad, precisión y condiciones de uso de los datos dependen del proveedor de datos utilizado. Para publicación comercial, verifica la licencia y atribución exigidas por el proveedor.
+  </div>
 </main>
-<footer>© 2026 CriptoshX · Crypto Intelligence v7 · Fuente de mercado: CoinGecko</footer>
-</div></div>
-
-<div class="modal" id="modal"><div class="modal-card">
-<div class="modal-head"><div class="modal-title"><div id="modalIcon" class="coin-icon"></div><div><h2 id="modalName">—</h2><div id="modalSymbol" class="asset-symbol">—</div></div></div><button class="close" onclick="closeModal()">✕</button></div>
-<div class="modal-body"><div class="analysis-grid">
-<div class="analysis-box"><div class="score-label">PUNTUACIÓN CUANTITATIVA</div><div id="analysisScore" class="big-score">—</div><div id="analysisVerdict" style="font-weight:800">—</div><div class="top-meta" id="analysisTags"></div><h4 style="margin-top:24px">📈 Variables observadas</h4><div id="analysisMetrics"></div><div id="analysisComponents" class="data-note"></div></div>
-<div class="analysis-box"><h4>📊 Histórico real · 30 días</h4><div id="miniChart" class="chart"></div><div class="metric"><span>Capitalización</span><strong id="mCap">—</strong></div><div class="metric"><span>Volumen 24h</span><strong id="mVolume">—</strong></div><div class="metric"><span>Liquidez vol/cap</span><strong id="mLiquidity">—</strong></div><div class="metric"><span>Riesgo</span><strong id="mRisk">—</strong></div><div class="metric"><span>Volatilidad anualizada</span><strong id="mVol">—</strong></div><div class="metric"><span>Max drawdown</span><strong id="mDD">—</strong></div><div class="metric"><span>Observaciones</span><strong id="mHistory">—</strong></div></div>
 </div>
-<div class="panel" style="margin-top:14px;background:#0d1813;border-color:#294436"><div class="score-label">LECTURA DEL MODELO</div><strong id="recommendation">—</strong><p id="recommendationText" style="color:#89938e;font-size:12px;line-height:1.7;margin-bottom:0">—</p></div>
-</div></div></div>
+<div id="toast" class="toast"></div>
+<div id="modal" class="modal"><div class="modal-box"><button class="close" onclick="closeModal()">Cerrar</button><div id="modalBody"></div></div></div>
 
 <script>
 const API="https://api.coingecko.com/api/v3";
-const PER_PAGE=100,INITIAL_PAGES=2,MAX_PAGES=3,REFRESH_MS=300000,REQUEST_GAP_MS=1400,HISTORY_DAYS=30,HISTORY_CANDIDATES=15,MIN_HISTORY=40;
-const MODEL_VERSION="7.0";
+const CFG={perPage:100,pages:3,refreshMs:120000,historyCandidates:18,historyDays:30};
+const state={coins:[],global:null,updated:null,loading:false,watch:new Set(JSON.parse(localStorage.getItem("cx_watch")||"[]")),history:new Map(),sort:"score",pageSize:50,search:""};
+
 const $=id=>document.getElementById(id);
-const state={coins:[],filtered:[],page:1,pageSize:50,sort:"market_cap_desc",search:"",watch:new Set(JSON.parse(localStorage.getItem("criptoshx_watch")||"[]")),global:null,lastUpdated:null,loading:false,historyCache:new Map(),stats:new Map(),snapshot:null};
-const money=n=>!Number.isFinite(Number(n))?"N/D":new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD",notation:"compact",maximumFractionDigits:2}).format(Number(n));
-const price=n=>!Number.isFinite(Number(n))?"N/D":new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:Number(n)<1?8:Number(n)<100?4:2}).format(Number(n));
-const pct=n=>!Number.isFinite(Number(n))?"N/D":`${Number(n)>=0?"+":""}${Number(n).toFixed(2)}%`;
-const num=n=>!Number.isFinite(Number(n))?"N/D":new Intl.NumberFormat("es-ES",{notation:"compact",maximumFractionDigits:2}).format(Number(n));
-const safe=n=>Number.isFinite(Number(n))?Number(n):null;
-const valid=n=>Number.isFinite(Number(n));
-const metric=(c,k)=>safe(c?.[k]);
-const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+const valid=x=>Number.isFinite(Number(x));
+const n=x=>valid(x)?Number(x):null;
+const money=x=>x==null?"N/D":new Intl.NumberFormat("es-ES",{style:"currency",currency:"USD",maximumFractionDigits:x<1?6:2}).format(x);
+const compact=x=>x==null?"N/D":new Intl.NumberFormat("es-ES",{notation:"compact",maximumFractionDigits:2}).format(x);
+const pct=x=>x==null?"N/D":`${x>=0?"+":""}${x.toFixed(2)}%`;
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function percentile(values,value){const v=values.filter(valid).sort((a,b)=>a-b);if(!v.length||!valid(value))return null;let lo=0;for(const x of v)if(x<=value)lo++;return lo/v.length*100}
-function uni(fn,c){return percentile(state.coins.map(fn),fn(c))}
-function retSeries(prices){const r=[];for(let i=1;i<prices.length;i++)if(prices[i]>0&&prices[i-1]>0)r.push(Math.log(prices[i]/prices[i-1]));return r}
-function mean(a){return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}
-function std(a){if(a.length<2)return null;const m=mean(a);return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1))}
-function maxDD(prices){if(prices.length<2)return null;let peak=prices[0],dd=0;for(const p of prices){if(p>peak)peak=p;if(peak>0)dd=Math.min(dd,p/peak-1)}return dd}
-function downside(prices){const r=retSeries(prices).filter(x=>x<0);return r.length?std(r):null}
-function historyStats(prices){
-  const r=retSeries(prices),vol=std(r),dd=maxDD(prices),down=downside(prices);
-  return {n:prices.length,returns:r.length,volAnn:vol==null?null:vol*Math.sqrt(365*24),downAnn:down==null?null:down*Math.sqrt(365*24),maxDD:dd==null?null:Math.abs(dd),positiveRatio:r.length?r.filter(x=>x>0).length/r.length:null};
+async function fetchJSON(url,tries=3){
+  let last;
+  for(let i=0;i<tries;i++){
+    try{
+      const ctl=new AbortController(), timer=setTimeout(()=>ctl.abort(),15000);
+      const r=await fetch(url,{cache:"no-store",signal:ctl.signal}); clearTimeout(timer);
+      if(r.ok)return await r.json();
+      if(r.status===429||r.status>=500){last=new Error("HTTP "+r.status); await sleep(Math.min(8000,1200*2**i)); continue}
+      throw new Error("HTTP "+r.status);
+    }catch(e){last=e;if(i<tries-1)await sleep(Math.min(6000,1000*2**i))}
+  } throw last||new Error("Error de red");
 }
-function riskFor(c){
-  const base=state.stats.get(c.id); const cap=metric(c,"market_cap"),vol24=Math.abs(metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h")??NaN),volHist=base?.volAnn;
-  if(cap==null||cap<=0||volHist==null)return null;
-  const volP=uni(x=>state.stats.get(x.id)?.volAnn,c);
-  const ddP=uni(x=>state.stats.get(x.id)?.maxDD,c);
-  const liqP=uni(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c);
-  const sizeP=uni(x=>metric(x,"market_cap"),c);
-  if([volP,ddP,liqP,sizeP].some(x=>x==null))return null;
-  return Math.round(clamp(.40*volP+.30*ddP+.20*(100-liqP)+.10*(100-sizeP),0,100));
+function metric(c,k){return n(c[k])}
+function pctile(vals,v){const a=vals.filter(valid).sort((x,y)=>x-y);if(!a.length||!valid(v))return null;let c=0;for(const x of a)if(x<=v)c++;return c/a.length*100}
+function universe(fn,c){return pctile(state.coins.map(fn),fn(c))}
+function historyMetrics(arr){
+  const prices=(arr?.prices||[]).map(x=>n(x[1])).filter(valid);
+  if(prices.length<40)return null;
+  const rets=[];for(let i=1;i<prices.length;i++){if(prices[i-1]>0)rets.push(Math.log(prices[i]/prices[i-1]))}
+  if(rets.length<30)return null;
+  const mean=rets.reduce((a,b)=>a+b,0)/rets.length;
+  const variance=rets.reduce((a,b)=>a+(b-mean)**2,0)/(rets.length-1);
+  const vol=Math.sqrt(variance)*Math.sqrt(365*24);
+  let peak=prices[0],maxDD=0;for(const p of prices){peak=Math.max(peak,p);maxDD=Math.min(maxDD,p/peak-1)}
+  return {vol,maxDD:-maxDD,obs:prices.length};
 }
-function scoreFor(c){
-  const risk=riskFor(c),capP=uni(x=>metric(x,"market_cap"),c),liqP=uni(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c);
-  const m7=uni(x=>metric(x,"price_change_percentage_7d_in_currency"),c),m30=uni(x=>metric(x,"price_change_percentage_30d_in_currency"),c);
-  const hs=state.stats.get(c.id);
-  if([risk,capP,liqP,m7,m30,hs?.positiveRatio].some(x=>x==null))return null;
-  const stability=100-risk,trend=hs.positiveRatio*100;
-  return Math.round(clamp(.20*capP+.20*liqP+.15*m7+.10*m30+.15*stability+.10*(100-risk)+.10*trend,0,100));
+function preliminary(c){
+  const cap=metric(c,"market_cap"), vol=metric(c,"total_volume"), ch7=metric(c,"price_change_percentage_7d_in_currency");
+  if(cap==null||vol==null||ch7==null||cap<=0)return null;
+  const capP=universe(x=>metric(x,"market_cap"),c);
+  const liq=vol/cap, liqP=universe(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c);
+  const mom=universe(x=>metric(x,"price_change_percentage_7d_in_currency"),c);
+  if([capP,liqP,mom].some(x=>x==null))return null;
+  return .32*capP+.28*liqP+.22*mom+.18*50;
 }
-function riskLabel(r){if(r==null)return["N/D","risk-na"];if(r<=33)return["Bajo","risk-low"];if(r<=66)return["Medio","risk-medium"];return["Alto","risk-high"]}
-function components(c){const h=state.stats.get(c.id);return{cap:uni(x=>metric(x,"market_cap"),c),liq:uni(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c),m7:uni(x=>metric(x,"price_change_percentage_7d_in_currency"),c),m30:uni(x=>metric(x,"price_change_percentage_30d_in_currency"),c),vol:h?.volAnn,dd:h?.maxDD,trend:h?.positiveRatio==null?null:h.positiveRatio*100,risk:riskFor(c)}}
-function candidateUniverse(){return [...state.coins].filter(c=>metric(c,"market_cap")>0&&metric(c,"total_volume")>0&&metric(c,"price_change_percentage_7d_in_currency")!=null&&metric(c,"price_change_percentage_30d_in_currency")!=null).sort((a,b)=>(metric(b,"market_cap")||0)-(metric(a,"market_cap")||0))}
-function preliminary(c){const cap=uni(x=>metric(x,"market_cap"),c),liq=uni(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c),m7=uni(x=>metric(x,"price_change_percentage_7d_in_currency"),c),m30=uni(x=>metric(x,"price_change_percentage_30d_in_currency"),c);if([cap,liq,m7,m30].some(x=>x==null))return -1;return .3*cap+.25*liq+.2*m7+.25*m30}
-function sortedByScore(){return state.coins.filter(c=>scoreFor(c)!=null).sort((a,b)=>scoreFor(b)-scoreFor(a))}
-function reasons(c){const h=state.stats.get(c.id),out=[];const cp=uni(x=>metric(x,"market_cap"),c),lp=uni(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c),m7=uni(x=>metric(x,"price_change_percentage_7d_in_currency"),c),m30=uni(x=>metric(x,"price_change_percentage_30d_in_currency"),c);if(cp>=75)out.push(`capitalización en percentil ${cp.toFixed(0)}`);if(lp>=75)out.push(`liquidez relativa en percentil ${lp.toFixed(0)}`);if(m7>=75)out.push(`momentum 7d en percentil ${m7.toFixed(0)}`);if(m30>=75)out.push(`momentum 30d en percentil ${m30.toFixed(0)}`);if(h?.positiveRatio>=.55)out.push(`tendencia positiva ${(h.positiveRatio*100).toFixed(0)}% de los intervalos`);const r=riskFor(c);if(r!=null&&r<=40)out.push(`riesgo relativo ${r}/100`);return out.slice(0,4)}
-function scrollToSection(id){$(id)?.scrollIntoView({behavior:"smooth"})}
-function setFilter(t){$("sort").value=t==="low"?"risk":t==="score"?"score":"momentum";state.sort=$("sort").value;state.page=1;render()}
-function star(id,e){e.stopPropagation();state.watch.has(id)?state.watch.delete(id):state.watch.add(id);localStorage.setItem("criptoshx_watch",JSON.stringify([...state.watch]));render()}
-function filtered(){const q=state.search.toLowerCase().trim();let a=state.coins.filter(c=>`${c.name} ${c.symbol}`.toLowerCase().includes(q));return a.sort((a,b)=>{if(state.sort==="score")return(scoreFor(b)??-1)-(scoreFor(a)??-1);if(state.sort==="change")return(metric(b,"price_change_percentage_24h_in_currency")??metric(b,"price_change_percentage_24h")??-Infinity)-(metric(a,"price_change_percentage_24h_in_currency")??metric(a,"price_change_percentage_24h")??-Infinity);if(state.sort==="volume")return(metric(b,"total_volume")??-Infinity)-(metric(a,"total_volume")??-Infinity);if(state.sort==="risk")return(riskFor(a)??Infinity)-(riskFor(b)??Infinity);if(state.sort==="momentum")return(metric(b,"price_change_percentage_7d_in_currency")??-Infinity)-(metric(a,"price_change_percentage_7d_in_currency")??-Infinity);return(metric(b,"market_cap")??-Infinity)-(metric(a,"market_cap")??-Infinity)})}
-function render(){
- state.filtered=filtered();const total=state.filtered.length,pages=Math.max(1,Math.ceil(total/state.pageSize));state.page=Math.min(state.page,pages);const list=state.filtered.slice((state.page-1)*state.pageSize,state.page*state.pageSize);
- $("assetCount").textContent=`${num(total)} activos cargados`;$("pageInfo").textContent=`Página ${state.page} / ${pages}`;$("prev").disabled=state.page<=1;$("next").disabled=state.page>=pages;
- $("assets").innerHTML=list.length?list.map(c=>{const [r,rc]=riskLabel(riskFor(c)),s=scoreFor(c),chg=metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h");return `<article class="asset" onclick="openAnalysis('${esc(c.id)}')"><div class="asset-top"><div class="asset-info"><div class="coin-icon">${c.image?`<img src="${esc(c.image)}" alt="">`:esc((c.symbol||"?")[0].toUpperCase())}</div><div><div class="rank">#${c.market_cap_rank??"N/D"}</div><div class="asset-name">${esc(c.name)}</div><div class="asset-symbol">${esc(c.symbol)}</div></div></div><button class="star ${state.watch.has(c.id)?"active":""}" onclick="star('${esc(c.id)}',event)">${state.watch.has(c.id)?"★":"☆"}</button></div><div class="price">${price(c.current_price)}</div><div class="change ${chg==null?"":chg>=0?"green":"red"}">${pct(chg)} · 24h</div><div class="asset-meta"><div>Market cap<strong>${money(c.market_cap)}</strong></div><div>Volumen<strong>${money(c.total_volume)}</strong></div><div>Score<strong>${s==null?"N/D":s+"/100"}</strong></div><div>Riesgo<strong><span class="risk ${rc}">${r}</span></strong></div></div></article>`}).join(""):`<div class="empty">No se encontraron activos.</div>`;
- renderTop3();renderRadar();renderWatch();
+function finalScore(c){
+  const base=preliminary(c);if(base==null)return null;
+  const h=state.history.get(c.id);
+  if(!h)return Math.round(base);
+  const volP=pctile(state.coins.map(x=>state.history.get(x.id)?.vol).filter(valid),h.vol);
+  const ddP=pctile(state.coins.map(x=>state.history.get(x.id)?.maxDD).filter(valid),h.maxDD);
+  const stability=100-((volP??50)*.55+(ddP??50)*.45);
+  const ch30=metric(c,"price_change_percentage_30d_in_currency");
+  const mom30=ch30==null?null:universe(x=>metric(x,"price_change_percentage_30d_in_currency"),c);
+  if(mom30==null)return Math.round(.72*base+.28*stability);
+  return Math.round(Math.max(0,Math.min(100,.28*universe(x=>metric(x,"market_cap"),c)+.22*universe(x=>{const cc=metric(x,"market_cap"),vv=metric(x,"total_volume");return cc&&vv?vv/cc:null},c)+.20*universe(x=>metric(x,"price_change_percentage_30d_in_currency"),c)+.30*stability)));
+}
+function profile(s){if(s==null)return ["N/D",""];if(s>=75)return ["Favorable","good"];if(s>=55)return ["Intermedio","warn"];return ["Débil","bad"]}
+function saveSnapshot(top){
+  const key="cx_snapshot_"+new Date().toISOString().slice(0,10);
+  const prev=JSON.parse(localStorage.getItem(key)||"null");
+  if(!prev)localStorage.setItem(key,JSON.stringify({date:new Date().toISOString(),top:top.map(c=>({id:c.id,s:finalScore(c)}))}));
+}
+function getPrevTop(){
+  const d=new Date();d.setUTCDate(d.getUTCDate()-1);const k="cx_snapshot_"+d.toISOString().slice(0,10);return JSON.parse(localStorage.getItem(k)||"null");
+}
+async function load(){
+  if(state.loading)return;state.loading=true;document.body.classList.add("loading");setStatus("Actualizando…",false);
+  try{
+    let all=[];
+    for(let p=1;p<=CFG.pages;p++){
+      const url=`${API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${CFG.perPage}&page=${p}&sparkline=false&price_change_percentage=24h,7d,30d`;
+      const data=await fetchJSON(url); all=all.concat(data); if(p<CFG.pages)await sleep(700);
+    }
+    state.coins=all;state.global=await fetchJSON(`${API}/global`);state.updated=new Date();
+    renderOverview(); renderTable(); renderTop3();
+    await loadHistoryForCandidates(); renderTable();renderTop3();
+    saveSnapshot(getTop3());setStatus("Datos actualizados",true);$("updated").textContent=state.updated.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
+  }catch(e){setStatus("Sin actualización: "+e.message,false);toast("No se pudieron actualizar los datos. Se conserva la última información disponible.");}
+  finally{state.loading=false;document.body.classList.remove("loading")}
+}
+async function loadHistoryForCandidates(){
+  const candidates=[...state.coins].sort((a,b)=>(preliminary(b)??-1)-(preliminary(a)??-1)).slice(0,CFG.historyCandidates);
+  for(const c of candidates){
+    if(state.history.has(c.id))continue;
+    try{
+      const d=await fetchJSON(`${API}/coins/${encodeURIComponent(c.id)}/market_chart?vs_currency=usd&days=${CFG.historyDays}&interval=hourly`);
+      const h=historyMetrics(d);if(h)state.history.set(c.id,h);
+    }catch{}
+    await sleep(500);
+  }
+}
+function getTop3(){
+  return state.coins.map(c=>({...c,_score:finalScore(c)})).filter(c=>c._score!=null).sort((a,b)=>b._score-a._score).slice(0,3);
+}
+function renderOverview(){
+  const btc=state.coins.find(c=>c.id==="bitcoin"),eth=state.coins.find(c=>c.id==="ethereum");
+  $("btc").textContent=money(metric(btc||{},"current_price"));$("btcCh").textContent=pct(metric(btc||{},"price_change_percentage_24h"));
+  $("eth").textContent=money(metric(eth||{},"current_price"));$("ethCh").textContent=pct(metric(eth||{},"price_change_percentage_24h"));
+  $("globalCap").textContent=compact(state.global?.data?.total_market_cap?.usd);
+  $("dominance").textContent=state.global?.data?.market_cap_percentage?.btc?`BTC ${state.global.data.market_cap_percentage.btc.toFixed(2)}% de dominancia`:"N/D";
+  $("snapshot").textContent=new Date().toLocaleDateString("es-ES",{day:"2-digit",month:"short"});
+  $("snapshotSub").textContent=`${state.coins.length} activos cargados · ${state.history.size} con histórico`;
+  $("count").textContent=`${state.coins.length} activos · datos reales disponibles en esta carga`;
 }
 function renderTop3(){
- const top=sortedByScore().slice(0,3);
- $("top3Sub").textContent=top.length?`Modelo ${MODEL_VERSION} · histórico real · ${top.length} candidatos con datos suficientes`:"Todavía no hay datos históricos suficientes.";
- $("top3Cards").innerHTML=top.length?top.map((c,i)=>{const s=scoreFor(c),r=riskFor(c),h=state.stats.get(c.id),rs=reasons(c);return `<article class="top-card" onclick="openAnalysis('${esc(c.id)}')" style="cursor:pointer"><div class="top-rank">#${i+1} · ${esc((c.symbol||"").toUpperCase())}</div><h3>${esc(c.name)}</h3><div class="top-score">${s}</div><div class="score-label">score / 100</div><div class="top-meta"><span class="tag">Riesgo ${r??"N/D"}/100</span><span class="tag">Vol ${h?.volAnn==null?"N/D":(h.volAnn*100).toFixed(1)+"%"}</span><span class="tag">DD ${h?.maxDD==null?"N/D":(h.maxDD*100).toFixed(1)+"%"}</span></div><ul class="reasons">${(rs.length?rs:["datos completos y score superior dentro del universo"]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></article>`}).join(""):`<div class="empty">Esperando histórico real...</div>`;
+  const top=getTop3(),prev=getPrevTop();$("top3Grid").innerHTML=top.length?top.map((c,i)=>{
+    const [lab,cls]=profile(c._score),h=state.history.get(c.id),ch7=metric(c,"price_change_percentage_7d_in_currency"),ch30=metric(c,"price_change_percentage_30d_in_currency"),liq=metric(c,"total_volume")/metric(c,"market_cap");
+    return `<article class="card rank"><div class="num">#${i+1} · ${esc(c.symbol?.toUpperCase())}</div><h3>${esc(c.name)}</h3><span class="pill ${cls}">${lab}</span><div class="score">${c._score}/100</div><div class="sub">7d ${pct(ch7)} · 30d ${pct(ch30)}</div><ul class="reasons"><li>Cap. ${compact(c.market_cap)}</li><li>Liquidez ${pct(liq*100)} del market cap / 24h</li>${h?`<li>Volatilidad anualizada aprox. ${h.vol.toFixed(1)}%</li><li>Máximo drawdown 30d ${pct(-h.maxDD*100)}</li>`:"<li>Histórico insuficiente para métricas avanzadas</li>"}</ul></article>`
+  }).join(""):"<div class='empty'>No hay suficientes datos para formar un Top 3.</div>";
 }
-function renderRadar(){const top=sortedByScore().slice(0,8);$("radarRows").innerHTML=top.length?top.map(c=>`<div class="radar-row"><div>${esc((c.symbol||"").toUpperCase())}</div><div class="progress"><span style="width:${scoreFor(c)}%"></span></div><div class="score">${scoreFor(c)}</div></div>`).join(""):`<div class="empty" style="padding:25px">Datos insuficientes.</div>`}
-function renderWatch(){const w=state.coins.filter(c=>state.watch.has(c.id));if(!w.length){$("watch").querySelector("h3").textContent="⭐ Watchlist · vacía";return}$("watch").querySelector("h3").textContent=`⭐ Watchlist · ${w.length}`}
-function saveSnapshot(top){
- const key=new Date().toISOString().slice(0,10),snap={date:key,model:MODEL_VERSION,top:top.map(c=>({id:c.id,name:c.name,symbol:c.symbol,score:scoreFor(c),risk:riskFor(c)}))};
- localStorage.setItem("criptoshx_snapshot",JSON.stringify(snap));state.snapshot=snap;return snap
+function renderTable(){
+  let arr=[...state.coins];
+  const q=state.search.trim().toLowerCase();if(q)arr=arr.filter(c=>(c.name+" "+c.symbol+" "+c.id).toLowerCase().includes(q));
+  arr.sort((a,b)=>{
+    const sa=finalScore(a),sb=finalScore(b);
+    if(state.sort==="cap")return (b.market_cap??-1)-(a.market_cap??-1);
+    if(state.sort==="ch7")return (metric(b,"price_change_percentage_7d_in_currency")??-Infinity)-(metric(a,"price_change_percentage_7d_in_currency")??-Infinity);
+    if(state.sort==="ch24")return (metric(b,"price_change_percentage_24h")??-Infinity)-(metric(a,"price_change_percentage_24h")??-Infinity);
+    if(state.sort==="volume")return (b.total_volume??-1)-(a.total_volume??-1);
+    return (sb??-1)-(sa??-1);
+  });
+  arr=arr.slice(0,Number(state.pageSize));
+  $("tbody").innerHTML=arr.map(c=>{
+    const s=finalScore(c),[lab,cls]=profile(s),liq=metric(c,"total_volume")&&metric(c,"market_cap")?metric(c,"total_volume")/metric(c,"market_cap"):null,h=state.history.get(c.id);
+    const watch=state.watch.has(c.id);
+    return `<tr><td><div class="coin"><button title="Watchlist" onclick="toggleWatch('${esc(c.id)}')" style="border:0;background:none;color:${watch?'#62e6b7':'#647b94'};font-size:18px">★</button><div class="coin-icon">${esc((c.symbol||"?").slice(0,3).toUpperCase())}</div><div><b>${esc(c.name)}</b><div class="sub">${esc(c.symbol?.toUpperCase())}</div></div></div></td><td>${s==null?"N/D":`<b>${s}</b><div class="bar"><i style="width:${s}%"></i></div>`}</td><td class="${cls}">${lab}</td><td>${money(metric(c,"current_price"))}</td><td class="${metric(c,"price_change_percentage_24h")>=0?'good':'bad'}">${pct(metric(c,"price_change_percentage_24h"))}</td><td class="${metric(c,"price_change_percentage_7d_in_currency")>=0?'good':'bad'}">${pct(metric(c,"price_change_percentage_7d_in_currency"))}</td><td>${pct(metric(c,"price_change_percentage_30d_in_currency"))}</td><td>${compact(metric(c,"market_cap"))}</td><td>${liq==null?"N/D":pct(liq*100)}</td><td>${h?`${h.obs} obs.`:"Pendiente"}</td></tr>`
+  }).join("")||"<tr><td colspan='10' class='empty'>Sin resultados.</td></tr>";
 }
-function loadSnapshot(){try{return JSON.parse(localStorage.getItem("criptoshx_snapshot")||"null")}catch{return null}}
-function renderChanges(top){
- const prev=state.snapshot;if(!prev||!prev.top?.length){$("changeGrid").innerHTML='<div class="change-box">No existe un snapshot anterior en este navegador.</div>';return}
- const current=top.map(c=>({c,s:scoreFor(c),r:riskFor(c)}));$("changeGrid").innerHTML=current.map((x,i)=>{const old=prev.top.find(p=>p.id===x.c.id);if(!old)return `<div class="change-box"><strong>#${i+1} · ${esc(x.c.symbol)}</strong><span class="green">Nuevo en Top 3 · score ${x.s}</span></div>`;const ds=x.s-old.score;return `<div class="change-box"><strong>#${i+1} · ${esc(x.c.symbol)}</strong><span class="${ds>=0?"green":"red"}">${ds>=0?"+":""}${ds} puntos</span><br><span>Anterior: #${prev.top.findIndex(p=>p.id===x.c.id)+1} · Ahora: #${i+1}</span></div>`}).join("")}
-function updateGlobal(){const d=state.global;$("globalCap").textContent=money(d?.total_market_cap?.usd);$("globalChange").textContent=d?`${pct(d.market_cap_change_percentage_24h_usd)} · 24h`:"N/D";for(const [id,elc,elchg] of [["bitcoin","btcPrice","btcChange"],["ethereum","ethPrice","ethChange"]]){const c=state.coins.find(x=>x.id===id);if(!c)continue;$(elc).textContent=price(c.current_price);const v=metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h");$(elchg).textContent=pct(v);$(elchg).className="stat-change "+(v==null?"":v>=0?"green":"red")}}
-async function fetchJSON(url,attempts=3){let last=null;for(let i=0;i<attempts;i++){try{const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),15000);const r=await fetch(url,{cache:"no-store",signal:ctrl.signal});clearTimeout(t);if(r.ok)return await r.json();last=new Error(`HTTP ${r.status}`);if(r.status!==429&&r.status<500)break;const h=r.headers.get("retry-after"),w=h&&Number.isFinite(+h)?+h*1000:Math.min(12000,1800*2**i);await sleep(w)}catch(e){last=e;await sleep(Math.min(8000,1200*2**i))}}throw last||new Error("Error de red")}
-async function fetchPage(p){return fetchJSON(`${API}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${PER_PAGE}&page=${p}&sparkline=false&price_change_percentage=1h,24h,7d,30d`,3)}
-async function loadHistory(c){
- if(state.historyCache.has(c.id))return state.historyCache.get(c.id);
- try{const d=await fetchJSON(`${API}/coins/${encodeURIComponent(c.id)}/market_chart?vs_currency=usd&days=${HISTORY_DAYS}&interval=hourly`,3);const p=(d?.prices||[]).map(x=>Array.isArray(x)?Number(x[1]):null).filter(valid);state.historyCache.set(c.id,p);return p}catch(e){console.warn("Histórico",c.id,e);state.historyCache.set(c.id,[]);return[]}
+function renderWatch(){
+  const ids=[...state.watch], coins=ids.map(id=>state.coins.find(c=>c.id===id)).filter(Boolean);
+  $("watchlist").innerHTML=coins.length?`<div class="table-wrap"><table class="table"><tbody>${coins.map(c=>`<tr><td><b>${esc(c.name)}</b> <span class="sub">${esc(c.symbol?.toUpperCase())}</span></td><td>${money(metric(c,"current_price"))}</td><td>${pct(metric(c,"price_change_percentage_24h"))}</td><td>${finalScore(c)??"N/D"}/100</td></tr>`).join("")}</tbody></table></div>`:"<div class='empty'>Marca activos desde la tabla para verlos aquí.</div>";
 }
-async function buildHistoricalModel(){
- $("top3Sub").textContent="Calculando histórico real de candidatos...";
- const candidates=candidateUniverse().sort((a,b)=>preliminary(b)-preliminary(a)).slice(0,HISTORY_CANDIDATES);
- for(const c of candidates){
-   const prices=await loadHistory(c);
-   if(prices.length>=MIN_HISTORY)state.stats.set(c.id,historyStats(prices));
-   renderTop3();renderRadar();
-   await sleep(300);
- }
- const top=sortedByScore().slice(0,3);
- const prev=loadSnapshot();state.snapshot=prev;renderChanges(top);
- if(top.length){const today=new Date().toISOString().slice(0,10);if(!prev||prev.date!==today){saveSnapshot(top);state.snapshot=prev;renderChanges(top)}}
- $("snapshotStatus").textContent=top.length?"● Snapshot diario":"● Sin snapshot: datos insuficientes";
-}
-async function loadMarket(){
- if(state.loading)return;state.loading=true;
- try{
-  $("updateStatus").textContent="Consultando datos reales...";$("marketState").textContent="● Fuente conectada";$("statusDot").classList.remove("off");
-  const merged=new Map(),pages=INITIAL_PAGES;
-  for(let p=1;p<=pages;p++){const data=await fetchPage(p);for(const c of data||[])if(c?.id)merged.set(c.id,c);if(p<pages)await sleep(REQUEST_GAP_MS)}
-  if(!merged.size)throw new Error("Sin activos");
-  state.coins=[...merged.values()].sort((a,b)=>(metric(b,"market_cap")||0)-(metric(a,"market_cap")||0));render();
-  try{state.global=(await fetchJSON(`${API}/global`,3))?.data}catch(e){console.warn("global",e)}
-  updateGlobal();
-  const risks=state.coins.slice(0,50).map(c=>({c,r:riskFor(c)})).filter(x=>x.r!=null&&metric(x.c,"market_cap")>0),cap=risks.reduce((s,x)=>s+metric(x.c,"market_cap"),0),mr=cap?Math.round(risks.reduce((s,x)=>s+x.r*metric(x.c,"market_cap")/cap,0)):null;
-  $("marketRisk").textContent=mr??"N/D";$("riskBar").style.width=mr!=null?mr+"%":"0%";const [lab,cls]=riskLabel(mr);$("marketRiskLabel").textContent=lab==="N/D"?"N/D":"RIESGO "+lab.toUpperCase();$("marketRiskLabel").className="risk "+cls;$("riskExplanation").textContent=mr!=null?`Índice determinista ponderado por capitalización sobre ${risks.length} activos con variables suficientes.`:"Datos insuficientes.";
-  state.lastUpdated=new Date();$("lastUpdate").textContent=state.lastUpdated.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"});$("updateStatus").textContent=`Datos reales · ${state.coins.length} activos`;$("assetCount").textContent=`${state.coins.length} activos cargados`;render();await buildHistoricalModel();
- }catch(e){console.error(e);$("statusDot").classList.add("off");$("marketState").textContent="● Sin actualización";$("updateStatus").textContent=state.coins.length?"Últimos datos válidos":"No se pudieron obtener datos";if(!state.coins.length)$("assets").innerHTML='<div class="empty">No se recibieron datos reales. No se sustituyen por datos ficticios.</div>'}
- finally{state.loading=false}
-}
-async function openAnalysis(id){
- const c=state.coins.find(x=>x.id===id);if(!c)return;const s=scoreFor(c),r=riskFor(c),h=state.stats.get(c.id),chg=metric(c,"price_change_percentage_24h_in_currency")??metric(c,"price_change_percentage_24h");
- $("modalIcon").innerHTML=c.image?`<img src="${esc(c.image)}" alt="">`:esc((c.symbol||"?")[0].toUpperCase());$("modalName").textContent=c.name;$("modalSymbol").textContent=(c.symbol||"").toUpperCase();$("analysisScore").textContent=s??"N/D";$("analysisVerdict").textContent=s==null?"Datos insuficientes":s>=75?"Mayor puntuación relativa":"Puntuación relativa intermedia";$("analysisTags").innerHTML=`<span class="tag">Riesgo ${r??"N/D"}/100</span><span class="tag">24h ${pct(chg)}</span><span class="tag">Modelo ${MODEL_VERSION}</span>`;
- $("analysisMetrics").innerHTML=[["1h",metric(c,"price_change_percentage_1h_in_currency")],["24h",chg],["7d",metric(c,"price_change_percentage_7d_in_currency")],["30d",metric(c,"price_change_percentage_30d_in_currency")]].map(x=>`<div class="metric"><span>${x[0]}</span><strong class="${x[1]==null?"":x[1]>=0?"green":"red"}">${pct(x[1])}</strong></div>`).join("");
- const liq=metric(c,"total_volume")!=null&&metric(c,"market_cap")>0?metric(c,"total_volume")/metric(c,"market_cap"):null;$("mCap").textContent=money(c.market_cap);$("mVolume").textContent=money(c.total_volume);$("mLiquidity").textContent=liq==null?"N/D":(liq*100).toFixed(2)+"%";$("mRisk").textContent=r??"N/D";$("mVol").textContent=h?.volAnn==null?"N/D":(h.volAnn*100).toFixed(2)+"%";$("mDD").textContent=h?.maxDD==null?"N/D":(h.maxDD*100).toFixed(2)+"%";$("mHistory").textContent=h?.n??"N/D";
- const cp=components(c);$("analysisComponents").innerHTML=`Percentiles: cap ${cp.cap==null?"N/D":cp.cap.toFixed(0)}, liquidez ${cp.liq==null?"N/D":cp.liq.toFixed(0)}, momentum 7d ${cp.m7==null?"N/D":cp.m7.toFixed(0)}, momentum 30d ${cp.m30==null?"N/D":cp.m30.toFixed(0)}, tendencia ${cp.trend==null?"N/D":cp.trend.toFixed(0)}. Volatilidad anualizada y drawdown proceden del histórico real.`;
- $("miniChart").innerHTML='<div class="empty" style="width:100%;padding:50px 0">Cargando histórico real...</div>';$("modal").classList.add("open");
- const prices=await loadHistory(c);if(prices.length>1){const min=Math.min(...prices),max=Math.max(...prices),range=max-min||1;const step=Math.max(1,Math.floor(prices.length/80));const arr=prices.filter((_,i)=>i%step===0);$("miniChart").innerHTML=arr.map(v=>`<div class="bar" title="${price(v)}" style="height:${Math.max(5,(v-min)/range*100)}%"></div>`).join("")}else $("miniChart").innerHTML='<div class="empty" style="width:100%;padding:50px 0">Histórico no disponible</div>';
- $("recommendation").textContent=s==null?"Sin lectura cuantitativa":`Score ${s}/100 · riesgo relativo ${r??"N/D"}/100`;$("recommendationText").textContent="El score es una clasificación relativa basada en variables observadas y datos históricos disponibles. No predice precios ni garantiza resultados.";
-}
+function toggleWatch(id){state.watch.has(id)?state.watch.delete(id):state.watch.add(id);localStorage.setItem("cx_watch",JSON.stringify([...state.watch]));renderTable();renderWatch()}
+function setStatus(t,ok){$("status").textContent=t;$("dot").className="dot"+(ok?" ok":"")}
+function toast(t){$("toast").textContent=t;$("toast").style.display="block";setTimeout(()=>{$("toast").style.display="none"},3500)}
 function closeModal(){$("modal").classList.remove("open")}
-$("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-$("search").addEventListener("input",e=>{state.search=e.target.value;state.page=1;render()});$("sort").addEventListener("change",e=>{state.sort=e.target.value;state.page=1;render()});$("pageSize").addEventListener("change",e=>{state.pageSize=Number(e.target.value);state.page=1;render()});$("prev").onclick=()=>{if(state.page>1){state.page--;render()}};$("next").onclick=()=>{state.page++;render()};
-state.snapshot=loadSnapshot();loadMarket();setInterval(loadMarket,REFRESH_MS);
+$("search").addEventListener("input",e=>{state.search=e.target.value;renderTable()});
+$("sort").addEventListener("change",e=>{state.sort=e.target.value;renderTable()});
+$("size").addEventListener("change",e=>{state.pageSize=e.target.value;renderTable()});
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>document.getElementById(b.dataset.go)?.scrollIntoView({behavior:"smooth",block:"start"}));
+load().then(renderWatch);setInterval(load,CFG.refreshMs);
 </script>
 </body>
-</html>'''
+</html>"""
 
-path = Path("/mnt/data/criptoshx_crypto_intelligence_v7.html")
-path.write_text(html, encoding="utf-8")
-print(f"Archivo creado: {path}")
-print(f"Tamaño: {path.stat().st_size:,} bytes")
+out.write_text(page, encoding="utf-8")
+print(out)
